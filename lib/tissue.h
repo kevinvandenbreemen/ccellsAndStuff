@@ -1,6 +1,8 @@
 #ifndef TISSUE_IN
 #define TISSUE_IN
 
+#define NUM_CELLS 100
+
 #include "cellTypes.h"
 #include "logger.h"
 
@@ -16,11 +18,11 @@ static int chkTissueCreated() {
 }
 
 int * getTissue() {
-   static int tissueData[100];
+   static int tissueData[NUM_CELLS];
    if(chkTissueCreated() == 0) {
        logD("Creating tissue...");
        int idx = 0;
-       for(idx=0; idx < sizeof(tissueData); idx++) {
+       for(idx=0; idx < NUM_CELLS; idx++) {
            tissueData[idx] = CELL_TYPE_BASIC;
        }
    } else {
