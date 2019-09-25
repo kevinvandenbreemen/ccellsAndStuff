@@ -13,6 +13,18 @@ START_TEST(cell_count) {
 }
 END_TEST
 
+START_TEST(cell_update) {
+
+    int * cells = getTissue();
+    cells[1] = 2;
+
+    int * updatedCells = getTissue();
+    int value = updatedCells[1];
+    fail_unless(value == 2, "System failed to update cell type");
+
+}
+END_TEST
+
 int main(int argc, char const *argv[])
 {
     Suite *coreSuite = suite_create("Core");
@@ -21,6 +33,7 @@ int main(int argc, char const *argv[])
     TCase *tissueCreationTests = tcase_create("Tissue Creation");
     suite_add_tcase(coreSuite, tissueCreationTests);
     tcase_add_test(tissueCreationTests, cell_count);
+    tcase_add_test(tissueCreationTests, cell_update);
 
     SRunner *testRunner = srunner_create(coreSuite);
 
