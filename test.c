@@ -33,19 +33,25 @@ START_TEST(no_outgoing_connections) {
 END_TEST
 
 START_TEST(connect_cells) {
-
     cells_connectDirected(0, 1, 1.0);
-
-
 }
 END_TEST
-
-
 
 START_TEST(indexes_of_connected_cells) {
     cells_connectDirected(0, 1, 1.0);
     int * connectedCellIndexes = cells_indexesOfConnectedFrom(0);
     fail_unless( *(connectedCellIndexes) == 1 );
+}
+END_TEST
+
+START_TEST(bidirectional_connection) {
+    cells_connectBidirectional(5, 6, 0.5);
+    int * connectedCellIndexes = cells_indexesOfConnectedFrom(5);
+
+    fail_unless( *(connectedCellIndexes) == 6, "Bidirectional connection between indexes 5 and 6 - expected connection from 5 to 6");
+
+    connectedCellIndexes = cells_indexesOfConnectedFrom(6);
+    fail_unless( *(connectedCellIndexes) == 5, "Bidirectional connection between indexes 5 and 6 - expected connection from 6 to 5");
 }
 END_TEST
 
@@ -70,6 +76,7 @@ int main(int argc, char const *argv[])
     tcase_add_test(cellConnectivityTests, no_outgoing_connections);
     tcase_add_test(cellConnectivityTests, connect_cells);
     tcase_add_test(cellConnectivityTests, indexes_of_connected_cells);
+    tcase_add_test(cellConnectivityTests, bidirectional_connection);
 
     SRunner *testRunner = srunner_create(coreSuite);
 

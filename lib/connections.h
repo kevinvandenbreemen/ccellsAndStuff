@@ -13,6 +13,11 @@ void cells_connectDirected(int fromIndex, int toIndex, double strength) {
     rawConnections[fromIndex][toIndex] = strength;
 }
 
+void cells_connectBidirectional(int fromIndex, int toIndex, double strength) {
+    rawConnections[fromIndex][toIndex] = strength;
+    rawConnections[toIndex][fromIndex] = strength;
+}
+
 int * cells_indexesOfConnectedFrom(int fromIndex) {
 
     int count = 0;
