@@ -1,6 +1,7 @@
 #include <check.h>
 
 #include "lib/tissue.h"
+#include "lib/connections.h"
 
 START_TEST(cell_count) {
 
@@ -25,15 +26,33 @@ START_TEST(cell_update) {
 }
 END_TEST
 
+START_TEST(connect_cells) {
+
+    cells_connectDirected(0, 1, 1.0);
+
+
+}
+END_TEST
+
 int main(int argc, char const *argv[])
 {
     Suite *coreSuite = suite_create("Core");
     
-    //  Test Case Definitions
+    //  Test Suite Definitions
     TCase *tissueCreationTests = tcase_create("Tissue Creation");
     suite_add_tcase(coreSuite, tissueCreationTests);
+
+    //  Test Case Definitions
+    TCase *cellConnectivityTests = tcase_create("Tissue Connectivity");
+    suite_add_tcase(coreSuite, cellConnectivityTests);
+
+    //  Test Case Definitions:
+    //  Tissue Creation
     tcase_add_test(tissueCreationTests, cell_count);
     tcase_add_test(tissueCreationTests, cell_update);
+
+    //  Tissue Connection
+    tcase_add_test(cellConnectivityTests, connect_cells);
 
     SRunner *testRunner = srunner_create(coreSuite);
 
