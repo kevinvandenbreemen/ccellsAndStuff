@@ -26,11 +26,26 @@ START_TEST(cell_update) {
 }
 END_TEST
 
+START_TEST(no_outgoing_connections) {   
+    int * connected = cells_indexesOfConnectedFrom(2);
+    fail_unless(connected == 0, "Should be no cells connected from index 2");
+}
+END_TEST
+
 START_TEST(connect_cells) {
 
     cells_connectDirected(0, 1, 1.0);
 
 
+}
+END_TEST
+
+
+
+START_TEST(indexes_of_connected_cells) {
+    cells_connectDirected(0, 1, 1.0);
+    int * connectedCellIndexes = cells_indexesOfConnectedFrom(0);
+    fail_unless( *(connectedCellIndexes) == 1 );
 }
 END_TEST
 
@@ -52,7 +67,9 @@ int main(int argc, char const *argv[])
     tcase_add_test(tissueCreationTests, cell_update);
 
     //  Tissue Connection
+    tcase_add_test(cellConnectivityTests, no_outgoing_connections);
     tcase_add_test(cellConnectivityTests, connect_cells);
+    tcase_add_test(cellConnectivityTests, indexes_of_connected_cells);
 
     SRunner *testRunner = srunner_create(coreSuite);
 

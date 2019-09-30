@@ -13,6 +13,34 @@ void cells_connectDirected(int fromIndex, int toIndex, double strength) {
     rawConnections[fromIndex][toIndex] = strength;
 }
 
+int * cells_indexesOfConnectedFrom(int fromIndex) {
 
+    int count = 0;
+    int i;
+    for(i = 0; i<NUM_CELLS; i++) {
+        if(rawConnections[fromIndex][i] > 0.0) {
+            count++;
+        }
+    }
+
+    int *ret;
+    if(count == 0) {
+        ret = NULL;
+    } else {
+
+        int index = 0;
+        int tmp[count];
+        for(i = 0; i<NUM_CELLS; i++) {
+            if(rawConnections[fromIndex][i] > 0.0) {
+                tmp[index] = i;
+                index ++;
+            }
+        }
+
+        ret = tmp;
+    }
+
+    return ret;
+}
 
 #endif
