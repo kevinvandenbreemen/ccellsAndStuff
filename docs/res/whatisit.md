@@ -1,0 +1,1 @@
+Resources for images etc. for documentation
