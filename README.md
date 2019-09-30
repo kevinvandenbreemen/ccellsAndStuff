@@ -18,3 +18,9 @@ on your Ubuntu box.
 ### Further help on "check" library
 
 I followed https://stackoverflow.com/a/54095032/2328196 to get myself up and running.
+
+# Data Structure
+
+## Over-arching
+
+![Graph Structure](./docs/res/cCellsAndStuff.svg)
