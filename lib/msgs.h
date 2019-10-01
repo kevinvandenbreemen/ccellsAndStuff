@@ -16,15 +16,7 @@ double * cells_rawOutput(int inputCellIndex, double inputStrength) {
         connectionStrengths[i] = cells_strengthOfConnection(inputCellIndex, endpointIndexes[i]);
     }
 
-    printf("CONECTION STRENGTHS0:  %f\n", connectionStrengths[0]);
-    printf("CONECTION STRENGTHS1:  %f\n", connectionStrengths[1]);
-
-    double * ret = kmath_linalg_scalar_times_vec(connectionStrengths, size, inputStrength);
-
-    printf("RESULT0:  %f\n", ret[0]);
-    printf("RESULT1:  %f\n", ret[1]);
-
-    return ret;
+    return kmath_linalg_scalar_times_vec(connectionStrengths, size, inputStrength);
 
 }
 
