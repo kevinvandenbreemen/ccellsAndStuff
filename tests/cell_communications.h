@@ -8,8 +8,8 @@ START_TEST(message_raw_data_to_dest_cells) {
 
     double * output = cells_rawOutput(10, 2.0);
     
-    fail_unless(output[0] == 1.0, "Output for for (10->11)[strength=0.5] for input 2.0 should be 1.0 but was %f", *output);
-    fail_unless(*(output + 1) == 0.2, "Output for for (10->12)[strength=0.1] for input 2.0 should be 0.2 but was %f", *(output + 1));
+    fail_unless(output[0] == 1.0, "Output for for (10->11)[strength=0.5] for input 2.0 should be 1.0 but was %f", output[0]);
+    fail_unless(output[1] == 0.2, "Output for for (10->12)[strength=0.1] for input 2.0 should be 0.2 but was %f", output[1]);
 
 }
 END_TEST
