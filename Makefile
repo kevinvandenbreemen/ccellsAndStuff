@@ -1,4 +1,4 @@
-MAIN_FILE = main.c
+MAIN_FILE = Sources/main.c
 TEST_FILE = test.c
 OUTPUT_DIR = ./bin
 REQUIRED_PKG_CHECK = libsubunit
