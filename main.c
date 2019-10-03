@@ -2,10 +2,5 @@
 #include <stdio.h>
 
 int main() {
-    getTissue();
-
-    printf("Got tissue\n");
-
-    getTissue();
-
+    printf("This is a library for learning about and using array functions to create relating cell things\n");
 }
