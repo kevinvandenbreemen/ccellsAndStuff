@@ -6,6 +6,9 @@
 #include "cellTypes.h"
 #include "logger.h"
 
+static int chkTissueCreated();
+int * getTissue();
+
 static int chkTissueCreated() {
     static int created = 0;
 

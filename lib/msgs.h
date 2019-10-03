@@ -5,6 +5,8 @@
 #include "../lib/math.h"
 #include "../lib/logger.h"
 
+double * cells_rawOutput(int inputCellIndex, double inputStrength);
+
 double * cells_rawOutput(int inputCellIndex, double inputStrength) {
 
     int size = cells_countConnectedFrom(inputCellIndex);

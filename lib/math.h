@@ -4,6 +4,8 @@
 #ifndef KMATH_IN
 #define KMATH_IN
 
+double * kmath_linalg_scalar_times_vec(double * vector, int size, double scalar);
+
 double * kmath_linalg_scalar_times_vec(double * vector, int size, double scalar) {
 
     double * ret = malloc(sizeof(double) * size);

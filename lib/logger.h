@@ -3,6 +3,9 @@
 
 #include <stdio.h>
 
+void logD(char * message);
+void logI(char * message);
+
 void logD(char * message) {
 
     #ifndef NDEBUG
