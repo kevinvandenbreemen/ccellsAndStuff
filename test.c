@@ -1,7 +1,7 @@
 #include <check.h>
 
-#include "include/tissue.h"
-#include "include/connections.h"
+#include "Sources/include/tissue.h"
+#include "Sources/include/connections.h"
 
 //  Test includes
 #include "tests/cell_communications.h"

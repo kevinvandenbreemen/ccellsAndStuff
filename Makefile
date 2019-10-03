@@ -25,3 +25,6 @@ buildTest: checkRqdPackages cleanup setup
 
 test: buildTest
 	$(OUTPUT_DIR)/test
+
+swiftBuild: checkRqdPackages cleanup setup
+	swift build -Xcc -march=native --configuration release
