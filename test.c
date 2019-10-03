@@ -1,9 +1,9 @@
 #include <check.h>
 
-#include "lib/tissue.h"
-#include "lib/connections.h"
+#include "include/tissue.h"
+#include "include/connections.h"
 
-//  Test Libs
+//  Test includes
 #include "tests/cell_communications.h"
 
 START_TEST(cell_count) {
@@ -82,7 +82,7 @@ int main(int argc, char const *argv[])
     tcase_add_test(cellConnectivityTests, indexes_of_connected_cells);
     tcase_add_test(cellConnectivityTests, bidirectional_connection);
 
-    //  Tess from libs
+    //  Tess from includes
     cell_communications_addToSuite(coreSuite);
 
     SRunner *testRunner = srunner_create(coreSuite);

@@ -1,13 +1,13 @@
 #include <stdio.h>
 
 //  Include all code for this system
-#include "lib/tissue.h"
-#include "lib/cellTypes.h"
-#include "lib/connections.h"
-#include "lib/logger.h"
-#include "lib/math.h"
-#include "lib/msgs.h"
+#include "include/tissue.h"
+#include "include/cellTypes.h"
+#include "include/connections.h"
+#include "include/logger.h"
+#include "include/math.h"
+#include "include/msgs.h"
 
 int main() {
-    printf("This is a library for learning about and using array functions to create relating cell things\n");
+    printf("This is a includerary for learning about and using array functions to create relating cell things\n");
 }

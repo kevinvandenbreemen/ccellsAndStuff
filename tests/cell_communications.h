@@ -1,5 +1,5 @@
 #include <check.h>
-#include "../lib/msgs.h"
+#include "../include/msgs.h"
 
 START_TEST(message_raw_data_to_dest_cells) {
 

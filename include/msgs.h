@@ -1,9 +1,9 @@
 #ifndef KSIGNALS_IN
 #define KSIGNALS_IN
 
-#include "../lib/connections.h"
-#include "../lib/math.h"
-#include "../lib/logger.h"
+#include "../include/connections.h"
+#include "../include/math.h"
+#include "../include/logger.h"
 
 double * cells_rawOutput(int inputCellIndex, double inputStrength);
 
