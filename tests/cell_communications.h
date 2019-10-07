@@ -1,5 +1,6 @@
 #include <check.h>
 #include "../include/msgs.h"
+#include "../include/tissue.h"
 
 START_TEST(message_raw_data_to_dest_cells) {
 
@@ -24,6 +25,9 @@ START_TEST(message_propagate_data_to_cells) {
     double strengths[] = {1.0, 1.0};
     int count = 2;
     cells_stimulate(targets, strengths, count);
+
+    TissueState state = tissue_getState();
+    fail_unless(state.outputCount == 3, "3 outputs expected");
 
 }
 END_TEST

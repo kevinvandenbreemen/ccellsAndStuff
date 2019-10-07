@@ -9,6 +9,32 @@
 static int chkTissueCreated();
 int * getTissue();
 
+/**
+ * Current state of the tissue in terms of what cells are lit up/stimulated
+ */
+typedef struct TissueState {
+
+    int * outputIndices;
+    double * outputStrengths;
+    int outputCount;
+
+} TissueState;
+
+static TissueState * _getState() {
+    static TissueState state;
+    return &state;
+}
+
+TissueState tissue_getState() {
+    
+    
+    TissueState ret;
+
+
+    return ret;
+
+}
+
 static int chkTissueCreated() {
     static int created = 0;
 
