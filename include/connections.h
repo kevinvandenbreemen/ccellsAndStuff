@@ -55,16 +55,15 @@ int * cells_indexesOfConnectedFrom(int fromIndex) {
         ret = NULL;
     } else {
 
+        ret = malloc(sizeof(int) * count);
+
         int index = 0;
-        int tmp[count];
         for(i = 0; i<NUM_CELLS; i++) {
             if(rawConnections[fromIndex][i] > 0.0) {
-                tmp[index] = i;
+                ret[index] = i;
                 index ++;
             }
         }
-
-        ret = tmp;
     }
 
     return ret;
