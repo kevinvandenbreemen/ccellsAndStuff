@@ -20,7 +20,7 @@ START_TEST(message_propagate_data_to_cells) {
     cells_connectDirected(10, 12, 0.1);
     cells_connectDirected(11, 13, 1.0);
 
-    int * targets = {10, 11};
+    int targets[] = {10, 11};
     double strengths[] = {1.0, 1.0};
     int count = 2;
     cells_stimulate(targets, strengths, count);
