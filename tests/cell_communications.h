@@ -14,6 +14,20 @@ START_TEST(message_raw_data_to_dest_cells) {
 }
 END_TEST
 
+START_TEST(message_propagate_data_to_cells) {
+
+    cells_connectDirected(10, 11, 0.5);
+    cells_connectDirected(10, 12, 0.1);
+    cells_connectDirected(11, 13, 1.0);
+
+    int * targets = {10, 11};
+    double strengths[] = {1.0, 1.0};
+    int count = 2;
+    cells_stimulate(targets, strengths, count);
+
+}
+END_TEST
+
 /**
  * Add these tests to the test suite
  */ 
@@ -22,6 +36,7 @@ void cell_communications_addToSuite(Suite *suite) {
     TCase *cellCommunication = tcase_create("Cell Communication");
 
     tcase_add_test(cellCommunication, message_raw_data_to_dest_cells);
+    tcase_add_test(cellCommunication, message_propagate_data_to_cells);
 
     suite_add_tcase(suite, cellCommunication);
 

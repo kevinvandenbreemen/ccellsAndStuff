@@ -7,6 +7,12 @@
 
 double * cells_rawOutput(int inputCellIndex, double inputStrength);
 
+/**
+ * Stimulate the tissue at the given target cells with the given strengths.  Count is passed as a 
+ * convenience to cut down on needing to work out array lengths.
+ */
+void cells_stimulate(int * targets, double * strengths, int count);
+
 double * cells_rawOutput(int inputCellIndex, double inputStrength) {
 
     int size = cells_countConnectedFrom(inputCellIndex);
@@ -20,6 +26,10 @@ double * cells_rawOutput(int inputCellIndex, double inputStrength) {
 
     return kmath_linalg_scalar_times_vec(connectionStrengths, size, inputStrength);
 
+}
+
+void cells_stimulate(int * targets, double * strengths, int count) {
+    
 }
 
 #endif
