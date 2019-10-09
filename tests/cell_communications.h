@@ -44,6 +44,23 @@ START_TEST(message_propagate_data_to_cells) {
 }
 END_TEST
 
+START_TEST(reset_tissue_state) {
+    cells_connectDirected(10, 11, 0.5);
+    cells_connectDirected(10, 12, 0.1);
+    cells_connectDirected(11, 13, 1.0);
+
+    int targets[] = {10, 11};
+    double strengths[] = {1.0, 1.0};
+    int count = 2;
+    cells_stimulate(targets, strengths, count);
+
+    tissue_state_reset();
+
+    TissueState * state = tissue_getState();
+    fail_unless(state->outputCount == 0, "State should be reset");
+}
+END_TEST
+
 /**
  * Add these tests to the test suite
  */ 
@@ -53,6 +70,7 @@ void cell_communications_addToSuite(Suite *suite) {
 
     tcase_add_test(cellCommunication, message_raw_data_to_dest_cells);
     tcase_add_test(cellCommunication, message_propagate_data_to_cells);
+    tcase_add_test(cellCommunication, reset_tissue_state);
 
     suite_add_tcase(suite, cellCommunication);
 

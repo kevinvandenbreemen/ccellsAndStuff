@@ -21,11 +21,11 @@ typedef struct TissueState {
 
 } TissueState;
 
-static TissueState * _getState() {
+static TissueState * _getState(int reset) {
     static int initd = 0;
 
     static TissueState state;
-    if(initd == 0) {
+    if(initd == 0 || reset == 1) {
         state.outputCount = 0;
         state.outputIndices = malloc(sizeof(int));
         state.outputStrengths = malloc(sizeof(double));
@@ -36,9 +36,13 @@ static TissueState * _getState() {
     return &state;
 }
 
+void tissue_state_reset() {
+    _getState(1);
+}
+
 TissueState * tissue_getState() {
     
-    TissueState *currentState = _getState();
+    TissueState *currentState = _getState(0);
 
     TissueState *ret = malloc(sizeof(TissueState));
     ret->outputCount = currentState->outputCount;
@@ -67,7 +71,7 @@ TissueState * tissue_getState() {
 
 tissue_state_updateOutputToCell(int index, double strength) {
     
-    TissueState * state = _getState();
+    TissueState * state = _getState(0);
     state->outputCount++;
 
     intArray_addAddOneMoreItem(state->outputIndices, state->outputCount);
