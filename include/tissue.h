@@ -36,16 +36,28 @@ static TissueState * _getState() {
     return &state;
 }
 
-TissueState tissue_getState() {
+TissueState * tissue_getState() {
     
     TissueState *currentState = _getState();
-    TissueState ret;
 
-    ret.outputCount = currentState->outputCount;
+    TissueState *ret = malloc(sizeof(TissueState));
+    ret->outputCount = currentState->outputCount;
+    ret->outputIndices = malloc(sizeof(int) * ret->outputCount);
+    ret->outputStrengths = malloc(sizeof(double) * ret->outputCount);
+
+    int i;
+    for(i=0; i<ret->outputCount; i++) {
+        ret->outputIndices[i] = currentState->outputIndices[i];
+        ret->outputStrengths[i] = currentState->outputStrengths[i];
+    }
     
     #ifndef NDEBUG
     printf("TISSUE STATE:\n=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~\n");
-    printf("Count = %d\n", ret.outputCount);
+    printf("Count = %d\n", ret->outputCount);
+    
+    for(i=0; i<ret->outputCount; i++) {
+        printf("IDX:\t%d\t%f\n", ret->outputIndices[i], ret->outputStrengths[i]);
+    }
     printf("=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~\n");
     #endif
 
@@ -60,6 +72,8 @@ tissue_state_updateOutputToCell(int index, double strength) {
 
     intArray_addAddOneMoreItem(state->outputIndices, state->outputCount);
     doubleArray_addOneMoreItem(state->outputStrengths, state->outputCount);
+    state->outputIndices[state->outputCount-1] = index;
+    state->outputStrengths[state->outputCount-1] = strength;
 
     printf("Added output cell idx=%d, stren=%f\n", index, strength);
 }

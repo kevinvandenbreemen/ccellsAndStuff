@@ -26,8 +26,24 @@ START_TEST(message_propagate_data_to_cells) {
     int count = 2;
     cells_stimulate(targets, strengths, count);
 
-    TissueState state = tissue_getState();
-    fail_unless(state.outputCount == 3, "3 outputs expected");
+    TissueState * state = tissue_getState();
+    fail_unless(state->outputCount == 3, "3 outputs expected");
+
+    // printf("Validating indices and strengths..aa.\n");
+
+    // int * destIndexes = state->outputIndices;
+    // double * destStrengths = state->outputStrengths;
+
+    // printf("Validating indices and strengths...\n");
+
+    // fail_unless(destIndexes[0] == 13, "First index should be 13 but was %d", destIndexes[0]);
+    // fail_unless(destStrengths[0] == 0.5, "First strength should be 0.5, but was %f", destStrengths[0]);
+
+    // fail_unless(destIndexes[1] == 12, "First index should be 13 but was %d", destIndexes[1]);
+    // fail_unless(destStrengths[1] == 0.1, "First strength should be 0.5, but was %f", destStrengths[1]);
+
+    // fail_unless(destIndexes[2] == 13, "First index should be 13 but was %d", destIndexes[2]);
+    // fail_unless(destStrengths[2] == 1, "First strength should be 0.5, but was %f", destStrengths[2]);
 
 }
 END_TEST

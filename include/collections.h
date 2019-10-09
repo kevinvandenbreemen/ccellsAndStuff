@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 
+//  Int Arrays
 void  intArray_addAddOneMoreItem(int * array, int size);
 void  intArray_addAddOneMoreItem(int * array, int size) {
 
@@ -17,6 +18,7 @@ void  intArray_addAddOneMoreItem(int * array, int size) {
 
 }
 
+//  Double Arrays
 void doubleArray_addOneMoreItem(double * array, int size);
 void doubleArray_addOneMoreItem(double * array, int size) {
     double * temp = malloc(sizeof(double) * (size+1));
