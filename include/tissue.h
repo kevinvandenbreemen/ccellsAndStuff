@@ -5,6 +5,7 @@
 
 #include "cellTypes.h"
 #include "logger.h"
+#include "collections.h"
 
 static int chkTissueCreated();
 int * getTissue();
@@ -21,18 +22,46 @@ typedef struct TissueState {
 } TissueState;
 
 static TissueState * _getState() {
+    static int initd = 0;
+
     static TissueState state;
+    if(initd == 0) {
+        state.outputCount = 0;
+        state.outputIndices = malloc(sizeof(int));
+        state.outputStrengths = malloc(sizeof(double));
+        initd = 1;
+    }
+    
+
     return &state;
 }
 
 TissueState tissue_getState() {
     
-    
+    TissueState *currentState = _getState();
     TissueState ret;
 
+    ret.outputCount = currentState->outputCount;
+    
+    #ifndef NDEBUG
+    printf("TISSUE STATE:\n=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~\n");
+    printf("Count = %d\n", ret.outputCount);
+    printf("=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~\n");
+    #endif
 
     return ret;
 
+}
+
+tissue_state_updateOutputToCell(int index, double strength) {
+    
+    TissueState * state = _getState();
+    state->outputCount++;
+
+    intArray_addAddOneMoreItem(state->outputIndices, state->outputCount);
+    doubleArray_addOneMoreItem(state->outputStrengths, state->outputCount);
+
+    printf("Added output cell idx=%d, stren=%f\n", index, strength);
 }
 
 static int chkTissueCreated() {

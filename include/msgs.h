@@ -4,6 +4,9 @@
 #include "../include/connections.h"
 #include "../include/math.h"
 #include "../include/logger.h"
+#include "../include/tissue.h"
+
+
 
 double * cells_rawOutput(int inputCellIndex, double inputStrength);
 
@@ -28,8 +31,32 @@ double * cells_rawOutput(int inputCellIndex, double inputStrength) {
 
 }
 
+static void doStimulateCell(int inputCellIndex, double inputStrength) {
+    int connectionCount = cells_countConnectedFrom(inputCellIndex);
+    int * endpointIndexes = cells_indexesOfConnectedFrom(inputCellIndex);
+
+    if(endpointIndexes == NULL) {
+        tissue_state_updateOutputToCell(inputCellIndex, inputStrength);
+        return;
+    }
+
+    double * outputs = cells_rawOutput(inputCellIndex, inputStrength);
+
+    int i;
+    for(i=0; i<connectionCount; i++) {
+        doStimulateCell(endpointIndexes[i], outputs[i]);
+    }
+}
+
 void cells_stimulate(int * targets, double * strengths, int count) {
     
+    int i;
+    for(i=0; i<count; i++) {
+        doStimulateCell(targets[i], strengths[i]);
+    }
+
 }
+
+
 
 #endif
