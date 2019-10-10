@@ -3,7 +3,7 @@ TEST_FILE = test.c
 OUTPUT_DIR = ./bin
 REQUIRED_PKG_CHECK = libsubunit
 
-.PHONY: cleanup setup build run checkRqdPackages buildTest test
+.PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug
 
 cleanup:
 	rm -rf $(OUTPUT_DIR)
@@ -25,3 +25,9 @@ buildTest: checkRqdPackages cleanup setup
 
 test: buildTest
 	$(OUTPUT_DIR)/test
+
+buildDebugSymbols: cleanup setup
+	gcc -Wall -g -o $(OUTPUT_DIR)/run $(MAIN_FILE)
+
+debug: buildDebugSymbols
+	gdb $(OUTPUT_DIR)/run
