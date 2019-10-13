@@ -9,5 +9,5 @@
 #include "include/msgs.h"
 
 int main() {
-    printf("This is a includerary for learning about and using array functions to create relating cell things\n");
+    printf("This is a project for learning about and using array functions to create relating cell things\n");
 }
