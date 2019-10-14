@@ -17,11 +17,35 @@ START_TEST(cell_type_out_of_bounds) {
 }
 END_TEST
 
+START_TEST(initialize_cell_type_behaviours) {
+    cellTypes_AllocateCellTypeBehaviours();
+}
+END_TEST
+
+START_TEST(initialize_default_cell_type_behaviours) {
+    cellTypes_InitializeDefaultCellTypeBehaviours();
+}
+END_TEST
+
+START_TEST(get_default_cell_type_behaviours) {
+    cellTypes_InitializeDefaultCellTypeBehaviours();
+    CellTypeBehaviour *basicCellTypeBehaviour = cellTypes_behaviourFor(CELL_TYPE_BASIC);
+
+    fail_if(basicCellTypeBehaviour == NULL, "System should have initialized cell type behaviour");
+    double outputStrength = basicCellTypeBehaviour->getOutputStrength(0.5, 0.5);
+    fail_unless(outputStrength == 0.5 * 0.5, "Output Strength should be base input strength * output connection strength");
+
+}
+END_TEST
+
 void tissue_tests_addToSuite(Suite *suite) {
     TCase *tissueTests = tcase_create("Tissue/Cell Type Tests");
 
     tcase_add_test(tissueTests, set_cell_type);
     tcase_add_test(tissueTests, cell_type_out_of_bounds);
+    tcase_add_test(tissueTests, initialize_cell_type_behaviours);
+    tcase_add_test(tissueTests, initialize_default_cell_type_behaviours);
+    tcase_add_test(tissueTests, get_default_cell_type_behaviours);
 
     suite_add_tcase(suite, tissueTests);
 }
