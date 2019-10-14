@@ -69,7 +69,7 @@ TissueState * tissue_getState() {
 
 }
 
-tissue_state_updateOutputToCell(int index, double strength) {
+void tissue_state_updateOutputToCell(int index, double strength) {
     
     TissueState * state = _getState(0);
     state->outputCount++;
@@ -80,6 +80,25 @@ tissue_state_updateOutputToCell(int index, double strength) {
     state->outputStrengths[state->outputCount-1] = strength;
 
     printf("Added output cell idx=%d, stren=%f\n", index, strength);
+}
+
+void tissue_setCellType(int index, int cellType);
+void tissue_setCellType(int index, int cellType) {
+    if(index >= NUM_CELLS) {
+        fprintf(stderr, "Cannot assign cell type to undefined index %d\n", index);
+        return;
+    }
+    int * tissueRef = getTissue();
+    *(tissueRef + index) = cellType;
+}
+
+int tissue_getCellType(int index);
+int tissue_getCellType(int index) {
+    if(index >= NUM_CELLS) {
+        fprintf(stderr, "Cannot access cell at undefined index %d\n", index);
+        return -1;
+    }
+    return getTissue()[index];
 }
 
 static int chkTissueCreated() {

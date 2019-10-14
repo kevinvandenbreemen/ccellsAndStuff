@@ -5,6 +5,7 @@
 
 //  Test includes
 #include "tests/cell_communications.h"
+#include "tests/tissue_tests.h"
 
 START_TEST(cell_count) {
 
@@ -84,6 +85,7 @@ int main(int argc, char const *argv[])
 
     //  Tess from includes
     cell_communications_addToSuite(coreSuite);
+    tissue_tests_addToSuite(coreSuite);
 
     SRunner *testRunner = srunner_create(coreSuite);
 
