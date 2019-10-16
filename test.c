@@ -49,6 +49,13 @@ START_TEST(indexes_of_connected_cells) {
 }
 END_TEST
 
+START_TEST(connect_directed_with_neg_strength) {
+    cells_connectDirected(3, 4, -0.2);
+    int * connectedCellIndexes = cells_indexesOfConnectedFrom(3);
+    fail_unless( *(connectedCellIndexes) == 4, "System must allow for negative connection strengths!");
+}
+END_TEST
+
 START_TEST(bidirectional_connection) {
     cells_connectBidirectional(5, 6, 0.5);
     int * connectedCellIndexes = cells_indexesOfConnectedFrom(5);
@@ -81,6 +88,7 @@ int main(int argc, char const *argv[])
     tcase_add_test(cellConnectivityTests, no_outgoing_connections);
     tcase_add_test(cellConnectivityTests, connect_cells);
     tcase_add_test(cellConnectivityTests, indexes_of_connected_cells);
+    tcase_add_test(cellConnectivityTests, connect_directed_with_neg_strength);
     tcase_add_test(cellConnectivityTests, bidirectional_connection);
 
     //  Tess from includes

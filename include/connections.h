@@ -3,6 +3,7 @@
 
 #include "tissue.h"
 #include <stdlib.h>
+#include <math.h>
 
 /**
  * Gets the connections data set.  First dimension is from index, second dimension is to index
@@ -45,7 +46,7 @@ int * cells_indexesOfConnectedFrom(int fromIndex) {
     int count = 0;
     int i;
     for(i = 0; i<NUM_CELLS; i++) {
-        if(rawConnections[fromIndex][i] > 0.0) {
+        if(fabs(rawConnections[fromIndex][i]) > 0.0) {
             count++;
         }
     }
@@ -59,7 +60,7 @@ int * cells_indexesOfConnectedFrom(int fromIndex) {
 
         int index = 0;
         for(i = 0; i<NUM_CELLS; i++) {
-            if(rawConnections[fromIndex][i] > 0.0) {
+            if(fabs(rawConnections[fromIndex][i]) > 0.0) {
                 ret[index] = i;
                 index ++;
             }
