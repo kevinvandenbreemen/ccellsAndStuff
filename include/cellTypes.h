@@ -33,6 +33,9 @@ void cellTypes_InitializeDefaultCellTypeBehaviours() {
     //  Basic Cell Type
     cellTypes_setOutputStrengthCalc(CELL_TYPE_BASIC, *basic_calculateOutputStrength);
 
+    //  Inhibitory cell type
+    cellTypes_setOutputStrengthCalc(CELL_TYPE_INHIB, *inhibitory_calculateOutputStrength);
+
 }
 
 void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(double inputStrength, double outgoingConnectionStrength));

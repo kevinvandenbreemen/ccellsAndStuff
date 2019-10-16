@@ -6,4 +6,9 @@ double basic_calculateOutputStrength(double inputStrength, double rawOutputStren
     return inputStrength * rawOutputStrength;
 }
 
+//  Inhibitory cell type
+double inhibitory_calculateOutputStrength(double inputStrength, double rawOutputStrength) {
+    return -1 * (inputStrength * rawOutputStrength);
+}
+
 #endif
