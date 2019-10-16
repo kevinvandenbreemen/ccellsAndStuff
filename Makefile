@@ -4,7 +4,7 @@ PERF_FILE = tests/perftest.c
 OUTPUT_DIR = ./bin
 REQUIRED_PKG_CHECK = libsubunit
 
-.PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug checkValgrind buildPerfTest checkMemoryLeaks
+.PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug checkValgrind buildPerfTest checkMemoryLeaks pipeLine
 
 cleanup:
 	rm -rf $(OUTPUT_DIR)
@@ -40,4 +40,6 @@ checkValgrind:
 	ls /usr/bin/valgrind && echo "Valgrind found"
 
 checkMemoryLeaks: checkValgrind buildPerfTest
-	valgrind --leak-check=yes $(OUTPUT_DIR)/run
+	valgrind --leak-check=yes --error-exitcode=1 $(OUTPUT_DIR)/run && echo "Memory leak check completed successfully 🤓"
+
+pipeLine: build test checkMemoryLeaks

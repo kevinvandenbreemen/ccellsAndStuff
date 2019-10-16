@@ -17,7 +17,11 @@ int main() {
     
     cells_stimulate(targets, strengths, count);
 
-    free(tissue_getState());
+    TissueState * state = tissue_getState();
+
+    free(state->outputIndices);
+    free(state->outputStrengths);
+    free(state);
 
     return 0;
 }
