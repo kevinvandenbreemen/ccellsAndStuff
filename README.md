@@ -19,6 +19,10 @@ on your Ubuntu box.
 
 I followed https://stackoverflow.com/a/54095032/2328196 to get myself up and running.
 
+## Regression
+
+You can use the 'pipeline' make target to run both unit tests and memory leak check.
+
 # Getting Started
 
 ## Connecting Two Cells with Strength
