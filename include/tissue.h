@@ -74,8 +74,9 @@ void tissue_state_updateOutputToCell(int index, double strength) {
     TissueState * state = _getState(0);
     state->outputCount++;
 
-    intArray_addAddOneMoreItem(state->outputIndices, state->outputCount);
-    doubleArray_addOneMoreItem(state->outputStrengths, state->outputCount);
+    state->outputIndices = realloc(state->outputIndices, state->outputCount*sizeof(int));
+    state->outputStrengths = realloc(state->outputStrengths, state->outputCount*sizeof(double));
+
     state->outputIndices[state->outputCount-1] = index;
     state->outputStrengths[state->outputCount-1] = strength;
 
