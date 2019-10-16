@@ -5,7 +5,6 @@
 
 #include "cellTypes.h"
 #include "logger.h"
-#include "collections.h"
 
 static int chkTissueCreated();
 int * getTissue();
@@ -80,7 +79,9 @@ void tissue_state_updateOutputToCell(int index, double strength) {
     state->outputIndices[state->outputCount-1] = index;
     state->outputStrengths[state->outputCount-1] = strength;
 
+    #ifndef NDEBUG
     printf("Added output cell idx=%d, stren=%f\n", index, strength);
+    #endif
 }
 
 void tissue_setCellType(int index, int cellType);
