@@ -27,6 +27,8 @@ double * cells_rawOutput(int inputCellIndex, double inputStrength) {
         connectionStrengths[i] = cells_strengthOfConnection(inputCellIndex, endpointIndexes[i]);
     }
 
+    free(endpointIndexes);
+
     return kmath_linalg_scalar_times_vec(connectionStrengths, size, inputStrength);
 
 }
@@ -46,6 +48,9 @@ static void doStimulateCell(int inputCellIndex, double inputStrength) {
     for(i=0; i<connectionCount; i++) {
         doStimulateCell(endpointIndexes[i], outputs[i]);
     }
+
+    free(outputs);
+    free(endpointIndexes);
 }
 
 void cells_stimulate(int * targets, double * strengths, int count) {
