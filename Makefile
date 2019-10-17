@@ -43,3 +43,4 @@ checkMemoryLeaks: checkValgrind buildPerfTest
 	valgrind --leak-check=yes --error-exitcode=1 $(OUTPUT_DIR)/run && echo "Memory leak check completed successfully 🤓"
 
 pipeLine: build test checkMemoryLeaks
+	echo "The pipeline has completed 🚀"
