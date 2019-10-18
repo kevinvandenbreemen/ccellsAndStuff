@@ -3,7 +3,7 @@
 
 //  Basic cell type
 double basic_calculateOutputStrength(double inputStrength, double rawOutputStrength) {
-    return inputStrength * rawOutputStrength;
+    return rawOutputStrength;
 }
 
 //  Inhibitory cell type
