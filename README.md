@@ -21,10 +21,18 @@ I followed https://stackoverflow.com/a/54095032/2328196 to get myself up and run
 
 # Getting Started
 
+## Setting up the Tissue
+
+Before you can use the library you must initialize a tissue.  The library provides a default tissue initializer here:
+
+```
+    tissue_initializeDefaultTissue();
+```
+
 ## Connecting Two Cells with Strength
 
 ```
-cells_connectDirected(10, 11, 0.5);
+    cells_connectDirected(10, 11, 0.5);
 ```
 
 ## Sending a Pulse Through the Network
@@ -50,6 +58,9 @@ The state.outputIndices indicates the final cells that received output from your
 ## Tying it All Together
 
 ```
+    //  Initialize the tissue
+    tissue_initializeDefaultTissue();
+
     //  Connect the cells together
     cells_connectDirected(10, 11, 0.5);
     cells_connectDirected(10, 12, 0.1);

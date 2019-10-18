@@ -6,6 +6,8 @@ int main() {
 
     printf("Tissue System Mem Leak / Perf Tester\n");
 
+    tissue_initializeDefaultTissue();
+
     cells_connectDirected(0, 10, 0.24);
     cells_connectDirected(1, 10, 2.2);
     cells_connectDirected(2, 10, -0.4);
