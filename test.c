@@ -9,8 +9,6 @@
 
 START_TEST(tissue_initialization) {
 
-    printf("TISSUE INITIALIZATION:  This should be the first test...\n");
-
     tissue_initializeDefaultTissue();
     fail_if(cellTypes_behaviourFor(CELL_TYPE_BASIC) == NULL, "System should have initialized cell behaviours - basic");
     fail_if(cellTypes_behaviourFor(CELL_TYPE_INHIB) == NULL, "System should have initialized cell behaviours - inhib");

@@ -7,6 +7,10 @@
 #include "logger.h"
 
 static int chkTissueCreated();
+
+/**
+ * Initialize the system with a default tissue along with default behaviours/cell types
+ */
 void tissue_initializeDefaultTissue();
 int * getTissue();
 

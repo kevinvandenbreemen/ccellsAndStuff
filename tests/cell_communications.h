@@ -4,6 +4,8 @@
 
 START_TEST(message_raw_data_to_dest_cells) {
 
+    tissue_initializeDefaultTissue();
+
     cells_connectDirected(10, 11, 0.5);
     cells_connectDirected(10, 12, 0.1);
 
@@ -16,6 +18,8 @@ START_TEST(message_raw_data_to_dest_cells) {
 END_TEST
 
 START_TEST(message_propagate_data_to_cells) {
+
+    tissue_initializeDefaultTissue();
 
     cells_connectDirected(10, 11, 0.5);
     cells_connectDirected(10, 12, 0.1);
@@ -45,6 +49,9 @@ START_TEST(message_propagate_data_to_cells) {
 END_TEST
 
 START_TEST(reset_tissue_state) {
+
+    tissue_initializeDefaultTissue();
+
     cells_connectDirected(10, 11, 0.5);
     cells_connectDirected(10, 12, 0.1);
     cells_connectDirected(11, 13, 1.0);
