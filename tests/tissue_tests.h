@@ -31,9 +31,12 @@ START_TEST(get_default_cell_type_behaviours) {
     cellTypes_InitializeDefaultCellTypeBehaviours();
     CellTypeBehaviour *basicCellTypeBehaviour = cellTypes_behaviourFor(CELL_TYPE_BASIC);
 
-    fail_if(basicCellTypeBehaviour == NULL, "System should have initialized cell type behaviour");
+    fail_if(basicCellTypeBehaviour == NULL, "System should have initialized 'basic' cell type behaviour");
     double outputStrength = basicCellTypeBehaviour->getOutputStrength(0.5, 0.5);
     fail_unless(outputStrength == 0.5 * 0.5, "Output Strength should be base input strength * output connection strength");
+
+    basicCellTypeBehaviour = cellTypes_behaviourFor(CELL_TYPE_INHIB);
+    fail_if(basicCellTypeBehaviour == NULL, "System should have initialized 'inhibitory' cell type behaviour");
 
 }
 END_TEST
