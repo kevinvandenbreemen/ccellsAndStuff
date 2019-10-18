@@ -7,6 +7,7 @@
 #include "logger.h"
 
 static int chkTissueCreated();
+void tissue_initializeDefaultTissue();
 int * getTissue();
 
 /**
@@ -37,6 +38,11 @@ static TissueState * _getState(int reset) {
 
 void tissue_state_reset() {
     _getState(1);
+}
+
+void tissue_initializeDefaultTissue() {
+    getTissue();
+    cellTypes_InitializeDefaultCellTypeBehaviours();
 }
 
 TissueState * tissue_getState() {

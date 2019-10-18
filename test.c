@@ -7,6 +7,17 @@
 #include "tests/cell_communications.h"
 #include "tests/tissue_tests.h"
 
+START_TEST(tissue_initialization) {
+
+    printf("TISSUE INITIALIZATION:  This should be the first test...\n");
+
+    tissue_initializeDefaultTissue();
+    fail_if(cellTypes_behaviourFor(CELL_TYPE_BASIC) == NULL, "System should have initialized cell behaviours - basic");
+    fail_if(cellTypes_behaviourFor(CELL_TYPE_INHIB) == NULL, "System should have initialized cell behaviours - inhib");
+
+}
+END_TEST;
+
 START_TEST(cell_count) {
 
     int * cells = getTissue();
@@ -81,6 +92,7 @@ int main(int argc, char const *argv[])
 
     //  Test Case Definitions:
     //  Tissue Creation
+    tcase_add_test(tissueCreationTests, tissue_initialization);
     tcase_add_test(tissueCreationTests, cell_count);
     tcase_add_test(tissueCreationTests, cell_update);
 
