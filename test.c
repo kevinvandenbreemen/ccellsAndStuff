@@ -96,17 +96,6 @@ START_TEST(detect_incoming_connections_none_defined) {
 }
 END_TEST
 
-START_TEST(bidirectional_connection) {
-    cells_connectBidirectional(5, 6, 0.5);
-    int * connectedCellIndexes = cells_indexesOfConnectedFrom(5);
-
-    fail_unless( *(connectedCellIndexes) == 6, "Bidirectional connection between indexes 5 and 6 - expected connection from 5 to 6");
-
-    connectedCellIndexes = cells_indexesOfConnectedFrom(6);
-    fail_unless( *(connectedCellIndexes) == 5, "Bidirectional connection between indexes 5 and 6 - expected connection from 6 to 5");
-}
-END_TEST
-
 int main(int argc, char const *argv[])
 {
     Suite *coreSuite = suite_create("Core");
@@ -130,7 +119,6 @@ int main(int argc, char const *argv[])
     tcase_add_test(cellConnectivityTests, connect_cells);
     tcase_add_test(cellConnectivityTests, indexes_of_connected_cells);
     tcase_add_test(cellConnectivityTests, connect_directed_with_neg_strength);
-    tcase_add_test(cellConnectivityTests, bidirectional_connection);
     tcase_add_test(cellConnectivityTests, detect_incoming_connections_none_defined);
     tcase_add_test(cellConnectivityTests, detect_incoming_connections);
     tcase_add_test(cellConnectivityTests, detect_incoming_connections_neg_strength);
