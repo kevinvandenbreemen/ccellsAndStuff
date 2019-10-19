@@ -65,6 +65,37 @@ START_TEST(connect_directed_with_neg_strength) {
 }
 END_TEST
 
+START_TEST(detect_incoming_connections) {
+    cells_connectDirected(0, 1, 1.0);
+    cells_connectDirected(2, 1, 0.11);
+
+    int * connectedCellIndexes = cells_indexesOfConnectedTo(1);
+    fail_if(connectedCellIndexes == NULL);
+
+    fail_unless(connectedCellIndexes[0] == 0, "System should have found first connected cell");
+    fail_unless(connectedCellIndexes[1] == 2, "System should have found second connected cell");
+}
+END_TEST
+
+START_TEST(detect_incoming_connections_neg_strength) {
+    cells_connectDirected(0, 1, -1.0);
+    cells_connectDirected(2, 1, 0.11);
+
+    int * connectedCellIndexes = cells_indexesOfConnectedTo(1);
+    fail_if(connectedCellIndexes == NULL);
+
+    fail_unless(connectedCellIndexes[0] == 0, "System should have found first connected cell");
+    fail_unless(connectedCellIndexes[1] == 2, "System should have found second connected cell");
+}
+END_TEST
+
+START_TEST(detect_incoming_connections_none_defined) {
+
+    int * connectedCellIndexes = cells_indexesOfConnectedTo(1);
+    fail_unless(connectedCellIndexes == NULL, "No cells were connected.  System should have returned NULL");
+}
+END_TEST
+
 START_TEST(bidirectional_connection) {
     cells_connectBidirectional(5, 6, 0.5);
     int * connectedCellIndexes = cells_indexesOfConnectedFrom(5);
@@ -100,6 +131,9 @@ int main(int argc, char const *argv[])
     tcase_add_test(cellConnectivityTests, indexes_of_connected_cells);
     tcase_add_test(cellConnectivityTests, connect_directed_with_neg_strength);
     tcase_add_test(cellConnectivityTests, bidirectional_connection);
+    tcase_add_test(cellConnectivityTests, detect_incoming_connections_none_defined);
+    tcase_add_test(cellConnectivityTests, detect_incoming_connections);
+    tcase_add_test(cellConnectivityTests, detect_incoming_connections_neg_strength);
 
     //  Tess from includes
     cell_communications_addToSuite(coreSuite);
