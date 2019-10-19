@@ -20,11 +20,6 @@ void cells_connectDirected(int fromIndex, int toIndex, double strength) {
     rawConnections[fromIndex][toIndex] = strength;
 }
 
-void cells_connectBidirectional(int fromIndex, int toIndex, double strength) {
-    rawConnections[fromIndex][toIndex] = strength;
-    rawConnections[toIndex][fromIndex] = strength;
-}
-
 double cells_strengthOfConnection(int fromIndex, int toIndex) {
     return rawConnections[fromIndex][toIndex];
 }
