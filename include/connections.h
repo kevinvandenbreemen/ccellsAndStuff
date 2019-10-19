@@ -11,7 +11,6 @@
 static double rawConnections[NUM_CELLS][NUM_CELLS];
 
 void cells_connectDirected(int fromIndex, int toIndex, double strength);
-void cells_connectBidirectional(int fromIndex, int toIndex, double strength);
 double cells_strengthOfConnection(int fromIndex, int toIndex);
 int cells_countConnectedFrom(int fromIndex);
 int * cells_indexesOfConnectedFrom(int fromIndex);
