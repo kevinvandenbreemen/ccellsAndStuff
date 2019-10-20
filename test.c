@@ -6,6 +6,7 @@
 //  Test includes
 #include "tests/cell_communications.h"
 #include "tests/tissue_tests.h"
+#include "tests/bitarray_tests.h"
 
 START_TEST(tissue_initialization) {
 
@@ -126,6 +127,7 @@ int main(int argc, char const *argv[])
     //  Tess from includes
     cell_communications_addToSuite(coreSuite);
     tissue_tests_addToSuite(coreSuite);
+    bitarray_tests_addToSuite(coreSuite);
 
     SRunner *testRunner = srunner_create(coreSuite);
 
