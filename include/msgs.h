@@ -5,7 +5,7 @@
 #include "../include/math.h"
 #include "../include/logger.h"
 #include "../include/tissue.h"
-
+#include "../include/bitarray.h"
 
 
 double * cells_rawOutput(int inputCellIndex, double inputStrength);
@@ -107,12 +107,12 @@ static void doCellBehaviourAndLogic(int cellIndex) {
     
 }
 
-static void doStimulateCell(int inputCellIndex, double inputStrength, int * cellsToDoLearningOn, int * currentCellIndex) {
+static void doStimulateCell(int inputCellIndex, double inputStrength, BitArray *touchedCellIndexes) {
+
+    bitarray_writeBit(touchedCellIndexes, inputCellIndex, 1);
+
     int connectionCount = cells_countConnectedFrom(inputCellIndex);
     int * endpointIndexes = cells_indexesOfConnectedFrom(inputCellIndex);
-
-    cellsToDoLearningOn[*currentCellIndex] = inputCellIndex;
-    *currentCellIndex = *currentCellIndex + 1;
 
     if(endpointIndexes == NULL) {
         tissue_state_updateOutputToCell(inputCellIndex, inputStrength);
@@ -123,7 +123,7 @@ static void doStimulateCell(int inputCellIndex, double inputStrength, int * cell
 
     int i;
     for(i=0; i<connectionCount; i++) {
-        doStimulateCell(endpointIndexes[i], outputs[i], cellsToDoLearningOn, currentCellIndex);
+        doStimulateCell(endpointIndexes[i], outputs[i], touchedCellIndexes);
     }
 
     free(outputs);
@@ -138,8 +138,7 @@ static void doStimulateCell(int inputCellIndex, double inputStrength, int * cell
 void cells_stimulate(int * targets, double * strengths, int count);
 void cells_stimulate(int * targets, double * strengths, int count) {
     
-    int * cellsToPerformUpdatesOn = malloc(NUM_CELLS * sizeof(int));
-    int currentCellIndex = 0; 
+    BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
 
     int i;
     for(i=0; i<count; i++) {
@@ -148,18 +147,20 @@ void cells_stimulate(int * targets, double * strengths, int count) {
         printf("TARGET %d ----\n", targets[i]);
         #endif
 
-        doStimulateCell(targets[i], strengths[i], cellsToPerformUpdatesOn, &currentCellIndex);
+        doStimulateCell(targets[i], strengths[i], touchedCellIndexes);
 
         #ifndef NDEBUG
         printf("TARGET %d DONE\n", targets[i]);
         #endif
     }
 
-    for(i=0; i<currentCellIndex; i++) {
-        doCellBehaviourAndLogic(cellsToPerformUpdatesOn[i]);
+    for(i=0; i<NUM_CELLS; i++) {
+        if(bitarray_valueOf(touchedCellIndexes, i) == on) {
+            doCellBehaviourAndLogic(i);
+        }
     }
 
-    free(cellsToPerformUpdatesOn);
+    bitarray_destroy(touchedCellIndexes);
 
 }
 

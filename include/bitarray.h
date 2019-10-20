@@ -12,7 +12,16 @@ typedef struct BitArray {
     unsigned int * data;
 } BitArray;
 
+/**
+ * Create a new BitArray with the given size.  Please be sure to call bitarray_destroy() when 
+ * you are done with it.
+ */
 BitArray * bitarray_create(int size);
+
+/**
+ * Frees up memory used by the given BitArray
+ */
+void bitarray_destroy(BitArray *bitArray);
 int bitarray_valueOf(BitArray *bitArray, int position);
 void bitarray_writeBit(BitArray *bitArray, int position, int value);
 
@@ -20,7 +29,12 @@ BitArray * bitarray_create(int size) {
     BitArray * ret = (BitArray *) malloc(sizeof(BitArray));
     
     //  Compute total ints required to cover the bits
-    int numIntsReqd = size / INT_SIZE_IN_BITS;
+    int numIntsReqd = (size / INT_SIZE_IN_BITS) + 1;
+
+    #ifndef NDEBUG
+    printf("Allocating bit array of %d ints for capacity of %d bits\n", numIntsReqd, size);
+    #endif
+
     ret->data = malloc(sizeof(unsigned int) * numIntsReqd);
     int i=0;
     for(i=0; i<numIntsReqd; i++) {
@@ -28,6 +42,11 @@ BitArray * bitarray_create(int size) {
     }
 
     return ret;
+}
+
+void bitarray_destroy(BitArray *bitArray) {
+    free(bitArray->data);
+    free(bitArray);
 }
 
 int bitarray_valueOf(BitArray *bitArray, int position) {

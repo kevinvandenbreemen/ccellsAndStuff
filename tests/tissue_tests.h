@@ -43,6 +43,7 @@ START_TEST(get_default_cell_type_behaviours) {
 END_TEST
 
 //  Cell updates/learning callbacks!
+int callCount;
 int expectedIndex;
 int signalIncoming_size;
 int signalIncoming_cellIndex;
@@ -52,6 +53,9 @@ static void test_signalIncomingConnections(int size, int cellIndex, int * incomi
     if(cellIndex != expectedIndex){
         return;
     }
+
+    callCount ++;
+
     signalIncoming_size = size;
     signalIncoming_cellIndex = cellIndex;
     
@@ -77,6 +81,9 @@ static void test_signalOutgoingConnections(int size, int cellIndex, int * outgoi
         printf("NOT %d but is %d, so can't do outgoing\n", expectedIndex, cellIndex);
         return;
     }
+
+    callCount ++;
+
     signalOutgoing_size = size;
     signalOutgoing_cellIndex = cellIndex;
     
@@ -108,6 +115,7 @@ START_TEST(process_incoming_cell_connections_during_network_stim) {
     fail_unless(signalIncoming_incomingIndexes[1] == 2, "Expected incoming index at 1 to be 2 but was %d\n", signalIncoming_incomingIndexes[1]);
     fail_unless(signalIncoming_incomingStrengths[0] == 0.1);
     fail_unless(signalIncoming_incomingStrengths[1] == 0.2);
+    fail_if(callCount != 1, "System should only process incoming connections per cell once, but did so %d times", callCount);
 }
 END_TEST
 
@@ -129,6 +137,7 @@ START_TEST(process_outgoing_cell_connections_during_network_stim) {
     fail_unless(signalOutgoing_cellIndex == 2, "System should have alerted cell at index 1 that it needs to update its logic");
     fail_unless(signalOutgoing_outgoingIndexes[0] == 1, "Outgoing indexes expected 1 but was %d\n", signalOutgoing_outgoingIndexes[0]);
     fail_unless(signalOugtoing_outgoingStrengths[0] == 0.2);
+    fail_if(callCount != 1, "System should only process outgoing connections per cell once, but did so %d times", callCount);
 }
 END_TEST
 
