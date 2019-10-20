@@ -83,6 +83,29 @@ The state.outputIndices indicates the final cells that received output from your
     double * destStrengths = state->outputStrengths;
 ```
 
+## Some Approaches to Learning
+You can add logic for individual cells to perform as the network executes.  
+
+You can do this for both incoming connections and outgoing connections.  Both of these require similar function pointers.
+
+For example, for outgoing connections, provide a pointer to a function that takes the following arguments:
+```
+(int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths)
+```
+
+to method 
+
+**cellTypes_setCellLogicForOutgoingConnections**
+
+Similarly, for incoming connections, provide a pointer to a function that takes the following arguments:
+```
+(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths)
+```
+
+to method
+
+**cellTypes_setCellLogicForIncomingConnections**
+
 # Data Structure
 
 ## Over-arching
