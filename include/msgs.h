@@ -100,13 +100,15 @@ static void doCellBehaviourAndLogic(int cellIndex) {
     
 }
 
-static void doStimulateCell(int inputCellIndex, double inputStrength) {
+static void doStimulateCell(int inputCellIndex, double inputStrength, int * cellsToDoLearningOn, int * currentCellIndex) {
     int connectionCount = cells_countConnectedFrom(inputCellIndex);
     int * endpointIndexes = cells_indexesOfConnectedFrom(inputCellIndex);
 
+    cellsToDoLearningOn[*currentCellIndex] = inputCellIndex;
+    *currentCellIndex = *currentCellIndex + 1;
+
     if(endpointIndexes == NULL) {
         tissue_state_updateOutputToCell(inputCellIndex, inputStrength);
-        doCellBehaviourAndLogic(inputCellIndex);
         return;
     }
 
@@ -114,10 +116,8 @@ static void doStimulateCell(int inputCellIndex, double inputStrength) {
 
     int i;
     for(i=0; i<connectionCount; i++) {
-        doStimulateCell(endpointIndexes[i], outputs[i]);
+        doStimulateCell(endpointIndexes[i], outputs[i], cellsToDoLearningOn, currentCellIndex);
     }
-
-    doCellBehaviourAndLogic(inputCellIndex);
 
     free(outputs);
     free(endpointIndexes);
@@ -131,6 +131,9 @@ static void doStimulateCell(int inputCellIndex, double inputStrength) {
 void cells_stimulate(int * targets, double * strengths, int count);
 void cells_stimulate(int * targets, double * strengths, int count) {
     
+    int * cellsToPerformUpdatesOn = malloc(NUM_CELLS * sizeof(int));
+    int currentCellIndex = 0; 
+
     int i;
     for(i=0; i<count; i++) {
         
@@ -138,12 +141,18 @@ void cells_stimulate(int * targets, double * strengths, int count) {
         printf("TARGET %d ----\n", targets[i]);
         #endif
 
-        doStimulateCell(targets[i], strengths[i]);
+        doStimulateCell(targets[i], strengths[i], cellsToPerformUpdatesOn, &currentCellIndex);
 
         #ifndef NDEBUG
         printf("TARGET %d DONE\n", targets[i]);
         #endif
     }
+
+    for(i=0; i<currentCellIndex; i++) {
+        doCellBehaviourAndLogic(cellsToPerformUpdatesOn[i]);
+    }
+
+    free(cellsToPerformUpdatesOn);
 
 }
 
