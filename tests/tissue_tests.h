@@ -54,8 +54,15 @@ static void test_signalIncomingConnections(int size, int cellIndex, int * incomi
     }
     signalIncoming_size = size;
     signalIncoming_cellIndex = cellIndex;
-    signalIncoming_incomingIndexes = incomingIndexes;
-    signalIncoming_incomingStrengths = incomingStrengths;
+    
+    signalIncoming_incomingIndexes = malloc(sizeof(int) * signalIncoming_size);
+    signalIncoming_incomingStrengths = malloc(sizeof(double) * signalIncoming_size);
+    
+    int i;
+    for(i=0; i<signalIncoming_size; i++) {
+        signalIncoming_incomingIndexes [i] = incomingIndexes[i];
+        signalIncoming_incomingStrengths[i] = incomingStrengths[i];
+    }
 
     printf("Incoming Connections - size=%d, index=%d\n", size, cellIndex);
 
@@ -72,8 +79,14 @@ static void test_signalOutgoingConnections(int size, int cellIndex, int * outgoi
     }
     signalOutgoing_size = size;
     signalOutgoing_cellIndex = cellIndex;
-    signalOutgoing_outgoingIndexes = outgoingIndexes;
-    signalOugtoing_outgoingStrengths = outgoingStrengths;
+    
+    signalOutgoing_outgoingIndexes = malloc(sizeof(int) * signalOutgoing_size);
+    signalOugtoing_outgoingStrengths = malloc(sizeof(double) * signalOutgoing_size);
+    int i;
+    for(i=0; i<signalOutgoing_size; i++) {
+        signalOutgoing_outgoingIndexes[i] = outgoingIndexes[i];
+        signalOugtoing_outgoingStrengths[i] = outgoingStrengths[i];
+    }
 }
 
 START_TEST(process_incoming_cell_connections_during_network_stim) {
@@ -92,7 +105,7 @@ START_TEST(process_incoming_cell_connections_during_network_stim) {
     fail_unless(signalIncoming_size == 2, "System should have alerted cells to conduct operations");
     fail_unless(signalIncoming_cellIndex == 1, "System should have alerted cell at index 1 that it needs to update its logic");
     fail_unless(signalIncoming_incomingIndexes[0] == 0);
-    fail_unless(signalIncoming_incomingIndexes[1] == 2);
+    fail_unless(signalIncoming_incomingIndexes[1] == 2, "Expected incoming index at 1 to be 2 but was %d\n", signalIncoming_incomingIndexes[1]);
     fail_unless(signalIncoming_incomingStrengths[0] == 0.1);
     fail_unless(signalIncoming_incomingStrengths[1] == 0.2);
 }
@@ -114,7 +127,7 @@ START_TEST(process_outgoing_cell_connections_during_network_stim) {
 
     fail_unless(signalOutgoing_size == 1, "System should have alerted cells to conduct operations");
     fail_unless(signalOutgoing_cellIndex == 2, "System should have alerted cell at index 1 that it needs to update its logic");
-    fail_unless(signalOutgoing_outgoingIndexes[0] == 1);
+    fail_unless(signalOutgoing_outgoingIndexes[0] == 1, "Outgoing indexes expected 1 but was %d\n", signalOutgoing_outgoingIndexes[0]);
     fail_unless(signalOugtoing_outgoingStrengths[0] == 0.2);
 }
 END_TEST

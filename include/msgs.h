@@ -62,6 +62,9 @@ static void doCellBehaviourAndLogic(int cellIndex) {
             }
 
             behaviour->processIncomingConnections(count, cellIndex, indexesOfIncomingConnections, strengths);
+
+            free(indexesOfIncomingConnections);
+            free(strengths);
         } else {
             #ifndef NDEBUG
             printf("Cell at %d has no incoming connections -- no action required\n", cellIndex);
@@ -87,6 +90,10 @@ static void doCellBehaviourAndLogic(int cellIndex) {
             }
 
             behaviour->processOutgoingConnections(count, cellIndex, indexesOfOutgoingConnections, strengths);
+
+            free(indexesOfOutgoingConnections);
+            free(strengths);
+
         } else{
             #ifndef NDEBUG
             printf("Cell at %d has no outgoing connections -- no action required\n", cellIndex);
