@@ -34,7 +34,7 @@ debug: buildDebugSymbols
 	gdb $(OUTPUT_DIR)/run
 
 buildPerfTest:
-	gcc -Wall -g -o $(OUTPUT_DIR)/run $(PERF_FILE)
+	gcc -Wall -DNDEBUG -g -o $(OUTPUT_DIR)/run $(PERF_FILE)
 
 checkValgrind:
 	ls /usr/bin/valgrind && echo "Valgrind found"
