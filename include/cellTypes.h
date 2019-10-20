@@ -3,14 +3,23 @@
 
 #include <stdlib.h>
 #include "cellTypeFunctions.h"
+#include "bitarray.h"
 
 #define MAX_CELL_TYPES 128  //  Maximum number of cell types that can be defined in the system
 
 #define CELL_TYPE_BASIC 1
 #define CELL_TYPE_INHIB 2
 
-static int cellTypesWithProcessIncomingConnections[MAX_CELL_TYPES] = {0};
-static int cellTypesWithProcessOutgoingConnections[MAX_CELL_TYPES] = {0};
+static BitArray *cellTypesWithProcessIncomingConnections;
+static BitArray *cellTypesWithProcessOutgoingConnections;
+
+static void reinitCellTypesProcessingMaps() {
+    bitarray_destroy(cellTypesWithProcessIncomingConnections);
+    bitarray_destroy(cellTypesWithProcessOutgoingConnections);
+
+    cellTypesWithProcessIncomingConnections = bitarray_create(MAX_CELL_TYPES);
+    cellTypesWithProcessOutgoingConnections = bitarray_create(MAX_CELL_TYPES);
+}
 
 /**
  * Behaviour of a given cell type
@@ -26,10 +35,17 @@ typedef struct CellTypeBehaviour {
 } CellTypeBehaviour;
 
 CellTypeBehaviour *cellTypeBehaviours;
+
+/**
+ * Allocates or resets the cellTypeBehaviours for the system.  This method will wipe out any previously existing cell
+ * type behaviours so use with caution!
+ */
 void cellTypes_AllocateCellTypeBehaviours();
 void cellTypes_AllocateCellTypeBehaviours() {
     free(cellTypeBehaviours);
     cellTypeBehaviours =  malloc(sizeof(CellTypeBehaviour) * MAX_CELL_TYPES);
+
+    reinitCellTypesProcessingMaps();
 }
 
 //  Configure default cell type behaviours
@@ -53,12 +69,12 @@ void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(d
 void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths));
 void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths)){
     (cellTypeBehaviours[cellType]).processIncomingConnections = logic;
-    cellTypesWithProcessIncomingConnections[cellType] = 1;
+    bitarray_writeBit(cellTypesWithProcessIncomingConnections, cellType, 1);
 }
 
 int cellTypes_existsLogicForIncomingConnectionsForCellType(int cellType);
 int cellTypes_existsLogicForIncomingConnectionsForCellType(int cellType) {
-    if(cellTypesWithProcessIncomingConnections[cellType] == 1){
+    if(bitarray_valueOf(cellTypesWithProcessIncomingConnections, cellType) == on){
         return 1;
     }
     return 0;
@@ -67,11 +83,11 @@ int cellTypes_existsLogicForIncomingConnectionsForCellType(int cellType) {
 void cellTypes_setCellLogicForOutgoingConnections(int cellType, void (*logic)(int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths));
 void cellTypes_setCellLogicForOutgoingConnections(int cellType, void (*logic)(int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths)) {
     (cellTypeBehaviours[cellType]).processOutgoingConnections = logic;
-    cellTypesWithProcessOutgoingConnections[cellType] = 1;
+    bitarray_writeBit(cellTypesWithProcessOutgoingConnections, cellType, 1);
 }
 int cellTypes_existsLogicForOutgoingConnectionsForCellType(int cellType);
 int cellTypes_existsLogicForOutgoingConnectionsForCellType(int cellType) {
-    if(cellTypesWithProcessOutgoingConnections[cellType] == 1){
+    if(bitarray_valueOf(cellTypesWithProcessOutgoingConnections, cellType) == on){
         return 1;
     }
     return 0;

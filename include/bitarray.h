@@ -45,6 +45,14 @@ BitArray * bitarray_create(int size) {
 }
 
 void bitarray_destroy(BitArray *bitArray) {
+
+    if(bitArray == NULL) {
+        #ifndef NDEBUG
+        printf("Cannot destroy null bit array.  Taking no action\n");
+        #endif
+        return;
+    }
+
     free(bitArray->data);
     free(bitArray);
 }
