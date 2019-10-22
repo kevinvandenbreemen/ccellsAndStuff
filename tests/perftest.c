@@ -22,6 +22,7 @@ int main() {
     cells_connectDirected(1, 10, 2.2);
     cells_connectDirected(2, 10, -0.4);
     cells_connectDirected(3, 10, 4.9);
+    cells_connectDirected(2, 3, 4.9);
 
     int targets[] = {0,1,2,3};
     double strengths[] = {1.0, 1.0, 10.3, 1.2};

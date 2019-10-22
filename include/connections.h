@@ -10,15 +10,58 @@
  */
 static double rawConnections[NUM_CELLS][NUM_CELLS];
 
-void cells_connectDirected(int fromIndex, int toIndex, double strength);
+int cells_connectDirected(int fromIndex, int toIndex, double strength);
 double cells_strengthOfConnection(int fromIndex, int toIndex);
 int cells_countConnectedFrom(int fromIndex);
 int cells_countConnectedTo(int toIndex);
 int * cells_indexesOfConnectedFrom(int fromIndex);
 int * cells_indexesOfConnectedTo(int toIndex);
 
-void cells_connectDirected(int fromIndex, int toIndex, double strength) {
+static int pathExists(int fromIndex, int toIndex) {
+
+    if(fromIndex == toIndex) {
+
+        #ifndef NDEBUG
+        printf("pathCheck:  %d found\n", toIndex);
+        #endif
+
+        return 1;
+    }
+
+    int count = cells_countConnectedFrom(fromIndex);
+    if(count == 0) {
+        return 0;
+    }
+
+    int * indexes = cells_indexesOfConnectedFrom(fromIndex);
+    int i;
+    for(i=0; i<count; i++) {
+        if(pathExists(indexes[i], toIndex) == 1) {
+
+            #ifndef NDEBUG
+            printf("[pathCheck foundPath]:  %d -> %d\n", fromIndex, indexes[i]);
+            #endif
+
+            free(indexes);
+
+            return 1;
+        }
+    }
+
+    free(indexes);
+
+    return 0;
+}
+
+int cells_connectDirected(int fromIndex, int toIndex, double strength) {
+
+    if(pathExists(toIndex, fromIndex)) {
+        fprintf(stderr, "CONNECT ERROR:  Cannot define connection from %d to %d since a path exists from %d to %d\n", fromIndex, toIndex, toIndex, fromIndex);
+        return -1;
+    }
+
     rawConnections[fromIndex][toIndex] = strength;
+    return 1;
 }
 
 double cells_strengthOfConnection(int fromIndex, int toIndex) {

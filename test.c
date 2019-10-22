@@ -52,6 +52,24 @@ START_TEST(connect_cells) {
 }
 END_TEST
 
+START_TEST(prevent_loops) {
+    cells_connectDirected(0, 1, 1.0);
+    cells_connectDirected(1, 2, 1.0);
+    cells_connectDirected(2, 3, 1.0);
+    cells_connectDirected(3, 5, 1.0);
+    cells_connectDirected(3, 6, 1.0);
+    cells_connectDirected(3, 4, 1.0);
+    cells_connectDirected(4, 8, 1.0);
+    fail_unless(cells_connectDirected(4, 0, 1.0) == -1);
+
+    int * connectedCellIndexes = cells_indexesOfConnectedFrom(4);
+    int count = cells_countConnectedFrom(4);
+    fail_unless(count == 1, "System should have only 1 connection from 4");
+    fail_unless(connectedCellIndexes[0] == 8, "System should have prevented loop from forming");
+
+}
+END_TEST
+
 START_TEST(indexes_of_connected_cells) {
     cells_connectDirected(0, 1, 1.0);
     int * connectedCellIndexes = cells_indexesOfConnectedFrom(0);
@@ -118,6 +136,7 @@ int main(int argc, char const *argv[])
     //  Tissue Connection
     tcase_add_test(cellConnectivityTests, no_outgoing_connections);
     tcase_add_test(cellConnectivityTests, connect_cells);
+    tcase_add_test(cellConnectivityTests, prevent_loops);
     tcase_add_test(cellConnectivityTests, indexes_of_connected_cells);
     tcase_add_test(cellConnectivityTests, connect_directed_with_neg_strength);
     tcase_add_test(cellConnectivityTests, detect_incoming_connections_none_defined);
