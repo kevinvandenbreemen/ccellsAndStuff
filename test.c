@@ -47,7 +47,7 @@ START_TEST(no_outgoing_connections) {
 END_TEST
 
 START_TEST(connect_cells) {
-    cells_connectDirected(0, 1, 1.0);
+    fail_unless(cells_connectDirected(0, 1, 1.0) == 0, "System should return 0 (no error) on successful connection");
     fail_unless(cells_countConnectedFrom(0) == 1, "Connection count expected");
 }
 END_TEST

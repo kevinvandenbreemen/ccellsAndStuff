@@ -61,7 +61,7 @@ int cells_connectDirected(int fromIndex, int toIndex, double strength) {
     }
 
     rawConnections[fromIndex][toIndex] = strength;
-    return 1;
+    return 0;
 }
 
 double cells_strengthOfConnection(int fromIndex, int toIndex) {
