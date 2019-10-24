@@ -4,7 +4,7 @@ PERF_FILE = tests/perftest.c
 OUTPUT_DIR = ./bin
 REQUIRED_PKG_CHECK = libsubunit
 
-.PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug checkValgrind buildPerfTest checkMemoryLeaks pipeLine
+.PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug checkValgrind buildPerfTest checkMemoryLeaks pipeLine swiftClean swiftBuild swiftTest
 
 cleanup:
 	rm -rf $(OUTPUT_DIR)
@@ -42,5 +42,14 @@ checkValgrind:
 checkMemoryLeaks: checkValgrind buildPerfTest
 	valgrind --leak-check=yes --error-exitcode=1 $(OUTPUT_DIR)/run && echo "Memory leak check completed successfully 🤓"
 
-pipeLine: build test checkMemoryLeaks
+swiftClean:
+	rm -rf ./.build
+
+swiftBuild: swiftClean
+	swift build
+
+swiftTest: swiftClean
+	swift test
+
+pipeLine: build test checkMemoryLeaks swiftTest swiftBuild
 	echo "The pipeline has completed 🚀"
