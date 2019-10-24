@@ -13,7 +13,13 @@ final class cellsAndStuffTests: XCTestCase {
         XCTAssertEqual(CellsAndStuffSystemAbout().getAbout(), "C Cells and Stuff Integration Lib:  v.\(version)")
     }
 
+    func testCreateTissue() {
+        let sut = TissueManager()
+        sut.initializeDefaultTissue()
+    }
+
     static var allTests = [
         ("Get C Versioning", testCCodebaseVersion),
+        ("Initialize Tissue", testCreateTissue),
     ]
 }

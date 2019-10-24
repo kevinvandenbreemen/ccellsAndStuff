@@ -48,6 +48,11 @@ void cellTypes_AllocateCellTypeBehaviours() {
     reinitCellTypesProcessingMaps();
 }
 
+void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(double inputStrength, double outgoingConnectionStrength));
+void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(double inputStrength, double outgoingConnectionStrength)) {
+    (cellTypeBehaviours[cellType]).getOutputStrength = getOutputStrength;
+}
+
 //  Configure default cell type behaviours
 void cellTypes_InitializeDefaultCellTypeBehaviours();
 void cellTypes_InitializeDefaultCellTypeBehaviours() {
@@ -61,10 +66,7 @@ void cellTypes_InitializeDefaultCellTypeBehaviours() {
 
 }
 
-void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(double inputStrength, double outgoingConnectionStrength));
-void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(double inputStrength, double outgoingConnectionStrength)) {
-    (cellTypeBehaviours[cellType]).getOutputStrength = getOutputStrength;
-}
+
 
 void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths));
 void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths)){
