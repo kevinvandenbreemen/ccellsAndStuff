@@ -6,7 +6,11 @@ final class cellsAndStuffTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(CellsAndStuffSystemAbout().text, "Hello, World!")
+
+        let sut = CellsAndStuffSystemAbout()
+        let version = sut.versionNum()
+
+        XCTAssertEqual(CellsAndStuffSystemAbout().getAbout(), "C Cells and Stuff Integration Lib:  v.\(version)")
     }
 
     static var allTests = [

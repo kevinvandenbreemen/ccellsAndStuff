@@ -10,6 +10,10 @@ let package = Package(
         .library(
             name: "cellsAndStuff",
             targets: ["cellsAndStuff"]),
+        .library(
+            name: "cCellsAndStuff",
+            targets: ["cCellsAndStuff"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
