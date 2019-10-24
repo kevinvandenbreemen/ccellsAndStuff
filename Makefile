@@ -6,7 +6,7 @@ C_SRC_DIR = ./include
 SWFT_SRC_C_DIR = ./Sources/cCellsAndStuff/include
 REQUIRED_PKG_CHECK = libsubunit
 
-.PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug checkValgrind buildPerfTest checkMemoryLeaks pipeLine swiftClean swiftPrepare swiftBuild swiftTest
+.PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug checkValgrind buildPerfTest checkMemoryLeaks pipeLine swiftClean swiftBuild swiftTest
 
 cleanup:
 	rm -rf $(OUTPUT_DIR)
@@ -47,13 +47,10 @@ checkMemoryLeaks: checkValgrind buildPerfTest
 swiftClean:
 	rm -rf ./.build && rm -rf $(SWFT_SRC_C_DIR)/include
 
-swiftPrepare: swiftClean
-	mkdir $(SWFT_SRC_C_DIR)/include && cp $(C_SRC_DIR)/* $(SWFT_SRC_C_DIR)/include
-
-swiftBuild: swiftPrepare
+swiftBuild: swiftClean
 	swift build
 
-swiftTest: swiftPrepare
+swiftTest: swiftClean
 	swift test
 
 pipeLine: build test checkMemoryLeaks swiftTest swiftBuild

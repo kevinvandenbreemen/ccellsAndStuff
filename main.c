@@ -1,10 +1,12 @@
 #include <stdio.h>
 
 //  Include all code for this system
-#include "include/tissue.h"
-#include "include/cellTypes.h"
-#include "include/connections.h"
 #include "include/logger.h"
+#include "include/bitarray.h"
+#include "include/cellTypeFunctions.h"
+#include "include/cellTypes.h"
+#include "include/tissue.h"
+#include "include/connections.h"
 #include "include/math.h"
 #include "include/msgs.h"
 
