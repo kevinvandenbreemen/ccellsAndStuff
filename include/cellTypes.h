@@ -2,8 +2,6 @@
 #define CELLTYPES_IN
 
 #include <stdlib.h>
-#include "cellTypeFunctions.h"
-#include "bitarray.h"
 
 #define MAX_CELL_TYPES 128  //  Maximum number of cell types that can be defined in the system
 

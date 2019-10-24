@@ -1,7 +1,6 @@
 #ifndef CONNECTIONS_IN
 #define CONNECTIONS_IN
 
-#include "tissue.h"
 #include <stdlib.h>
 #include <math.h>
 

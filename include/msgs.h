@@ -1,12 +1,6 @@
 #ifndef KSIGNALS_IN
 #define KSIGNALS_IN
 
-#include "../include/connections.h"
-#include "../include/math.h"
-#include "../include/logger.h"
-#include "../include/tissue.h"
-#include "../include/bitarray.h"
-
 
 double * cells_rawOutput(int inputCellIndex, double inputStrength);
 
