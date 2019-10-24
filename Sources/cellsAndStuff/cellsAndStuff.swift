@@ -1,3 +1,3 @@
-struct cellsAndStuff {
+struct CellsAndStuffSystemAbout {
     var text = "Hello, World!"
 }
