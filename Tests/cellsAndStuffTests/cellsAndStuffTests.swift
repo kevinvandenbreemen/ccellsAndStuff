@@ -18,8 +18,19 @@ final class cellsAndStuffTests: XCTestCase {
         sut.initializeDefaultTissue()
     }
 
+    func testConnectTissueCells() {
+        let sut = TissueManager()
+
+        sut.connectCell(from: 0, to: 10, strength: 3.2)
+        sut.connectCell(from: 1, to: 10, strength: 3.2)
+        sut.connectCell(from: 2, to: 10, strength: 3.2)
+        sut.connectCell(from: 3, to: 10, strength: 3.2)
+        sut.connectCell(from: 10, to: 2, strength: 3.2)
+    }
+
     static var allTests = [
         ("Get C Versioning", testCCodebaseVersion),
         ("Initialize Tissue", testCreateTissue),
+        ("Connect Cells", testConnectTissueCells),
     ]
 }

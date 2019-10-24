@@ -23,4 +23,6 @@ int revisionNum();
 
 void swift_tissue_initializeDefaultTissue();
 
+int swift_cells_connectDirected(int from, int to, double strength);
+
 #endif
