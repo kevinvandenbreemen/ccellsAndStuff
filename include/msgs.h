@@ -10,6 +10,11 @@ double * cells_rawOutput(int inputCellIndex, double inputStrength);
  */
 void cells_stimulate(int * targets, double * strengths, int count);
 
+/**
+ * Stimulate the network using feed-forward stimulation via layer connection matrices
+ */
+void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count);
+
 double * cells_rawOutput(int inputCellIndex, double inputStrength) {
 
     int size = cells_countConnectedFrom(inputCellIndex);
@@ -125,11 +130,6 @@ static void doStimulateCell(int inputCellIndex, double inputStrength, BitArray *
 }
 
 
-
-/**
- * Send information into the network at the given targets with the given input strengths.
- */
-void cells_stimulate(int * targets, double * strengths, int count);
 void cells_stimulate(int * targets, double * strengths, int count) {
     
     BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
@@ -156,6 +156,28 @@ void cells_stimulate(int * targets, double * strengths, int count) {
 
     bitarray_destroy(touchedCellIndexes);
 
+}
+
+void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) {
+    BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
+
+    int i;
+
+    //  Step 1:  Create Adjacency Matrix
+    int totalOutputCount = 0;
+
+    BitArray *presentConnections = bitarray_create(NUM_CELLS);
+
+    for(i=0; i<count; i++) {
+        int connectionCount = cells_countConnectedFrom(targets[i]);
+        int * endpointIndexes = cells_indexesOfConnectedFrom(targets[i]);
+
+        int j; 
+        for(j=0; j<connectionCount; j++) {
+            bitarray_writeBit(presentConnections, endpointIndexes[j], on);
+        }
+
+    }
 }
 
 
