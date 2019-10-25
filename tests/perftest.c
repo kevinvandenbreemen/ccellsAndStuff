@@ -38,6 +38,7 @@ int main() {
     int count = 4;
     
     cells_stimulate(targets, strengths, count);
+    cells_matrix_feedfoward_stim(targets, strengths, count);
 
     TissueState * state = tissue_getState();
 

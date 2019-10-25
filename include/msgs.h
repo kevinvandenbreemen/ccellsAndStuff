@@ -177,6 +177,8 @@ void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) 
             bitarray_writeBit(presentConnections, endpointIndexes[j], on);
         }
 
+        free(endpointIndexes);
+
     }
 
     int numEndpoints = bitarray_countOn(presentConnections, NUM_CELLS);
@@ -230,6 +232,11 @@ void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) 
     for(outputCellIndex=0; outputCellIndex<numEndpoints; outputCellIndex++){
         tissue_state_updateOutputToCell(endpointIndexes[outputCellIndex], outputs[outputCellIndex]);
     }
+
+    //  Step 5:  Memory cleanup
+    bitarray_destroy(presentConnections);
+    bitarray_destroy(touchedCellIndexes);
+    free(endpointIndexes);
 
 }
 
