@@ -163,7 +163,7 @@ void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) 
 
     int i;
 
-    //  Step 1:  Create Adjacency Matrix
+    //  Step 1:  Determine all cells to which at least one of the target cells is connected
     int totalOutputCount = 0;
 
     BitArray *presentConnections = bitarray_create(NUM_CELLS);
@@ -178,6 +178,59 @@ void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) 
         }
 
     }
+
+    int numEndpoints = bitarray_countOn(presentConnections, NUM_CELLS);
+    int * endpointIndexes = bitarray_indexesTurnedOn(presentConnections, NUM_CELLS);
+
+    //  Step 2:  Create weight matrix
+    int outputCellIndex;
+    int inputCellIndex;
+
+    double weightMatrix[numEndpoints][count];
+
+    for(inputCellIndex=0; inputCellIndex<count; inputCellIndex++) {
+
+        for(outputCellIndex=0; outputCellIndex<numEndpoints; outputCellIndex++) {
+
+            weightMatrix[outputCellIndex][inputCellIndex] = cells_strengthOfConnection(targets[inputCellIndex], endpointIndexes[outputCellIndex]);
+
+        }
+
+    }
+
+    //  Step 3:  Multiply input vector by weight matrix
+    double outputs[numEndpoints];
+    for(outputCellIndex=0; outputCellIndex<numEndpoints; outputCellIndex++) {
+
+        double result = 0.0;
+
+        for(inputCellIndex=0; inputCellIndex<count; inputCellIndex++) {
+
+            double inputValue = strengths[inputCellIndex];
+            result += inputValue * weightMatrix[outputCellIndex][inputCellIndex];
+
+        }
+
+        outputs[outputCellIndex] = result;
+    }
+
+    //  Step 4:  Update network state
+
+    #ifndef NDEBUG
+
+    printf("Feedforward stim result\n------------\n");
+    int k;
+    for(k=0; k<numEndpoints; k++) {
+        printf("%d -> [\t%f\t]\n", endpointIndexes[k], outputs[k]);
+    }
+    printf("END FEEDFORWARD RES\n");
+
+    #endif
+
+    for(outputCellIndex=0; outputCellIndex<numEndpoints; outputCellIndex++){
+        tissue_state_updateOutputToCell(endpointIndexes[outputCellIndex], outputs[outputCellIndex]);
+    }
+
 }
 
 
