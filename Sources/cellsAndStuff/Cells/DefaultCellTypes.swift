@@ -9,3 +9,20 @@ public enum DefaultCellTypes: Int32, CellType {
     }
 
 }
+
+public class DefaultCellTypesProvider : CellTypes {
+    
+    public init() {
+        
+    }
+    
+
+    public func cellType(byID cellTypeID: Int32) -> CellType? {
+        guard let cellType = DefaultCellTypes(rawValue: cellTypeID) else {
+            return nil
+        }
+
+        return cellType
+    }
+
+}

@@ -2,9 +2,10 @@ import cCellsAndStuff
 
 public class TissueManager {
 
+    private let cellTypes: CellTypes
     
-    public init() {
-        
+    public init(cellTypes: CellTypes = DefaultCellTypesProvider()) {
+        self.cellTypes = cellTypes
     }
     
 
@@ -22,7 +23,7 @@ public class TissueManager {
     public func cell(at index: Int32) -> Cell? {
 
         let cellTypeRaw = cCellsAndStuff.swift_tissue_getCellType(index)
-        guard let cellType = DefaultCellTypes(rawValue: cellTypeRaw) else {
+        guard let cellType = cellTypes.cellType(byID: cellTypeRaw) else {
             return nil
         }
 
