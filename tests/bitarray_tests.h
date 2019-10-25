@@ -50,6 +50,20 @@ START_TEST(count_number_on) {
 }
 END_TEST
 
+START_TEST(indexes_turned_on) {
+    BitArray *bitArray = bitarray_create(NUM_CELLS);
+    bitarray_writeBit(bitArray, 3, on);
+    bitarray_writeBit(bitArray, 4, on);
+    bitarray_writeBit(bitArray, 3, on);
+
+    int numOn = bitarray_countOn(bitArray, NUM_CELLS);
+    int * indexesOn = bitarray_indexesTurnedOn(bitArray, NUM_CELLS);
+
+    fail_unless(indexesOn[0] == 3, "FIrst index should be 3 but was %d", indexesOn[0] );
+    fail_unless(indexesOn[1] == 4, "Second inex should be 4 but was %d", indexesOn[1] );
+}
+END_TEST
+
 void bitarray_tests_addToSuite(Suite *suite) {
     TCase *bitarrayTests = tcase_create("Bit Array Tests");
 
@@ -57,6 +71,7 @@ void bitarray_tests_addToSuite(Suite *suite) {
     tcase_add_test(bitarrayTests, write_position_beyond_bound_of_int);
     tcase_add_test(bitarrayTests, write_same_position_twice);
     tcase_add_test(bitarrayTests, count_number_on);
+    tcase_add_test(bitarrayTests, indexes_turned_on);
 
     suite_add_tcase(suite, bitarrayTests);
 

@@ -30,6 +30,11 @@ void bitarray_writeBit(BitArray *bitArray, int position, int value);
  */
 int bitarray_countOn(BitArray *bitArray, int inFirstNPositions);
 
+/**
+ * Gets specific indexes that are on in the first N positions
+ */
+int * bitarray_indexesTurnedOn(BitArray *bitArray, int inFirstNPositions);
+
 BitArray * bitarray_create(int size) {
     BitArray * ret = (BitArray *) malloc(sizeof(BitArray));
     
@@ -88,6 +93,20 @@ int bitarray_countOn(BitArray *bitArray, int inFirstNPositions) {
     printf("[BITARRAY]  total on=%d\n", count);
 
     return count;
+}
+
+int * bitarray_indexesTurnedOn(BitArray *bitArray, int inFirstNPositions) {
+    int numOn = bitarray_countOn(bitArray, inFirstNPositions);
+    int i;
+    int index=0;
+    int * ret = malloc(numOn * sizeof(int));
+    for(i=0; i<inFirstNPositions; i++) {
+        if(bitarray_valueOf(bitArray, i) == on) {
+            ret[index++] = i;
+        }
+    }
+
+    return ret;
 }
 
 void bitarray_writeBit(BitArray *bitArray, int position, int value) {
