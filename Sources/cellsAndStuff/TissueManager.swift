@@ -2,6 +2,12 @@ import cCellsAndStuff
 
 public class TissueManager {
 
+    
+    public init() {
+        
+    }
+    
+
     public func initializeDefaultTissue() {
         cCellsAndStuff.swift_tissue_initializeDefaultTissue()
     }
