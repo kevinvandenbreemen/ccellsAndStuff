@@ -25,4 +25,7 @@ void swift_tissue_initializeDefaultTissue();
 
 int swift_cells_connectDirected(int from, int to, double strength);
 
+//  Cell Types
+int swift_tissue_getCellType(int index);
+
 #endif

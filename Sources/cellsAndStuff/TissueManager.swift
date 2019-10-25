@@ -19,4 +19,15 @@ public class TissueManager {
         }
     }
 
+    public func cell(at index: Int32) -> Cell? {
+
+        let cellTypeRaw = cCellsAndStuff.swift_tissue_getCellType(index)
+        guard let cellType = DefaultCellTypes(rawValue: cellTypeRaw) else {
+            return nil
+        }
+
+        return Cell(type: cellType)
+
+    }
+
 }

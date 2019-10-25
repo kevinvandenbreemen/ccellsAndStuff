@@ -20,3 +20,8 @@ void swift_tissue_initializeDefaultTissue() {
 int swift_cells_connectDirected(int from, int to, double strength) {
     return cells_connectDirected(from, to, strength);
 }
+
+//  Cell Types
+int swift_tissue_getCellType(int index) {
+    return tissue_getCellType(index);
+}
