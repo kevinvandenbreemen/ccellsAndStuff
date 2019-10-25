@@ -25,6 +25,11 @@ void bitarray_destroy(BitArray *bitArray);
 int bitarray_valueOf(BitArray *bitArray, int position);
 void bitarray_writeBit(BitArray *bitArray, int position, int value);
 
+/**
+ * Count number of bits turned on in the first n positions
+ */
+int bitarray_countOn(BitArray *bitArray, int inFirstNPositions);
+
 BitArray * bitarray_create(int size) {
     BitArray * ret = (BitArray *) malloc(sizeof(BitArray));
     
@@ -68,6 +73,21 @@ int bitarray_valueOf(BitArray *bitArray, int position) {
 
     return ((bitArray->data[index] & (1 << positionInInt))) != 0 ? on : off;
 
+}
+
+int bitarray_countOn(BitArray *bitArray, int inFirstNPositions) {
+    int count = 0;
+    int i;
+    for(i=0; i<inFirstNPositions; i++) {
+        if(bitarray_valueOf(bitArray, i) == on) {
+            printf("[BITARRAY]  Found VAL at %d\n", i);
+            count ++;
+        }
+    }
+
+    printf("[BITARRAY]  total on=%d\n", count);
+
+    return count;
 }
 
 void bitarray_writeBit(BitArray *bitArray, int position, int value) {

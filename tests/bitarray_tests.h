@@ -40,12 +40,23 @@ START_TEST(write_same_position_twice) {
 }
 END_TEST
 
+START_TEST(count_number_on) {
+    BitArray *bitArray = bitarray_create(NUM_CELLS);
+    bitarray_writeBit(bitArray, 3, on);
+    bitarray_writeBit(bitArray, 4, on);
+    bitarray_writeBit(bitArray, 3, on);
+
+    fail_unless(bitarray_countOn(bitArray, NUM_CELLS) == 2);
+}
+END_TEST
+
 void bitarray_tests_addToSuite(Suite *suite) {
     TCase *bitarrayTests = tcase_create("Bit Array Tests");
 
     tcase_add_test(bitarrayTests, write_position);
     tcase_add_test(bitarrayTests, write_position_beyond_bound_of_int);
     tcase_add_test(bitarrayTests, write_same_position_twice);
+    tcase_add_test(bitarrayTests, count_number_on);
 
     suite_add_tcase(suite, bitarrayTests);
 
