@@ -1,5 +1,14 @@
-#include "../include/connections.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "../include/bitarray.h"
+#include "../include/cellTypeFunctions.h"
+#include "../include/cellTypes.h"
 #include "../include/tissue.h"
+#include "../include/connections.h"
+#include "../include/logger.h"
+#include "../include/math.h"
 #include "../include/msgs.h"
 
 static void test_signalIncomingConnections(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths) {

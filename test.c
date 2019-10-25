@@ -1,12 +1,19 @@
 #include <check.h>
+#include <stdlib.h>
+#include <stdio.h>
 
+#include "include/bitarray.h"
+#include "include/cellTypeFunctions.h"
+#include "include/cellTypes.h"
 #include "include/tissue.h"
 #include "include/connections.h"
+#include "include/logger.h"
+#include "include/math.h"
+#include "include/msgs.h"
 
-//  Test includes
+#include "tests/bitarray_tests.h"
 #include "tests/cell_communications.h"
 #include "tests/tissue_tests.h"
-#include "tests/bitarray_tests.h"
 
 START_TEST(tissue_initialization) {
 

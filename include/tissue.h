@@ -3,9 +3,6 @@
 
 #define NUM_CELLS 100
 
-#include "cellTypes.h"
-#include "logger.h"
-
 static int chkTissueCreated();
 
 /**
