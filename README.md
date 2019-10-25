@@ -111,3 +111,9 @@ to method
 ## Over-arching
 
 ![Graph Structure](./docs/res/cCellsAndStuff.svg)
+
+# Swift API
+
+## Architecture
+
+![Swift API](docs/res/cCellsAndStuff-Swift&#32;Integration.svg)
