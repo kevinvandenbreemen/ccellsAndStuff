@@ -32,8 +32,10 @@ double * cells_rawOutput(int inputCellIndex, double inputStrength) {
 
     CellTypeBehaviour * behaviour = cellTypes_behaviourFor(tissue_getCellType(inputCellIndex));
 
-    for(i=0; i<size; i++) {
-        ret[i] = behaviour->getOutputStrength(tissue_getCellType(inputCellIndex), inputStrength, ret[i]);
+    if(cellTypes_existsLogicForStrengthDetermination(tissue_getCellType(inputCellIndex))){
+        for(i=0; i<size; i++) {
+            ret[i] = behaviour->getOutputStrength(tissue_getCellType(inputCellIndex), inputStrength, ret[i]);
+        }
     }
 
     return ret;

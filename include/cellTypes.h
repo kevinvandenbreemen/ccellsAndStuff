@@ -10,13 +10,16 @@
 
 static BitArray *cellTypesWithProcessIncomingConnections;
 static BitArray *cellTypesWithProcessOutgoingConnections;
+static BitArray *cellTypesWithStrengthCalculation;
 
 static void reinitCellTypesProcessingMaps() {
     bitarray_destroy(cellTypesWithProcessIncomingConnections);
     bitarray_destroy(cellTypesWithProcessOutgoingConnections);
+    bitarray_destroy(cellTypesWithStrengthCalculation);
 
     cellTypesWithProcessIncomingConnections = bitarray_create(MAX_CELL_TYPES);
     cellTypesWithProcessOutgoingConnections = bitarray_create(MAX_CELL_TYPES);
+    cellTypesWithStrengthCalculation = bitarray_create(MAX_CELL_TYPES);
 }
 
 /**
@@ -49,6 +52,7 @@ void cellTypes_AllocateCellTypeBehaviours() {
 void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(int cellType, double inputStrength, double outgoingConnectionStrength));
 void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(int cellType, double inputStrength, double outgoingConnectionStrength)) {
     (cellTypeBehaviours[cellType]).getOutputStrength = getOutputStrength;
+    bitarray_writeBit(cellTypesWithStrengthCalculation, cellType, on);
 }
 
 //  Configure default cell type behaviours
@@ -75,6 +79,14 @@ void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(in
 int cellTypes_existsLogicForIncomingConnectionsForCellType(int cellType);
 int cellTypes_existsLogicForIncomingConnectionsForCellType(int cellType) {
     if(bitarray_valueOf(cellTypesWithProcessIncomingConnections, cellType) == on){
+        return 1;
+    }
+    return 0;
+}
+
+int cellTypes_existsLogicForStrengthDetermination(int cellType);
+int cellTypes_existsLogicForStrengthDetermination(int cellType) {
+    if(bitarray_valueOf(cellTypesWithStrengthCalculation, cellType) == on){
         return 1;
     }
     return 0;

@@ -9,6 +9,7 @@
 #include "include/connections.h"
 #include "include/math.h"
 #include "include/msgs.h"
+#include "include/driver.h"
 
 int main() {
     printf("This is a project for learning about and using array functions to create relating cell things\n");

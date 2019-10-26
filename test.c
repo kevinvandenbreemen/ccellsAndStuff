@@ -10,6 +10,7 @@
 #include "include/logger.h"
 #include "include/math.h"
 #include "include/msgs.h"
+#include "include/driver.h"
 
 #include "tests/bitarray_tests.h"
 #include "tests/cell_communications.h"

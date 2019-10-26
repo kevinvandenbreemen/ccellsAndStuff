@@ -10,6 +10,7 @@
 #include "../include/logger.h"
 #include "../include/math.h"
 #include "../include/msgs.h"
+#include "../include/driver.h"
 
 static void test_signalIncomingConnections(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths) {
     printf("PERF:  signalling incoming connections to %d -- %d connections\n", cellIndex, size);
@@ -45,6 +46,8 @@ int main() {
     free(state->outputIndices);
     free(state->outputStrengths);
     free(state);
+
+    tissue_resetAll();
 
     return 0;
 }

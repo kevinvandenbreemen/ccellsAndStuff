@@ -66,7 +66,6 @@ class TissueTests: XCTestCase {
 
         tissueManager.feedforwardStimulate(cellIndexes: &targets[0], strengths: &strengths[0], count: Int32(targets.count))
 
-        XCTAssertFalse(loggingLogic.outputStrengthComputations.isEmpty, "System callback integration expected")
         XCTAssertFalse(loggingLogic.incomingConnectionStateCalls.isEmpty, "System callback integration expected")
         XCTAssertFalse(loggingLogic.outgoingConnectionStateCalls.isEmpty, "System callback integration expected")
 

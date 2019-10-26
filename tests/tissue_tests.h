@@ -174,6 +174,24 @@ START_TEST(process_incoming_cell_connections_during_feedforward) {
 
 } END_TEST
 
+START_TEST (tissue_reset) {
+    tissue_initializeDefaultTissue();
+
+    cells_connectDirected(0, 2, 1.0);
+    cellTypes_setCellLogicForIncomingConnections(CELL_TYPE_BASIC, *test_signalIncomingConnections);
+
+    tissue_setCellType(1, 2);
+
+    tissue_resetAll();
+
+    fail_unless(tissue_getCellType(1) == 1, "System should reset cell types as part of init tissue");
+    fail_unless(cells_countConnectedFrom(0) == 0, "System should have reset connections between cells in tissue");
+    fail_unless(cellTypes_existsLogicForIncomingConnectionsForCellType(CELL_TYPE_BASIC) == 0, "System should reset handler logic");
+    fail_unless(tissue_getState()->outputCount == 0, "System should have reset tissue state");
+
+}
+END_TEST
+
 
 void tissue_tests_addToSuite(Suite *suite) {
     TCase *tissueTests = tcase_create("Tissue/Cell Type Tests");
@@ -186,6 +204,7 @@ void tissue_tests_addToSuite(Suite *suite) {
     tcase_add_test(tissueTests, process_incoming_cell_connections_during_network_stim);
     tcase_add_test(tissueTests, process_outgoing_cell_connections_during_network_stim);
     tcase_add_test(tissueTests, process_incoming_cell_connections_during_feedforward);
+    tcase_add_test(tissueTests, tissue_reset);
 
     suite_add_tcase(suite, tissueTests);
 }

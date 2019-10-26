@@ -16,6 +16,11 @@ int cells_countConnectedTo(int toIndex);
 int * cells_indexesOfConnectedFrom(int fromIndex);
 int * cells_indexesOfConnectedTo(int toIndex);
 
+/**
+ * Clears all connections between cells.  Use with caution.
+ */
+void cells_resetConnections();
+
 static int pathExists(int fromIndex, int toIndex) {
 
     if(fromIndex == toIndex) {
@@ -61,6 +66,18 @@ int cells_connectDirected(int fromIndex, int toIndex, double strength) {
 
     rawConnections[fromIndex][toIndex] = strength;
     return 0;
+}
+
+void cells_resetConnections() {
+    int i;
+    
+    for(i=0; i<NUM_CELLS; i++) {
+        int j;
+        for(j=0; j<NUM_CELLS; j++) {
+            rawConnections[i][j] = 0.0;
+        }
+    }
+
 }
 
 double cells_strengthOfConnection(int fromIndex, int toIndex) {
