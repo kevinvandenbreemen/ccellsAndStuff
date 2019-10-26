@@ -82,6 +82,44 @@ START_TEST(feedfoward_stimulation) {
 }
 END_TEST
 
+START_TEST(feedfoward_stimulation_multilayer) {
+
+    //  Arrange
+    tissue_initializeDefaultTissue();
+
+    cells_connectDirected(10, 5, 1.0);
+    cells_connectDirected(11, 6, 1.5);
+    cells_connectDirected(5, 2, 1.0);
+    cells_connectDirected(6, 3, 0.3);
+    cells_connectDirected(5, 7, 0.5);
+
+    //  Act
+    int targets[] = {10, 11};
+    double strengths[] = {1.0, 1.0};
+    int count = 2;
+    cells_matrix_feedfoward_stim(targets, strengths, count);
+
+    //  Assert
+    TissueState * state = tissue_getState();
+    fail_unless(state->outputCount == 3, "3 outputs expected");
+
+    int * destIndexes = state->outputIndices;
+    double * destStrengths = state->outputStrengths;
+
+    fail_unless(destIndexes[0] == 2);
+    fail_unless(destIndexes[1] == 3);
+    fail_unless(destIndexes[2] == 7);
+
+    int i;
+    for(int i=0; i<3; i++) {
+        printf("WTF strength of %d = %f\n", destIndexes[i], destStrengths[i]);
+    }
+
+    fail_unless(destStrengths[0] == 1.0);
+    fail_unless(destStrengths[2] == 0.5);
+}
+END_TEST
+
 START_TEST(reset_tissue_state) {
 
     tissue_initializeDefaultTissue();
@@ -113,6 +151,7 @@ void cell_communications_addToSuite(Suite *suite) {
     tcase_add_test(cellCommunication, message_propagate_data_to_cells);
     tcase_add_test(cellCommunication, reset_tissue_state);
     tcase_add_test(cellCommunication, feedfoward_stimulation);
+    tcase_add_test(cellCommunication, feedfoward_stimulation_multilayer);
 
     suite_add_tcase(suite, cellCommunication);
 

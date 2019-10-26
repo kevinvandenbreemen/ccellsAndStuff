@@ -86,7 +86,7 @@ void tissue_state_updateOutputToCell(int index, double strength) {
     state->outputIndices[state->outputCount-1] = index;
     state->outputStrengths[state->outputCount-1] = strength;
 
-    #ifndef NDEBUG
+    #ifdef TRACEDEBUG
     printf("Added output cell idx=%d, stren=%f\n", index, strength);
     #endif
 }
@@ -130,7 +130,9 @@ int * getTissue() {
            tissueData[idx] = CELL_TYPE_BASIC;
        }
    } else {
+       #ifdef TRACEDEBUG
        logD("Tissue already created");
+       #endif
    }
 
    return tissueData;

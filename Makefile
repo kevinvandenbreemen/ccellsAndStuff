@@ -1,3 +1,6 @@
+# Main builder for the project
+# Regarding debugging, if you build with -DTRACEDEBUG you can get additional debugging information
+
 MAIN_FILE = main.c
 TEST_FILE = test.c
 PERF_FILE = tests/perftest.c

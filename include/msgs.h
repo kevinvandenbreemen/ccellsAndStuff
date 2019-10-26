@@ -70,7 +70,7 @@ static void doCellBehaviourAndLogic(int cellIndex) {
             #endif
         }
     } else {
-        #ifndef NDEBUG
+        #ifdef TRACEDEBUG
         printf("No logic to handle incoming connections for cell type %d\n", tissue_getCellType(cellIndex));
         #endif
     }
@@ -99,7 +99,7 @@ static void doCellBehaviourAndLogic(int cellIndex) {
             #endif
         }
     } else {
-        #ifndef NDEBUG
+        #ifdef TRACEDEBUG
         printf("No logic to handle outgoing connections for cell type %d\n", tissue_getCellType(cellIndex));
         #endif
     }
@@ -129,39 +129,12 @@ static void doStimulateCell(int inputCellIndex, double inputStrength, BitArray *
     free(endpointIndexes);
 }
 
-
-void cells_stimulate(int * targets, double * strengths, int count) {
-    
-    BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
-
+static void doMatrixFeedforwardStim(int * targets, double * strengths, int count, BitArray *touchedCellIndexes) {
     int i;
+
     for(i=0; i<count; i++) {
-        
-        #ifndef NDEBUG
-        printf("TARGET %d ----\n", targets[i]);
-        #endif
-
-        doStimulateCell(targets[i], strengths[i], touchedCellIndexes);
-
-        #ifndef NDEBUG
-        printf("TARGET %d DONE\n", targets[i]);
-        #endif
+        bitarray_writeBit(touchedCellIndexes, targets[i], on);
     }
-
-    for(i=0; i<NUM_CELLS; i++) {
-        if(bitarray_valueOf(touchedCellIndexes, i) == on) {
-            doCellBehaviourAndLogic(i);
-        }
-    }
-
-    bitarray_destroy(touchedCellIndexes);
-
-}
-
-void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) {
-    BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
-
-    int i;
 
     //  Step 1:  Determine all cells to which at least one of the target cells is connected
     int totalOutputCount = 0;
@@ -182,6 +155,28 @@ void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) 
     }
 
     int numEndpoints = bitarray_countOn(presentConnections, NUM_CELLS);
+
+    if(numEndpoints == 0) {
+
+        #ifndef NDEBUG
+        printf("Reached end of recursive feedforward stim\n");
+        #endif
+
+        for(i=0; i<count; i++){
+
+            #ifndef NDEBUG
+            printf("(%d)  (feedfwd final) %d -> %f\n", i, targets[i], strengths[i]);
+            #endif
+
+            tissue_state_updateOutputToCell(targets[i], strengths[i]);
+        }
+
+        bitarray_destroy(presentConnections);
+
+        return;
+
+    }
+
     int * endpointIndexes = bitarray_indexesTurnedOn(presentConnections, NUM_CELLS);
 
     //  Step 2:  Create weight matrix
@@ -229,14 +224,57 @@ void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) 
 
     #endif
 
-    for(outputCellIndex=0; outputCellIndex<numEndpoints; outputCellIndex++){
-        tissue_state_updateOutputToCell(endpointIndexes[outputCellIndex], outputs[outputCellIndex]);
+    //  Step 5:  Continue to stimulate next layer
+    doMatrixFeedforwardStim(endpointIndexes, outputs, numEndpoints, touchedCellIndexes);
+
+    //  Step 6:  Memory cleanup
+    bitarray_destroy(presentConnections);
+    free(endpointIndexes);
+
+    
+}
+
+void cells_stimulate(int * targets, double * strengths, int count) {
+    
+    BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
+
+    int i;
+    for(i=0; i<count; i++) {
+        
+        #ifndef NDEBUG
+        printf("TARGET %d ----\n", targets[i]);
+        #endif
+
+        doStimulateCell(targets[i], strengths[i], touchedCellIndexes);
+
+        #ifndef NDEBUG
+        printf("TARGET %d DONE\n", targets[i]);
+        #endif
     }
 
-    //  Step 5:  Memory cleanup
-    bitarray_destroy(presentConnections);
+    for(i=0; i<NUM_CELLS; i++) {
+        if(bitarray_valueOf(touchedCellIndexes, i) == on) {
+            doCellBehaviourAndLogic(i);
+        }
+    }
+
     bitarray_destroy(touchedCellIndexes);
-    free(endpointIndexes);
+
+}
+
+void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) {
+    BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
+
+    doMatrixFeedforwardStim(targets, strengths, count, touchedCellIndexes);
+
+    int i;
+    for(i=0; i<NUM_CELLS; i++) {
+        if(bitarray_valueOf(touchedCellIndexes, i) == on) {
+            doCellBehaviourAndLogic(i);
+        }
+    }
+
+    bitarray_destroy(touchedCellIndexes);
 
 }
 

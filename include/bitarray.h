@@ -41,7 +41,7 @@ BitArray * bitarray_create(int size) {
     //  Compute total ints required to cover the bits
     int numIntsReqd = (size / INT_SIZE_IN_BITS) + 1;
 
-    #ifndef NDEBUG
+    #ifdef TRACEDEBUG
     printf("Allocating bit array of %d ints for capacity of %d bits\n", numIntsReqd, size);
     #endif
 
@@ -57,7 +57,7 @@ BitArray * bitarray_create(int size) {
 void bitarray_destroy(BitArray *bitArray) {
 
     if(bitArray == NULL) {
-        #ifndef NDEBUG
+        #ifdef TRACEDEBUG
         printf("Cannot destroy null bit array.  Taking no action\n");
         #endif
         return;
@@ -72,10 +72,6 @@ int bitarray_valueOf(BitArray *bitArray, int position) {
     int index = position / INT_SIZE_IN_BITS;
     int positionInInt = position % INT_SIZE_IN_BITS;
 
-    #ifndef NDEBUG
-    printf("(bitarray at pos %d):  Interrogating integer at pos %d, raw=%d for bit at %d\n", position, index, bitArray->data[index], positionInInt);
-    #endif
-
     return ((bitArray->data[index] & (1 << positionInInt))) != 0 ? on : off;
 
 }
@@ -85,12 +81,16 @@ int bitarray_countOn(BitArray *bitArray, int inFirstNPositions) {
     int i;
     for(i=0; i<inFirstNPositions; i++) {
         if(bitarray_valueOf(bitArray, i) == on) {
+            #ifdef TRACEDEBUG
             printf("[BITARRAY]  Found VAL at %d\n", i);
+            #endif
             count ++;
         }
     }
 
+    #ifdef TRACEDEBUG
     printf("[BITARRAY]  total on=%d\n", count);
+    #endif
 
     return count;
 }
