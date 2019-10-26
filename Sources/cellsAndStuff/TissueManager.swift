@@ -37,4 +37,8 @@ public class TissueManager {
         
     }
 
+    public func feedforwardStimulate(cellIndexes indexes: UnsafeMutablePointer<Int32>, strengths: UnsafeMutablePointer<Double>, count: Int32) {
+        cCellsAndStuff.swift_cells_matrix_feedfoward_stim(indexes, strengths, count)
+    }
+
 }

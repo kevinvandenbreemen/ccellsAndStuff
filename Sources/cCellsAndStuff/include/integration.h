@@ -35,5 +35,6 @@ void swift_cellTypes_setBehaviourForCellType(int cellType, CellTypeBehaviour *be
 
 //  Network Stimulation
 void swift_cells_stimulate(int * targets, double * strengths, int count);
+void swift_cells_matrix_feedfoward_stim(int * targets, double * strengths, int count);
 
 #endif
