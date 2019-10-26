@@ -33,13 +33,7 @@ public class TissueManager {
 
     public func stimulate(cellIndexes indexes: UnsafeMutablePointer<Int32>, strengths: UnsafeMutablePointer<Double>, count: Int32) {
 
-        print("This method still to be implemented.  Data input appears to be:")
-
-        for i in 0..<count {
-            print("target \((indexes+Int(i)).pointee) -> str=\((strengths+Int(i)).pointee)")
-        }
-
-        //cCellsAndStuff.swift_cells_stimulate(indexes, strengths, count)
+        cCellsAndStuff.swift_cells_stimulate(indexes, strengths, count)
         
     }
 

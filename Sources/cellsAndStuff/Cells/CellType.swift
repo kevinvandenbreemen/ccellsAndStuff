@@ -85,6 +85,7 @@ extension CellType {
         )
 
         self.setBehaviour(to: &behaviour)
+        CellTypeLogicRegistry.registerCellTypeLogic(cellTypeID: self.id, logic: logic);
 
     }
 

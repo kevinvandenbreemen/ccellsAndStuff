@@ -26,7 +26,9 @@ int swift_tissue_getCellType(int index) {
     return tissue_getCellType(index);
 }
 void swift_cellTypes_setBehaviourForCellType(int cellType, CellTypeBehaviour *behaviour) {
-    cellTypeBehaviours[cellType] = *behaviour;
+    cellTypes_setOutputStrengthCalc(cellType, behaviour->getOutputStrength);
+    cellTypes_setCellLogicForIncomingConnections(cellType, behaviour->processIncomingConnections);
+    cellTypes_setCellLogicForOutgoingConnections(cellType, behaviour->processOutgoingConnections);
 }
 
 //  Network stimulation
