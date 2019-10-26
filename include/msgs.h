@@ -33,7 +33,7 @@ double * cells_rawOutput(int inputCellIndex, double inputStrength) {
     CellTypeBehaviour * behaviour = cellTypes_behaviourFor(tissue_getCellType(inputCellIndex));
 
     for(i=0; i<size; i++) {
-        ret[i] = behaviour->getOutputStrength(inputStrength, ret[i]);
+        ret[i] = behaviour->getOutputStrength(tissue_getCellType(inputCellIndex), inputStrength, ret[i]);
     }
 
     return ret;
@@ -60,7 +60,7 @@ static void doCellBehaviourAndLogic(int cellIndex) {
                 strengths[i] = cells_strengthOfConnection(indexesOfIncomingConnections[i], cellIndex);
             }
 
-            behaviour->processIncomingConnections(count, cellIndex, indexesOfIncomingConnections, strengths);
+            behaviour->processIncomingConnections(tissue_getCellType(cellIndex), count, cellIndex, indexesOfIncomingConnections, strengths);
 
             free(indexesOfIncomingConnections);
             free(strengths);
@@ -88,7 +88,7 @@ static void doCellBehaviourAndLogic(int cellIndex) {
                 strengths[i] = cells_strengthOfConnection(cellIndex, indexesOfOutgoingConnections[i]);
             }
 
-            behaviour->processOutgoingConnections(count, cellIndex, indexesOfOutgoingConnections, strengths);
+            behaviour->processOutgoingConnections(tissue_getCellType(cellIndex), count, cellIndex, indexesOfOutgoingConnections, strengths);
 
             free(indexesOfOutgoingConnections);
             free(strengths);

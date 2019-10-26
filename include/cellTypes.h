@@ -24,11 +24,11 @@ static void reinitCellTypesProcessingMaps() {
  */
 typedef struct CellTypeBehaviour {
 
-    double (*getOutputStrength)(double inputStrength, double outgoingConnectionStrength);
+    double (*getOutputStrength)(int cellType, double inputStrength, double outgoingConnectionStrength);
 
-    void (*processIncomingConnections)(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths);
+    void (*processIncomingConnections)(int cellType, int size, int cellIndex, int * incomingIndexes, double * incomingStrengths);
 
-    void (*processOutgoingConnections)(int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths);
+    void (*processOutgoingConnections)(int cellType, int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths);
 
 } CellTypeBehaviour;
 
@@ -46,8 +46,8 @@ void cellTypes_AllocateCellTypeBehaviours() {
     reinitCellTypesProcessingMaps();
 }
 
-void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(double inputStrength, double outgoingConnectionStrength));
-void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(double inputStrength, double outgoingConnectionStrength)) {
+void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(int cellType, double inputStrength, double outgoingConnectionStrength));
+void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(int cellType, double inputStrength, double outgoingConnectionStrength)) {
     (cellTypeBehaviours[cellType]).getOutputStrength = getOutputStrength;
 }
 
@@ -66,8 +66,8 @@ void cellTypes_InitializeDefaultCellTypeBehaviours() {
 
 
 
-void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths));
-void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths)){
+void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(int cellType, int size, int cellIndex, int * incomingIndexes, double * incomingStrengths));
+void cellTypes_setCellLogicForIncomingConnections(int cellType, void (*logic)(int cellType, int size, int cellIndex, int * incomingIndexes, double * incomingStrengths)){
     (cellTypeBehaviours[cellType]).processIncomingConnections = logic;
     bitarray_writeBit(cellTypesWithProcessIncomingConnections, cellType, 1);
 }
@@ -80,8 +80,8 @@ int cellTypes_existsLogicForIncomingConnectionsForCellType(int cellType) {
     return 0;
 }
 
-void cellTypes_setCellLogicForOutgoingConnections(int cellType, void (*logic)(int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths));
-void cellTypes_setCellLogicForOutgoingConnections(int cellType, void (*logic)(int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths)) {
+void cellTypes_setCellLogicForOutgoingConnections(int cellType, void (*logic)(int cellType, int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths));
+void cellTypes_setCellLogicForOutgoingConnections(int cellType, void (*logic)(int cellType, int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths)) {
     (cellTypeBehaviours[cellType]).processOutgoingConnections = logic;
     bitarray_writeBit(cellTypesWithProcessOutgoingConnections, cellType, 1);
 }

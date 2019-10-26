@@ -33,7 +33,7 @@ START_TEST(get_default_cell_type_behaviours) {
     CellTypeBehaviour *basicCellTypeBehaviour = cellTypes_behaviourFor(CELL_TYPE_BASIC);
 
     fail_if(basicCellTypeBehaviour == NULL, "System should have initialized 'basic' cell type behaviour");
-    double outputStrength = basicCellTypeBehaviour->getOutputStrength(0.5, 0.5);
+    double outputStrength = basicCellTypeBehaviour->getOutputStrength(0, 0.5, 0.5);
     fail_unless(outputStrength == 0.5, "Output Strength should be base input strength * output connection strength");
 
     basicCellTypeBehaviour = cellTypes_behaviourFor(CELL_TYPE_INHIB);
@@ -49,7 +49,7 @@ int signalIncoming_size;
 int signalIncoming_cellIndex;
 int * signalIncoming_incomingIndexes;
 double * signalIncoming_incomingStrengths;
-static void test_signalIncomingConnections(int size, int cellIndex, int * incomingIndexes, double * incomingStrengths) {
+static void test_signalIncomingConnections(int cellType, int size, int cellIndex, int * incomingIndexes, double * incomingStrengths) {
     if(cellIndex != expectedIndex){
         return;
     }
@@ -76,7 +76,7 @@ int signalOutgoing_size;
 int signalOutgoing_cellIndex;
 int * signalOutgoing_outgoingIndexes;
 double * signalOugtoing_outgoingStrengths;
-static void test_signalOutgoingConnections(int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths) {
+static void test_signalOutgoingConnections(int cellType, int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths) {
     if(cellIndex != expectedIndex){
         printf("NOT %d but is %d, so can't do outgoing\n", expectedIndex, cellIndex);
         return;
