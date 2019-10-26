@@ -1,5 +1,5 @@
 import XCTest
-@testable import cellsAndStuff
+import cellsAndStuff
 
 final class cellsAndStuffTests: XCTestCase {
     func testCCodebaseVersion() {

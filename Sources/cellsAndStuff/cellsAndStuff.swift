@@ -1,7 +1,12 @@
 import cCellsAndStuff
 
+/**
+ * Version and about details for the swift interface to the cells and stuff C lib
+ */
 public struct CellsAndStuffSystemAbout {
     
+    public init(){}
+
     public func versionNum() -> String {
         let majorVer = cCellsAndStuff.majorVersion()
         let minorVer = cCellsAndStuff.minorVersion()
