@@ -25,6 +25,9 @@ int swift_cells_connectDirected(int from, int to, double strength) {
 int swift_tissue_getCellType(int index) {
     return tissue_getCellType(index);
 }
+void swift_cellTypes_setBehaviourForCellType(int cellType, CellTypeBehaviour *behaviour) {
+    cellTypeBehaviours[cellType] = *behaviour;
+}
 
 //  Network stimulation
 void swift_cells_stimulate(int * targets, double * strengths, int count) {

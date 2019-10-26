@@ -28,6 +28,11 @@ int swift_cells_connectDirected(int from, int to, double strength);
 //  Cell Types
 int swift_tissue_getCellType(int index);
 
+/**
+ * Configures the behaviour for a given cell type to the given CellTypeBehaviour
+ */
+void swift_cellTypes_setBehaviourForCellType(int cellType, CellTypeBehaviour *behaviour);
+
 //  Network Stimulation
 void swift_cells_stimulate(int * targets, double * strengths, int count);
 
