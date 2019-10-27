@@ -3,6 +3,10 @@ import cCellsAndStuff
 public class TissueManager {
 
     private let cellTypes: CellTypes
+
+    public static func resetTissue() {
+        cCellsAndStuff.swift_tissue_resetAll();
+    }
     
     public init(cellTypes: CellTypes = DefaultCellTypesProvider()) {
         self.cellTypes = cellTypes

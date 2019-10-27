@@ -50,9 +50,13 @@ class TissueTests: XCTestCase {
 
     func testFeedforwardStimulatingTheNetwork() {
         let tissueManager = TissueManager()
+
+        TissueManager.resetTissue()
+
         tissueManager.connectCell(from: 0, to: 3, strength: 0.5)
-        tissueManager.connectCell(from: 1, to: 3, strength: 0.6)
-        tissueManager.connectCell(from: 2, to: 3, strength: 0.99)
+        tissueManager.connectCell(from: 1, to: 4, strength: 0.5)
+        tissueManager.connectCell(from: 3, to: 5, strength: 0.99)
+        tissueManager.connectCell(from: 4, to: 5, strength: -0.98)
 
         let cell = tissueManager.cell(at: 0)!
 
@@ -68,6 +72,26 @@ class TissueTests: XCTestCase {
 
         XCTAssertFalse(loggingLogic.incomingConnectionStateCalls.isEmpty, "System callback integration expected")
         XCTAssertFalse(loggingLogic.outgoingConnectionStateCalls.isEmpty, "System callback integration expected")
+
+        //  Validate connection logic
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls.count, 3)
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].index, 3)
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[1].index, 4)
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].index, 5)
+
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].incomingIndexes, [0])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[1].incomingIndexes, [1])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].incomingIndexes, [3, 4])
+
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].incomingStrengths, [0.5])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[1].incomingStrengths, [0.5])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].incomingStrengths, [0.99, -0.98])
+
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls.count, 3)
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].index, 0)
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].index, 1)
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].index, 3)
+
 
     }
 

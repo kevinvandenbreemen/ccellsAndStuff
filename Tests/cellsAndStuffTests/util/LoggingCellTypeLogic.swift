@@ -16,12 +16,12 @@ class LoggingCellTypeLogic: CellTypeLogic {
     }
 
     func handleIncomingConnectionState(cellIndex index: Int32, incomingIndexes: [Int32], incomingStrengths: [Double]) {
-        print("Incoming state update for idx=\(index)\nIndxs:  \(incomingIndexes)\nstrs:\(incomingStrengths)")
+        print("Incoming state update for idx=\(index)\nIndxs:  \(incomingIndexes)\tstrs:\(incomingStrengths)")
         incomingConnectionStateCalls.append((index: index, incomingIndexes: incomingIndexes, incomingStrengths: incomingStrengths))
     }
 
     func handleOutgoingConnectionState(cellIndex index: Int32, outgoingIndexes: [Int32], outgoingStrengths: [Double]) {
-        print("Outgoing state update for idx=\(index)\nIndxs:  \(outgoingIndexes)\nstrs:\(outgoingStrengths)")
+        print("Outgoing state update for idx=\(index)\nIndxs:  \(outgoingIndexes)\tstrs:\(outgoingStrengths)")
         outgoingConnectionStateCalls.append((index: index, outgoingIndexes: outgoingIndexes, outgoingStrengths: outgoingStrengths))
     }
 

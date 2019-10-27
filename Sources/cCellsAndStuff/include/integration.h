@@ -38,4 +38,7 @@ void swift_cellTypes_setBehaviourForCellType(int cellType, CellTypeBehaviour *be
 void swift_cells_stimulate(int * targets, double * strengths, int count);
 void swift_cells_matrix_feedfoward_stim(int * targets, double * strengths, int count);
 
+//  Main Driver
+void swift_tissue_resetAll();
+
 #endif
