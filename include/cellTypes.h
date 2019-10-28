@@ -27,10 +27,20 @@ static void reinitCellTypesProcessingMaps() {
  */
 typedef struct CellTypeBehaviour {
 
+    /**
+     * Given a single input to this neuron and its calculated output connection strength, determines
+     * most appropriate output strength to send to its connected neuron
+     */
     double (*getOutputStrength)(int cellType, double inputStrength, double outgoingConnectionStrength);
 
+    /**
+     * Cell at the specific index must decide on modifications to make to its incoming connections
+     */
     void (*processIncomingConnections)(int cellType, int size, int cellIndex, int * incomingIndexes, double * incomingStrengths);
 
+    /**
+     * Cell at specific index must decide on modifications to make to its outgoing connections
+     */
     void (*processOutgoingConnections)(int cellType, int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths);
 
 } CellTypeBehaviour;
