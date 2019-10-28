@@ -160,7 +160,7 @@ START_TEST(process_incoming_cell_connections_during_feedforward) {
     int targets[] = {0, 1};
     double strengths[] = {1.0, 1.0};
     int count = 2;
-    cells_matrix_feedfoward_stim(targets, strengths, count);
+    cells_matrix_feedforward_stim(targets, strengths, count);
 
     //  Assert
     fail_unless(signalIncoming_size == 2, "System should have alerted cells to conduct operations - size=%d", signalIncoming_size);
@@ -173,6 +173,52 @@ START_TEST(process_incoming_cell_connections_during_feedforward) {
 
 
 } END_TEST
+
+TissueState *capturedState;
+void captureTissueStateUpdate(TissueState * state) {
+    capturedState = state;
+}
+
+START_TEST(send_state_to_listener_on_complete) {
+    //  Arrange
+    tissue_setOnStateUpdate(*captureTissueStateUpdate);
+
+    tissue_initializeDefaultTissue();
+
+    cells_connectDirected(10, 5, 1.0);
+    cells_connectDirected(11, 6, 1.5);
+    cells_connectDirected(5, 2, 1.0);
+    cells_connectDirected(6, 3, 0.3);
+    cells_connectDirected(5, 7, 0.5);
+
+    //  Act
+    int targets[] = {10, 11};
+    double strengths[] = {1.0, 1.0};
+    int count = 2;
+    cells_matrix_feedforward_stim(targets, strengths, count);
+
+    //  Assert
+    TissueState * state = capturedState;
+    fail_if(state == NULL, "System should have sent back state data");
+    fail_unless(state->outputCount == 3, "3 outputs expected");
+
+    int * destIndexes = state->outputIndices;
+    double * destStrengths = state->outputStrengths;
+
+    fail_unless(destIndexes[0] == 2);
+    fail_unless(destIndexes[1] == 3);
+    fail_unless(destIndexes[2] == 7);
+
+    int i;
+    for(int i=0; i<3; i++) {
+        printf("WTF strength of %d = %f\n", destIndexes[i], destStrengths[i]);
+    }
+
+    fail_unless(destStrengths[0] == 1.0);
+    fail_unless(destStrengths[2] == 0.5);
+
+}
+END_TEST
 
 START_TEST (tissue_reset) {
     tissue_initializeDefaultTissue();
@@ -205,6 +251,7 @@ void tissue_tests_addToSuite(Suite *suite) {
     tcase_add_test(tissueTests, process_outgoing_cell_connections_during_network_stim);
     tcase_add_test(tissueTests, process_incoming_cell_connections_during_feedforward);
     tcase_add_test(tissueTests, tissue_reset);
+    tcase_add_test(tissueTests, send_state_to_listener_on_complete);
 
     suite_add_tcase(suite, tissueTests);
 }

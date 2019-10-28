@@ -37,7 +37,7 @@ void swift_cells_stimulate(int * targets, double * strengths, int count) {
 }
 
 void swift_cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) {
-    cells_matrix_feedfoward_stim(targets, strengths, count);
+    cells_matrix_feedforward_stim(targets, strengths, count);
 }
 
 //  Driver

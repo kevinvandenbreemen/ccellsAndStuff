@@ -75,6 +75,19 @@ TissueState * tissue_getState() {
 
 }
 
+static void (*onUpdateStateCallback)(TissueState * state);
+static int updateCallbackRegistered = 0;
+void tissue_registerStateUpdateListener(void (*onStateUpdate)(TissueState * state)) {
+    onUpdateStateCallback = onStateUpdate;
+    updateCallbackRegistered = 1;
+}
+
+void tissue_pushState() {
+    if(updateCallbackRegistered) {
+        onUpdateStateCallback(tissue_getState());
+    }
+}
+
 void tissue_state_updateOutputToCell(int index, double strength) {
     
     TissueState * state = _getState(0);

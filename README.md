@@ -47,6 +47,15 @@ Before you can use the library you must initialize a tissue.  The library provid
     cells_stimulate(targets, strengths, count);
 ```
 
+## Feedforward Stimulation
+You can use the tissue like a feedforward neural network by calling 
+
+```
+cells_matrix_feedforward_stim(int * targets, double * strengths, int count)
+```
+
+This function will take the target cells you picked, determine all of the endpoints of those cells, and build an adjacency matrix (weight matrix), sending your data.  If the endpoints themselves have connections the function will then propagate the signal forward to those endpoints as well.
+
 ## Getting Output from the Network
 
 ```
@@ -58,6 +67,13 @@ Before you can use the library you must initialize a tissue.  The library provid
 ```
 
 The state.outputIndices indicates the final cells that received output from your input.  The output strengths are the actual strengths of output at each index
+
+### Output Callbacks
+If you wish to program using callbacks instead of explicitly requesting the states, you can call 
+
+```
+tissue_setOnStateUpdate(void (*onStateUpdate)(TissueState * state) )
+```
 
 ## Tying it All Together
 

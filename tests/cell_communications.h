@@ -63,7 +63,7 @@ START_TEST(feedfoward_stimulation) {
     int targets[] = {0, 1};
     double strengths[] = {1.0, 1.0};
     int count = 2;
-    cells_matrix_feedfoward_stim(targets, strengths, count);
+    cells_matrix_feedforward_stim(targets, strengths, count);
 
     //  Assert
     TissueState * state = tissue_getState();
@@ -97,7 +97,7 @@ START_TEST(feedfoward_stimulation_multilayer) {
     int targets[] = {10, 11};
     double strengths[] = {1.0, 1.0};
     int count = 2;
-    cells_matrix_feedfoward_stim(targets, strengths, count);
+    cells_matrix_feedforward_stim(targets, strengths, count);
 
     //  Assert
     TissueState * state = tissue_getState();

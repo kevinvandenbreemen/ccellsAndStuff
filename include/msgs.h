@@ -13,7 +13,7 @@ void cells_stimulate(int * targets, double * strengths, int count);
 /**
  * Stimulate the network using feed-forward stimulation via layer connection matrices
  */
-void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count);
+void cells_matrix_feedforward_stim(int * targets, double * strengths, int count);
 
 double * cells_rawOutput(int inputCellIndex, double inputStrength) {
 
@@ -264,7 +264,7 @@ void cells_stimulate(int * targets, double * strengths, int count) {
 
 }
 
-void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) {
+void cells_matrix_feedforward_stim(int * targets, double * strengths, int count) {
     BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
 
     doMatrixFeedforwardStim(targets, strengths, count, touchedCellIndexes);
@@ -277,6 +277,8 @@ void cells_matrix_feedfoward_stim(int * targets, double * strengths, int count) 
     }
 
     bitarray_destroy(touchedCellIndexes);
+
+    tissue_pushState();
 
 }
 

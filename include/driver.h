@@ -23,4 +23,9 @@ void tissue_resetAll(){
     cellTypes_AllocateCellTypeBehaviours();
 }
 
+void tissue_setOnStateUpdate(void (*onStateUpdate)(TissueState * state) );
+void tissue_setOnStateUpdate(void (*onStateUpdate)(TissueState * state) ) {
+    tissue_registerStateUpdateListener(onStateUpdate);
+}
+
 #endif
