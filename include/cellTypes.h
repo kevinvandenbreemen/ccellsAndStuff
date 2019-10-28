@@ -50,7 +50,7 @@ typedef struct CellTypeBehaviour {
      * Given a weighted input sum (for example in a feedforward network) calculates the correct activation (to be used as output)
      * for the cell of the given type
      */
-    double (*calculateActivation)(double weightedInputSum);
+    double (*calculateActivation)(int cellType, double weightedInputSum);
 
 } CellTypeBehaviour;
 
@@ -74,8 +74,8 @@ void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(i
     bitarray_writeBit(cellTypesWithStrengthCalculation, cellType, on);
 }
 
-void cellTypes_setActivationCalculation(int cellType, double (*activationFunction)(double weightInputSum));
-void cellTypes_setActivationCalculation(int cellType, double (*activationFunction)(double weightInputSum)) {
+void cellTypes_setActivationCalculation(int cellType, double (*activationFunction)(int cellType, double weightInputSum));
+void cellTypes_setActivationCalculation(int cellType, double (*activationFunction)(int cellType, double weightInputSum)) {
     (cellTypeBehaviours[cellType]).calculateActivation = activationFunction;
     bitarray_writeBit(cellTypesWithActivationFunctions, cellType, on);
 }

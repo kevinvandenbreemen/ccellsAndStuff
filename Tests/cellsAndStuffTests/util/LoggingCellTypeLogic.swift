@@ -25,4 +25,8 @@ class LoggingCellTypeLogic: CellTypeLogic {
         outgoingConnectionStateCalls.append((index: index, outgoingIndexes: outgoingIndexes, outgoingStrengths: outgoingStrengths))
     }
 
+    func calculateActivation(weightedInputSum: Double) -> Double {
+        return weightedInputSum
+    }
+
 }

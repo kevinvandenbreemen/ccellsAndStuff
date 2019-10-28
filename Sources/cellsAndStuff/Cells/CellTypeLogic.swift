@@ -22,5 +22,6 @@ public protocol CellTypeLogic {
     func computeOutputStrength(givenInput input: Double, givenOutputSum output: Double) -> Double
     func handleIncomingConnectionState(cellIndex index: Int32, incomingIndexes: [Int32], incomingStrengths: [Double])
     func handleOutgoingConnectionState(cellIndex index: Int32, outgoingIndexes: [Int32], outgoingStrengths: [Double])
+    func calculateActivation(weightedInputSum: Double) -> Double
 
 }

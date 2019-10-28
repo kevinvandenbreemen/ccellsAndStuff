@@ -81,6 +81,15 @@ extension CellType {
                 logic.handleOutgoingConnectionState(cellIndex: cellIndex, outgoingIndexes: outgoingCellIndexes, 
                     outgoingStrengths: outgoingConnectionStrengths
                 )
+            },
+
+            calculateActivation: { cellType, weightedInputSum in
+
+                guard let logic = CellTypeLogicRegistry.getLogic(for: cellType)  else {
+                    return weightedInputSum
+                }
+
+                return logic.calculateActivation(weightedInputSum: weightedInputSum)
             }
         )
 

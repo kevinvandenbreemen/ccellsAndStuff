@@ -8,6 +8,7 @@ OUTPUT_DIR = ./bin
 C_SRC_DIR = ./include
 SWFT_SRC_C_DIR = ./Sources/cCellsAndStuff/include
 REQUIRED_PKG_CHECK = libsubunit
+LINKER_FLAGS = -lm
 
 .PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug checkValgrind buildPerfTest checkMemoryLeaks pipeLine swiftClean swiftBuild swiftTest
 
@@ -18,7 +19,7 @@ setup:
 	mkdir $(OUTPUT_DIR)
 
 build: cleanup setup
-	gcc -Wall -o $(OUTPUT_DIR)/run $(MAIN_FILE)
+	gcc -Wall -o $(OUTPUT_DIR)/run $(MAIN_FILE) $(LINKER_FLAGS)
 
 run: build
 	$(OUTPUT_DIR)/run
@@ -39,7 +40,7 @@ debug: buildDebugSymbols
 	gdb $(OUTPUT_DIR)/run
 
 buildPerfTest:
-	gcc -Wall -DNDEBUG -g -o $(OUTPUT_DIR)/run $(PERF_FILE)
+	gcc -Wall -DNDEBUG -g -o $(OUTPUT_DIR)/run $(PERF_FILE)  $(LINKER_FLAGS)
 
 checkValgrind:
 	ls /usr/bin/valgrind && echo "Valgrind found"

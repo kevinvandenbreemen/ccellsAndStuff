@@ -217,7 +217,7 @@ static void doMatrixFeedforwardStim(int * targets, double * strengths, int count
     for(outputCellIndex=0; outputCellIndex<numEndpoints; outputCellIndex++) {
         int cellType = tissue_getCellType(endpointIndexes[outputCellIndex]);
         if(cellTypes_existsActivationFunction(cellType)) {
-            outputs[outputCellIndex] = cellTypes_behaviourFor(cellType)->calculateActivation(outputs[outputCellIndex]);
+            outputs[outputCellIndex] = cellTypes_behaviourFor(cellType)->calculateActivation(cellType, outputs[outputCellIndex]);
         }
     }
 
