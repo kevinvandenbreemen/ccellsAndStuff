@@ -1,6 +1,38 @@
 # ccellsAndStuff
 Simple C programming project to play with arrays
 
+# Table of Contents
+<!-- TOC -->
+
+- [ccellsAndStuff](#ccellsandstuff)
+- [Table of Contents](#table-of-contents)
+- [Setup](#setup)
+  - [Building](#building)
+  - [Unit Tests](#unit-tests)
+    - [Further help on "check" library](#further-help-on-%22check%22-library)
+  - [Regression](#regression)
+- [Getting Started](#getting-started)
+  - [Setting up the Tissue](#setting-up-the-tissue)
+  - [Connecting Two Cells with Strength](#connecting-two-cells-with-strength)
+  - [Sending a Pulse Through the Network](#sending-a-pulse-through-the-network)
+  - [Feedforward Stimulation](#feedforward-stimulation)
+    - [Output Activations](#output-activations)
+      - [Built-in Activation Functions](#built-in-activation-functions)
+  - [Getting Output from the Network](#getting-output-from-the-network)
+    - [Output Callbacks](#output-callbacks)
+  - [Tying it All Together](#tying-it-all-together)
+  - [Some Approaches to Learning](#some-approaches-to-learning)
+- [Data Structure](#data-structure)
+  - [Over-arching](#over-arching)
+- [Swift API](#swift-api)
+  - [Getting Started](#getting-started-1)
+    - [Simple Network Setup + Feedforward Stimulation](#simple-network-setup--feedforward-stimulation)
+    - [Interacting with the Tissue](#interacting-with-the-tissue)
+    - [Connecting Cells](#connecting-cells)
+  - [Architecture](#architecture)
+
+<!-- /TOC -->
+
 # Setup
 
 ## Building
@@ -145,6 +177,51 @@ to method
 ![Graph Structure](./docs/res/cCellsAndStuff.svg)
 
 # Swift API
+
+## Getting Started
+I have built a layer of Swift on top of the projet in order to allow for a supply of Swift Linux coding training opportunities.
+
+### Simple Network Setup + Feedforward Stimulation
+
+### Interacting with the Tissue
+You can use the TissueManager to set up cell connections, re-initialize, etc, the tissue.
+
+### Connecting Cells
+You can connect cells using the TissueManager.connectCell() method
+
+
+
+```
+        let tissueManager = TissueManager()
+
+        TissueManager.resetTissue()
+
+        tissueManager.connectCell(from: 0, to: 3, strength: 0.5)
+        tissueManager.connectCell(from: 1, to: 4, strength: 0.5)
+        tissueManager.connectCell(from: 3, to: 5, strength: 0.99)
+        tissueManager.connectCell(from: 4, to: 5, strength: -0.98)
+
+        let cell = tissueManager.cell(at: 0)!
+
+        let loggingLogic = LoggingCellTypeLogic()
+
+        cell.type.setLogic(to: loggingLogic)
+
+        var targets: [Int32] = [0, 1, 2]
+
+        var strengths = [0.2, 0.9, 1.77722]
+
+        var callbackReceived = false
+        tissueManager.setTissueStateCallback { state in 
+            callbackReceived = true
+
+            print("Callback received:  Data:  \(state.outputIndexes), \(state.outputStrengths)")
+
+        }
+
+        tissueManager.feedforwardStimulate(cellIndexes: &targets[0], strengths: &strengths[0], count: Int32(targets.count))
+
+```
 
 ## Architecture
 
