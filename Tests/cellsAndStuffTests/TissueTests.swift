@@ -92,7 +92,13 @@ class TissueTests: XCTestCase {
         XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].index, 1)
         XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].index, 3)
 
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].outgoingStrengths, [0.5])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].outgoingStrengths, [0.5])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].outgoingStrengths, [0.99])
 
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].outgoingIndexes, [3])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].outgoingIndexes, [4])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].outgoingIndexes, [5])
     }
 
 }
