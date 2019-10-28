@@ -27,6 +27,10 @@ static TissueState * _getState(int reset) {
 
     static TissueState state;
     if(initd == 0 || reset == 1) {
+
+        free(state.outputIndices);
+        free(state.outputStrengths);
+
         state.outputCount = 0;
         state.outputIndices = malloc(sizeof(int));
         state.outputStrengths = malloc(sizeof(double));

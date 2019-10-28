@@ -68,6 +68,8 @@ This function will take the target cells you picked, determine all of the endpoi
 
 The state.outputIndices indicates the final cells that received output from your input.  The output strengths are the actual strengths of output at each index
 
+**Important Note**:  You will want to get the state before your next call to either cells_stimulate() or cells_matrix_feedforward_stim(), as these methods will reset the tissue state before they execute.
+
 ### Output Callbacks
 If you wish to program using callbacks instead of explicitly requesting the states, you can call 
 

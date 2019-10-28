@@ -237,6 +237,9 @@ static void doMatrixFeedforwardStim(int * targets, double * strengths, int count
 }
 
 void cells_stimulate(int * targets, double * strengths, int count) {
+
+    //  Reset state before doing any computation
+    _getState(1);
     
     BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
 
@@ -265,6 +268,10 @@ void cells_stimulate(int * targets, double * strengths, int count) {
 }
 
 void cells_matrix_feedforward_stim(int * targets, double * strengths, int count) {
+
+    //  Reset state before doing any computation
+    _getState(1);
+
     BitArray *touchedCellIndexes = bitarray_create(NUM_CELLS);
 
     doMatrixFeedforwardStim(targets, strengths, count, touchedCellIndexes);
