@@ -11,15 +11,18 @@
 static BitArray *cellTypesWithProcessIncomingConnections;
 static BitArray *cellTypesWithProcessOutgoingConnections;
 static BitArray *cellTypesWithStrengthCalculation;
+static BitArray *cellTypesWithActivationFunctions;
 
 static void reinitCellTypesProcessingMaps() {
     bitarray_destroy(cellTypesWithProcessIncomingConnections);
     bitarray_destroy(cellTypesWithProcessOutgoingConnections);
     bitarray_destroy(cellTypesWithStrengthCalculation);
+    bitarray_destroy(cellTypesWithActivationFunctions);
 
     cellTypesWithProcessIncomingConnections = bitarray_create(MAX_CELL_TYPES);
     cellTypesWithProcessOutgoingConnections = bitarray_create(MAX_CELL_TYPES);
     cellTypesWithStrengthCalculation = bitarray_create(MAX_CELL_TYPES);
+    cellTypesWithActivationFunctions = bitarray_create(MAX_CELL_TYPES);
 }
 
 /**
@@ -43,6 +46,12 @@ typedef struct CellTypeBehaviour {
      */
     void (*processOutgoingConnections)(int cellType, int size, int cellIndex, int * outgoingIndexes, double * outgoingStrengths);
 
+    /**
+     * Given a weighted input sum (for example in a feedforward network) calculates the correct activation (to be used as output)
+     * for the cell of the given type
+     */
+    double (*calculateActivation)(double weightedInputSum);
+
 } CellTypeBehaviour;
 
 CellTypeBehaviour *cellTypeBehaviours;
@@ -63,6 +72,12 @@ void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(i
 void cellTypes_setOutputStrengthCalc(int cellType, double (*getOutputStrength)(int cellType, double inputStrength, double outgoingConnectionStrength)) {
     (cellTypeBehaviours[cellType]).getOutputStrength = getOutputStrength;
     bitarray_writeBit(cellTypesWithStrengthCalculation, cellType, on);
+}
+
+void cellTypes_setActivationCalculation(int cellType, double (*activationFunction)(double weightInputSum));
+void cellTypes_setActivationCalculation(int cellType, double (*activationFunction)(double weightInputSum)) {
+    (cellTypeBehaviours[cellType]).calculateActivation = activationFunction;
+    bitarray_writeBit(cellTypesWithActivationFunctions, cellType, on);
 }
 
 //  Configure default cell type behaviours
@@ -97,6 +112,14 @@ int cellTypes_existsLogicForIncomingConnectionsForCellType(int cellType) {
 int cellTypes_existsLogicForStrengthDetermination(int cellType);
 int cellTypes_existsLogicForStrengthDetermination(int cellType) {
     if(bitarray_valueOf(cellTypesWithStrengthCalculation, cellType) == on){
+        return 1;
+    }
+    return 0;
+}
+
+int cellTypes_existsActivationFunction(int cellType);
+int cellTypes_existsActivationFunction(int cellType) {
+    if(bitarray_valueOf(cellTypesWithActivationFunctions, cellType) == on) {
         return 1;
     }
     return 0;

@@ -213,7 +213,15 @@ static void doMatrixFeedforwardStim(int * targets, double * strengths, int count
         outputs[outputCellIndex] = result;
     }
 
-    //  Step 4:  Update network state
+    //  Step 4:  Calculate Neuronal activations
+    for(outputCellIndex=0; outputCellIndex<numEndpoints; outputCellIndex++) {
+        int cellType = tissue_getCellType(endpointIndexes[outputCellIndex]);
+        if(cellTypes_existsActivationFunction(cellType)) {
+            outputs[outputCellIndex] = cellTypes_behaviourFor(cellType)->calculateActivation(outputs[outputCellIndex]);
+        }
+    }
+
+    //  Step 5:  Update network state
 
     #ifndef NDEBUG
 
@@ -226,10 +234,10 @@ static void doMatrixFeedforwardStim(int * targets, double * strengths, int count
 
     #endif
 
-    //  Step 5:  Continue to stimulate next layer
+    //  Step 6:  Continue to stimulate next layer
     doMatrixFeedforwardStim(endpointIndexes, outputs, numEndpoints, touchedCellIndexes);
 
-    //  Step 6:  Memory cleanup
+    //  Step 7:  Memory cleanup
     bitarray_destroy(presentConnections);
     free(endpointIndexes);
 

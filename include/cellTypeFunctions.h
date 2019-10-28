@@ -11,4 +11,9 @@ double inhibitory_calculateOutputStrength(int cellType, double inputStrength, do
     return -1 * (inputStrength * rawOutputStrength);
 }
 
+double activationCalculation_sigmoid(double weightedSum) {
+    double exp_value = exp((double) -weightedSum);
+    return 1 / (1 + exp_value);
+}
+
 #endif

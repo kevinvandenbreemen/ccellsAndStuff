@@ -56,6 +56,20 @@ cells_matrix_feedforward_stim(int * targets, double * strengths, int count)
 
 This function will take the target cells you picked, determine all of the endpoints of those cells, and build an adjacency matrix (weight matrix), sending your data.  If the endpoints themselves have connections the function will then propagate the signal forward to those endpoints as well.
 
+### Output Activations
+By default neurons in the network will simply send whatever the sum total of their stimulation is.  This is intentional, as it allows for greater flexibility in how you choose to calculate outputs.
+
+You can have cells of a specific type calculate activation / output by calling
+
+```
+cellTypes_setActivationCalculation(int cellType, (*calculateActivation)(int cellType, double weightedInputSum))
+```
+
+#### Built-in Activation Functions
+You can find built-in functions in **celltypeFunctions.h**.  The following functions are provided.
+
+*activationCalculation_sigmoid* - Sigmoid Activation function using 1 / (1 + e^-x)
+
 ## Getting Output from the Network
 
 ```
