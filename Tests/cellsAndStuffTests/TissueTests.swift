@@ -7,6 +7,7 @@ class TissueTests: XCTestCase {
         ("Send Stimulation Into the Network", testStimulateTheNetwork),
         ("Receive callbacks after stimulation", testGetCallbackAfterStimulatingTheNetwork),
         ("Feedforward stimulation", testFeedforwardStimulatingTheNetwork),
+        ("Tissue State Callbacks", testReceiveTissueStateAfterNetworkStimulation),
     ]
 
     func testStimulateTheNetwork() {
@@ -99,6 +100,39 @@ class TissueTests: XCTestCase {
         XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].outgoingIndexes, [3])
         XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].outgoingIndexes, [4])
         XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].outgoingIndexes, [5])
+    }
+
+    func testReceiveTissueStateAfterNetworkStimulation() {
+        let tissueManager = TissueManager()
+
+        TissueManager.resetTissue()
+
+        tissueManager.connectCell(from: 0, to: 3, strength: 0.5)
+        tissueManager.connectCell(from: 1, to: 4, strength: 0.5)
+        tissueManager.connectCell(from: 3, to: 5, strength: 0.99)
+        tissueManager.connectCell(from: 4, to: 5, strength: -0.98)
+
+        let cell = tissueManager.cell(at: 0)!
+
+        let loggingLogic = LoggingCellTypeLogic()
+
+        cell.type.setLogic(to: loggingLogic)
+
+        var targets: [Int32] = [0, 1, 2]
+
+        var strengths = [0.2, 0.9, 1.77722]
+
+        var callbackReceived = false
+        tissueManager.setTissueStateCallback { state in 
+            callbackReceived = true
+
+            print("Callback received:  Data:  \(state.outputIndexes), \(state.outputStrengths)")
+
+        }
+
+        tissueManager.feedforwardStimulate(cellIndexes: &targets[0], strengths: &strengths[0], count: Int32(targets.count))
+
+        XCTAssertTrue(callbackReceived, "System should have returned tissue state after stimulation")
     }
 
 }

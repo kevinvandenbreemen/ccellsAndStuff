@@ -2,6 +2,30 @@ import cCellsAndStuff
 
 public class TissueManager {
 
+    private static var tissueStateCallback: (_ tissueState: CurrentTissueState) -> Void = {tissueState in 
+    }
+    private static var tissueStateCallbackFromC: TissueStateCallback = TissueStateCallback(
+        onStateUpdate: {(tissueState) in 
+            guard let tissueState = tissueState else {
+                return
+            }
+
+            let state = tissueState.pointee
+            guard let rawIndexes = state.outputIndices, let rawStrengths = state.outputStrengths else {
+                return
+            }
+
+            var outputIndexes: [Int32] = []
+            var outputStrengths: [Double] = []
+            for i in 0..<state.outputCount {
+                outputIndexes.append( (rawIndexes + Int(i)).pointee )
+                outputStrengths.append( (rawStrengths + Int(i)).pointee )
+            }
+
+            TissueManager.tissueStateCallback(CurrentTissueState(outputIndexes: outputIndexes, outputStrengths: outputStrengths))
+        }
+    )
+
     private let cellTypes: CellTypes
 
     public static func resetTissue() {
@@ -43,6 +67,11 @@ public class TissueManager {
 
     public func feedforwardStimulate(cellIndexes indexes: UnsafeMutablePointer<Int32>, strengths: UnsafeMutablePointer<Double>, count: Int32) {
         cCellsAndStuff.swift_cells_matrix_feedfoward_stim(indexes, strengths, count)
+    }
+
+    public func setTissueStateCallback(_ callback: @escaping (_ tissueState: CurrentTissueState) -> Void) {
+        TissueManager.tissueStateCallback = callback
+        cCellsAndStuff.swift_tissue_setOnStateUpdate(&TissueManager.tissueStateCallbackFromC)
     }
 
 }

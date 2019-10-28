@@ -44,3 +44,7 @@ void swift_cells_matrix_feedfoward_stim(int * targets, double * strengths, int c
 void swift_tissue_resetAll() {
     tissue_resetAll();
 }
+
+void swift_tissue_setOnStateUpdate(TissueStateCallback *callback) {
+    tissue_setOnStateUpdate(callback->onStateUpdate);
+}
