@@ -26,9 +26,12 @@ Simple C programming project to play with arrays
   - [Over-arching](#over-arching)
 - [Swift API](#swift-api)
   - [Getting Started](#getting-started-1)
-    - [Simple Network Setup + Feedforward Stimulation](#simple-network-setup--feedforward-stimulation)
     - [Interacting with the Tissue](#interacting-with-the-tissue)
     - [Connecting Cells](#connecting-cells)
+    - [Cell Types](#cell-types)
+      - [The CellType API](#the-celltype-api)
+    - [Stimulating the Network](#stimulating-the-network)
+      - [Tissue State Callback](#tissue-state-callback)
   - [Architecture](#architecture)
 
 <!-- /TOC -->
@@ -181,32 +184,46 @@ to method
 ## Getting Started
 I have built a layer of Swift on top of the projet in order to allow for a supply of Swift Linux coding training opportunities.
 
-### Simple Network Setup + Feedforward Stimulation
+
 
 ### Interacting with the Tissue
 You can use the TissueManager to set up cell connections, re-initialize, etc, the tissue.
 
+```
+        let tissueManager = TissueManager()
+```
+
 ### Connecting Cells
 You can connect cells using the TissueManager.connectCell() method
 
-
-
 ```
-        let tissueManager = TissueManager()
-
-        TissueManager.resetTissue()
-
         tissueManager.connectCell(from: 0, to: 3, strength: 0.5)
         tissueManager.connectCell(from: 1, to: 4, strength: 0.5)
-        tissueManager.connectCell(from: 3, to: 5, strength: 0.99)
-        tissueManager.connectCell(from: 4, to: 5, strength: -0.98)
+```
 
-        let cell = tissueManager.cell(at: 0)!
+### Cell Types
+Every cell in the tissue has a type.  You can determine this by interrogating individual cells in the tissue.
 
-        let loggingLogic = LoggingCellTypeLogic()
+```
+        guard let cell = tissueManager.cell(at: 0) else {
+            return
+        }
 
-        cell.type.setLogic(to: loggingLogic)
+        let cellType = cell.type
+```
 
+#### The CellType API
+Each cell's type has an API that lets you configure its behaviour.  This allows for a great deal of flexibility in how cells in the network will behave, as you can supply your own application logic for how cells connect to one another.
+
+You can use method CellType.setLogic(to logic: CellTypeLogic) to accomplish this.
+
+For more details please see also the **CellTypeLogic** class.
+
+### Stimulating the Network
+
+You can send data into the network using the feedforwardStimulate() method.  This method is so-named because the internal algorithm simply determines the cells that the "target" cells you choose to stimulate are connected from.  It then recursively stimulates those cells with the outputs of your first stimulations etc. until a set of terminal cells are arrived at.
+
+```
         var targets: [Int32] = [0, 1, 2]
 
         var strengths = [0.2, 0.9, 1.77722]
@@ -222,6 +239,9 @@ You can connect cells using the TissueManager.connectCell() method
         tissueManager.feedforwardStimulate(cellIndexes: &targets[0], strengths: &strengths[0], count: Int32(targets.count))
 
 ```
+
+#### Tissue State Callback
+In example above you'll notice that we register a callback.  This callback lets you receive output from the network and react to it.
 
 ## Architecture
 
