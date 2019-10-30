@@ -41,6 +41,7 @@ void swift_cells_matrix_feedfoward_stim(int * targets, double * strengths, int c
 //  Main Driver
 //  -----------------------------------------------
 void swift_tissue_resetAll();
+int swift_tissue_getNumCells();
 
 //  Tissue States
 typedef struct TissueStateCallback {

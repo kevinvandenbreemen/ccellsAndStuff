@@ -2,6 +2,12 @@ import cCellsAndStuff
 
 public class TissueManager {
 
+    public var numCells: Int32 {
+        get { 
+            cCellsAndStuff.swift_tissue_getNumCells() 
+        }
+    }
+
     private static var tissueStateCallback: (_ tissueState: CurrentTissueState) -> Void = {tissueState in 
     }
     private static var tissueStateCallbackFromC: TissueStateCallback = TissueStateCallback(

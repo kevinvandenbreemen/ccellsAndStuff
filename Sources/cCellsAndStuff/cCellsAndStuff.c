@@ -48,3 +48,7 @@ void swift_tissue_resetAll() {
 void swift_tissue_setOnStateUpdate(TissueStateCallback *callback) {
     tissue_setOnStateUpdate(callback->onStateUpdate);
 }
+
+int swift_tissue_getNumCells() {
+    return tissue_getNumCells();
+}

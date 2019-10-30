@@ -8,6 +8,7 @@ class TissueTests: XCTestCase {
         ("Receive callbacks after stimulation", testGetCallbackAfterStimulatingTheNetwork),
         ("Feedforward stimulation", testFeedforwardStimulatingTheNetwork),
         ("Tissue State Callbacks", testReceiveTissueStateAfterNetworkStimulation),
+        ("Get number of cells in the Tissue", testCountCellsInTissue),
     ]
 
     func testStimulateTheNetwork() {
@@ -23,6 +24,13 @@ class TissueTests: XCTestCase {
 
         tissueManager.stimulate(cellIndexes: &targets[0], strengths: &strengths[0], count: Int32(targets.count))
 
+    }
+
+    func testCountCellsInTissue() {
+        let tissueManager = TissueManager()
+
+        //  See also NUM_CELLS def in tissue.h
+        XCTAssertEqual(100, tissueManager.numCells)
     }
 
     func testGetCallbackAfterStimulatingTheNetwork() {
