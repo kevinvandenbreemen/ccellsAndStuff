@@ -238,6 +238,12 @@ START_TEST (tissue_reset) {
 }
 END_TEST
 
+START_TEST (get_number_of_cells) {
+
+    fail_unless(tissue_getNumCells() == NUM_CELLS);
+
+}
+END_TEST
 
 void tissue_tests_addToSuite(Suite *suite) {
     TCase *tissueTests = tcase_create("Tissue/Cell Type Tests");
@@ -252,6 +258,7 @@ void tissue_tests_addToSuite(Suite *suite) {
     tcase_add_test(tissueTests, process_incoming_cell_connections_during_feedforward);
     tcase_add_test(tissueTests, tissue_reset);
     tcase_add_test(tissueTests, send_state_to_listener_on_complete);
+    tcase_add_test(tissueTests, get_number_of_cells);
 
     suite_add_tcase(suite, tissueTests);
 }

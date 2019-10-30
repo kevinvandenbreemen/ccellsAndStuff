@@ -127,6 +127,11 @@ int tissue_getCellType(int index) {
     return getTissue()[index];
 }
 
+int tissue_getNumCells();
+int tissue_getNumCells() {
+    return NUM_CELLS;
+}
+
 static int chkTissueCreated() {
     static int created = 0;
 
