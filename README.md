@@ -193,6 +193,12 @@ You can use the TissueManager to set up cell connections, re-initialize, etc, th
         let tissueManager = TissueManager()
 ```
 
+You will then need to initialize the underlying tissue as follows:
+
+```
+        tissueManager.initializeDefaultTissue()
+```
+
 ### Connecting Cells
 You can connect cells using the TissueManager.connectCell() method
 
