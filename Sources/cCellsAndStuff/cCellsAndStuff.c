@@ -52,3 +52,21 @@ void swift_tissue_setOnStateUpdate(TissueStateCallback *callback) {
 int swift_tissue_getNumCells() {
     return tissue_getNumCells();
 }
+
+//  Cell connections
+CellConnectionInfo * swift_cells_getConnectedFrom(int cellIndex) {
+    int numConnections = cells_countConnectedFrom(cellIndex);
+    int i;
+
+    CellConnectionInfo * ret = malloc(sizeof(CellConnectionInfo));
+
+    ret->numConnections = numConnections;
+    ret->cellIndexes = cells_indexesOfConnectedFrom(cellIndex);
+    ret->connectionStrengths = malloc(sizeof(double) * numConnections);
+    
+    for(i=0; i<numConnections; i++) {
+        ret->connectionStrengths[i] = cells_strengthOfConnection(cellIndex, ret->cellIndexes[i]);
+    }
+
+    return ret;
+}
