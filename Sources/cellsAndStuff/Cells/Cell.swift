@@ -31,8 +31,8 @@ public struct Cell {
                 connectionsList.append( (index: index, strength: strength) )
             }
 
-            connectionInfo.connectionStrengths?.deallocate() 
-            connectionInfo.cellIndexes?.deallocate()
+            connectionStrengths.deallocate() 
+            destIndexes.deallocate()
             connectionInfoPtr.deallocate()
 
             return connectionsList
