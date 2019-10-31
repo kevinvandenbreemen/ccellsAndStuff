@@ -18,6 +18,9 @@ public struct Cell {
                 let destIndexes = connectionInfo.cellIndexes, 
                 let connectionStrengths = connectionInfo.connectionStrengths 
             else {
+                connectionInfo.connectionStrengths?.deallocate() 
+                connectionInfo.cellIndexes?.deallocate()
+                connectionInfoPtr.deallocate()
                 return nil
             }
 
@@ -27,6 +30,10 @@ public struct Cell {
                 let strength = (connectionStrengths + Int(i)).pointee
                 connectionsList.append( (index: index, strength: strength) )
             }
+
+            connectionInfo.connectionStrengths?.deallocate() 
+            connectionInfo.cellIndexes?.deallocate()
+            connectionInfoPtr.deallocate()
 
             return connectionsList
 

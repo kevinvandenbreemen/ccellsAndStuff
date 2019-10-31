@@ -51,6 +51,12 @@ class CellTests: XCTestCase {
         }
 
         XCTAssertEqual(2, outgoingConnections.count, "Expect cell at index 0 to have 2 outgoing connections")
+
+        XCTAssertEqual(outgoingConnections[0].index, 1)
+        XCTAssertEqual(outgoingConnections[1].index, 2)
+        XCTAssertEqual(outgoingConnections[0].strength, 0.4)
+        XCTAssertEqual(outgoingConnections[1].strength, 0.5)
+
     }
 
     func testGetCellsConnectedFromCellWhenNoneConnected() {
