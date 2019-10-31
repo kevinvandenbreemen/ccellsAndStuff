@@ -61,7 +61,7 @@ public class TissueManager {
             return nil
         }
 
-        return Cell(type: cellType)
+        return Cell(type: cellType, index: index)
 
     }
 
