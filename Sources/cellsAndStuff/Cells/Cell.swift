@@ -11,32 +11,7 @@ public struct Cell {
                 return nil
             }
 
-            let connectionInfo = connectionInfoPtr.pointee
-            defer {
-                connectionInfoPtr.deallocate()
-            }
-
-            guard 
-                connectionInfo.numConnections > 0, 
-                let destIndexes = connectionInfo.cellIndexes, 
-                let connectionStrengths = connectionInfo.connectionStrengths 
-            else {
-                return nil
-            }
-
-            defer {
-                connectionInfo.connectionStrengths?.deallocate() 
-                connectionInfo.cellIndexes?.deallocate()
-            }
-
-            var connectionsList: [(index: Int32, strength: Double)] = []
-            for i in 0..<connectionInfo.numConnections {
-                let index = (destIndexes + Int(i)).pointee
-                let strength = (connectionStrengths + Int(i)).pointee
-                connectionsList.append( (index: index, strength: strength) )
-            }
-
-            return connectionsList
+            return getConnectionTuples(connectionInfoPtr: connectionInfoPtr)
         }
     }
 
@@ -50,7 +25,17 @@ public struct Cell {
                 return nil
             }
 
-            let connectionInfo = connectionInfoPtr.pointee
+            return getConnectionTuples(connectionInfoPtr: connectionInfoPtr)
+
+        }
+        
+    }
+
+    public let type: CellType
+    public let index: Int32
+
+    private func getConnectionTuples(connectionInfoPtr: UnsafeMutablePointer<CellConnectionInfo>) -> [(index: Int32, strength: Double)]? {
+        let connectionInfo = connectionInfoPtr.pointee
             defer {
                 connectionInfoPtr.deallocate()
             }
@@ -76,12 +61,6 @@ public struct Cell {
             }
 
             return connectionsList
-
-        }
-        
     }
-
-    public let type: CellType
-    public let index: Int32
     
 }
