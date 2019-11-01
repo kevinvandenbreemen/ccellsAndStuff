@@ -70,3 +70,20 @@ CellConnectionInfo * swift_cells_getConnectedFrom(int cellIndex) {
 
     return ret;
 }
+
+CellConnectionInfo * swift_cells_connectedTo(int cellIndex) {
+    int numConnections = cells_countConnectedTo(cellIndex);
+    int i;
+
+    CellConnectionInfo * ret = malloc(sizeof(CellConnectionInfo));
+
+    ret->numConnections = numConnections;
+    ret->cellIndexes = cells_indexesOfConnectedTo(cellIndex);
+    ret->connectionStrengths = malloc(sizeof(double) * numConnections);
+    
+    for(i=0; i<numConnections; i++) {
+        ret->connectionStrengths[i] = cells_strengthOfConnection(ret->cellIndexes[i], cellIndex);
+    }
+
+    return ret;
+}

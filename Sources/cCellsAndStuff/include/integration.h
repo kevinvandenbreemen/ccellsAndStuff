@@ -39,12 +39,14 @@ void swift_cells_stimulate(int * targets, double * strengths, int count);
 void swift_cells_matrix_feedfoward_stim(int * targets, double * strengths, int count);
 
 //  Cell connections
+//  -----------------------------------------------
 typedef struct CellConnectionInfo {
     int numConnections;
     int *cellIndexes;
     double *connectionStrengths;
 } CellConnectionInfo;
 CellConnectionInfo * swift_cells_getConnectedFrom(int cellIndex);
+CellConnectionInfo * swift_cells_connectedTo(int cellIndex);
 
 //  Main Driver
 //  -----------------------------------------------
