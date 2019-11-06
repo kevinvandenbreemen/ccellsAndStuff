@@ -13,16 +13,22 @@ void tissue_display_tissue();
  */
 void tissue_close_display();
 
+static BitArray * getDisplaySettings() {
+    static BitArray * ret;
+    ret = bitarray_create(2);
+    return ret;
+}
+
 static void doSDLSetup() {
-    static int initialized = 0;
-    if(initialized == 0) {
+    
+    if(bitarray_valueOf(getDisplaySettings(), 0) == 0) {
         if (SDL_Init(SDL_INIT_VIDEO) < 0){
             fprintf(stderr, "Could not initialize SDL\n");
             return;
         }
 
         printf("Initialized SDL!\n");
-        initialized = 1;
+        bitarray_writeBit(getDisplaySettings(), 0, 1);
     }
 }
 
@@ -30,17 +36,15 @@ static SDL_Window * getWindow() {
     const int SCREEN_WIDTH = 640;
     const int SCREEN_HEIGHT = 480;
 
-    static int windowInitialized = 0;
-
     static SDL_Window *window;
-    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("Could not initialize SDL system!\n");
-        return NULL;
-    }
 
-    if(windowInitialized != 1) {
+    if(bitarray_valueOf(getDisplaySettings(), 1) != 1) {
+        if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+            printf("Could not initialize SDL system!\n");
+            return NULL;
+        }
         window = SDL_CreateWindow("Tissue Cells Display", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-        windowInitialized = 1;
+        bitarray_writeBit(getDisplaySettings(), 1, 1);
     }
 
     return window;
@@ -67,6 +71,9 @@ void tissue_close_display() {
     SDL_DestroyRenderer(getRenderer());
     SDL_DestroyWindow(getWindow());
     SDL_Quit();
+
+    bitarray_writeBit(getDisplaySettings(), 0, 0);
+    bitarray_writeBit(getDisplaySettings(), 1, 0);
 }
 
 void tissue_display_tissue() {
