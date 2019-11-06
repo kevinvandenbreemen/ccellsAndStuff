@@ -8,3 +8,11 @@ public protocol TissueDisplayProvider {
     func getTissueDisplay() -> TissueDisplay
 
 }
+
+public class TissueDisplayProviders {
+
+    public static let provider: TissueDisplayProvider = SDLTissueDisplayProvider()
+
+    private init(){}
+
+}

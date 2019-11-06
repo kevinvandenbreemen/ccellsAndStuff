@@ -87,3 +87,9 @@ CellConnectionInfo * swift_cells_connectedTo(int cellIndex) {
 
     return ret;
 }
+
+//  Display of tissues
+//  -----------------------------------------------
+void swift_tissue_display_tissue() {
+    tissue_display_tissue();
+}

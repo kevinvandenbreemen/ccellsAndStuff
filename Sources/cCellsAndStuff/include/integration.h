@@ -13,6 +13,7 @@
 #include "../../../include/math.h"
 #include "../../../include/msgs.h"
 #include "../../../include/driver.h"
+#include "../../../include/tissue_display.h"
 
 #define MAJ_VER 1
 #define MIN_VER 0

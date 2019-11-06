@@ -8,7 +8,7 @@ OUTPUT_DIR = ./bin
 C_SRC_DIR = ./include
 SWFT_SRC_C_DIR = ./Sources/cCellsAndStuff/include
 REQUIRED_PKG_CHECK = libsubunit
-LINKER_FLAGS = -lm
+LINKER_FLAGS = -lm -lSDL2
 
 .PHONY: cleanup setup build run checkRqdPackages buildTest test buildDebugSymbols debug checkValgrind buildPerfTest checkMemoryLeaks pipeLine swiftClean swiftBuild swiftTest
 
