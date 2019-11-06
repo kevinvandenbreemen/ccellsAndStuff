@@ -49,7 +49,7 @@ checkMemoryLeaks: checkValgrind buildPerfTest
 	valgrind --leak-check=yes --error-exitcode=1 $(OUTPUT_DIR)/run && echo "Memory leak check completed successfully 🤓"
 
 swiftClean:
-	rm -rf ./.build && rm -rf $(SWFT_SRC_C_DIR)/include
+	rm -rf ./.build && rm -rf $(SWFT_SRC_C_DIR)/include && rm Package.resolved
 
 swiftBuild: swiftClean
 	swift build
