@@ -14,14 +14,23 @@ void tissue_display_tissue();
 void tissue_close_display();
 
 static BitArray * getDisplaySettings() {
+
+    static int initialized = 0;
+
     static BitArray * ret;
-    ret = bitarray_create(2);
+    
+    if(initialized == 0) {
+        ret = bitarray_create(2);
+        initialized = 1;
+    }
+    
     return ret;
 }
 
 static void doSDLSetup() {
     
     if(bitarray_valueOf(getDisplaySettings(), 0) == 0) {
+        printf("Creating SDL......\n");
         if (SDL_Init(SDL_INIT_VIDEO) < 0){
             fprintf(stderr, "Could not initialize SDL\n");
             return;
@@ -39,6 +48,7 @@ static SDL_Window * getWindow() {
     static SDL_Window *window;
 
     if(bitarray_valueOf(getDisplaySettings(), 1) != 1) {
+        printf("Creating Window...\n");
         if(SDL_Init(SDL_INIT_VIDEO) < 0) {
             printf("Could not initialize SDL system!\n");
             return NULL;
@@ -52,16 +62,16 @@ static SDL_Window * getWindow() {
 
 static SDL_Renderer * getRenderer() {
 
-    int rendererInitialized = 0;
     static SDL_Renderer *renderer;
 
-    if(rendererInitialized != 1) {
+    if(bitarray_valueOf(getDisplaySettings(), 2) != 1) {
+        printf("Creating Renderer...\n");
         SDL_Window *window = getWindow();
         if(window == NULL) {
             return NULL;
         }
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-        rendererInitialized = 1;
+        bitarray_writeBit(getDisplaySettings(), 2, 1);
     }
 
     return renderer;

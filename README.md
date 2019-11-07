@@ -241,7 +241,7 @@ You can send data into the network using the feedforwardStimulate() method.  Thi
 
         }
 
-        tissueManager.feedforwardStimulate(cellIndexes: &targets[0], strengths: &strengths[0], count: Int32(targets.count))
+        tissueManager.feedforwardStimulate(cellIndexes: targets, strengths: strengths)
 
 ```
 
