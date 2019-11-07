@@ -18,8 +18,6 @@ int main() {
 
     tissue_display_tissue();
     SDL_Delay(5000);
-    tissue_close_display();
-
     tissue_display_tissue();
     SDL_Delay(5000);
     tissue_close_display();
