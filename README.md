@@ -230,8 +230,7 @@ For more details please see also the **CellTypeLogic** class.
 You can send data into the network using the feedforwardStimulate() method.  This method is so-named because the internal algorithm simply determines the cells that the "target" cells you choose to stimulate are connected from.  It then recursively stimulates those cells with the outputs of your first stimulations etc. until a set of terminal cells are arrived at.
 
 ```
-        var targets: [Int32] = [0, 1, 2]
-
+        var targets = [0, 1, 2]
         var strengths = [0.2, 0.9, 1.77722]
 
         var callbackReceived = false

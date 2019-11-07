@@ -73,11 +73,10 @@ class TissueTests: XCTestCase {
 
         cell.type.setLogic(to: loggingLogic)
 
-        var targets: [Int32] = [0, 1, 2]
+        let targets = [0, 1, 2]
+        let strengths = [0.2, 0.9, 1.77722]
 
-        var strengths = [0.2, 0.9, 1.77722]
-
-        tissueManager.feedforwardStimulate(cellIndexes: &targets[0], strengths: &strengths[0], count: Int32(targets.count))
+        tissueManager.feedforwardStimulate(cellIndexes: targets, strengths: strengths)
 
         XCTAssertFalse(loggingLogic.incomingConnectionStateCalls.isEmpty, "System callback integration expected")
         XCTAssertFalse(loggingLogic.outgoingConnectionStateCalls.isEmpty, "System callback integration expected")
@@ -126,9 +125,8 @@ class TissueTests: XCTestCase {
 
         cell.type.setLogic(to: loggingLogic)
 
-        var targets: [Int32] = [0, 1, 2]
-
-        var strengths = [0.2, 0.9, 1.77722]
+        let targets = [0, 1, 2]
+        let strengths = [0.2, 0.9, 1.77722]
 
         var callbackReceived = false
         tissueManager.setTissueStateCallback { state in 
@@ -138,7 +136,7 @@ class TissueTests: XCTestCase {
 
         }
 
-        tissueManager.feedforwardStimulate(cellIndexes: &targets[0], strengths: &strengths[0], count: Int32(targets.count))
+        tissueManager.feedforwardStimulate(cellIndexes: targets, strengths: strengths)
 
         XCTAssertTrue(callbackReceived, "System should have returned tissue state after stimulation")
     }

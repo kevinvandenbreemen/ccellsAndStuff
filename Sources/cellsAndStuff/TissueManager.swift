@@ -71,8 +71,16 @@ public class TissueManager {
         
     }
 
-    public func feedforwardStimulate(cellIndexes indexes: UnsafeMutablePointer<Int32>, strengths: UnsafeMutablePointer<Double>, count: Int32) {
-        cCellsAndStuff.swift_cells_matrix_feedfoward_stim(indexes, strengths, count)
+    public func feedforwardStimulate(cellIndexes indexes: [Int], strengths: [Double]) {
+
+        var intArray: [Int32] = []
+        for i in indexes {
+            intArray.append(Int32(i))
+        }
+
+        var strArray: [Double] = strengths
+
+        cCellsAndStuff.swift_cells_matrix_feedfoward_stim(&intArray[0], &strArray[0], Int32(indexes.count))
     }
 
     public func setTissueStateCallback(_ callback: @escaping (_ tissueState: CurrentTissueState) -> Void) {
