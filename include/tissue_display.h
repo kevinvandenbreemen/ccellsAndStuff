@@ -116,7 +116,7 @@ static void drawCells(SDL_Renderer *renderer) {
             rect.h = cellHeight - 5;
             rect.w = cellWidth - 5;
 
-            #ifdef DEBUG
+            #ifndef NDEBUG
             printf("render rect = {x=%d, y=%d, h=%d, w=%d}\n", rect.x, rect.y, rect.h, rect.w);
             #endif
 
