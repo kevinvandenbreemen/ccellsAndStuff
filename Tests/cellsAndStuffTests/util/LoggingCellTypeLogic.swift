@@ -29,4 +29,30 @@ class LoggingCellTypeLogic: CellTypeLogic {
         return weightedInputSum
     }
 
+    func logConnectionCalls() {
+
+        var incomingConnectionsDebug = ""
+        incomingConnectionStateCalls.forEach{ call in 
+            incomingConnectionsDebug += "\(call)\n"
+        }
+
+        var outgoingConnectionsDebug = ""
+        outgoingConnectionStateCalls.forEach{ call in 
+            outgoingConnectionsDebug += "\(call)\n"
+        }
+
+        print(
+"""
+Logging Cell Logic Data Acquired:
+outputStrengthComputations:\t\(outputStrengthComputations)
+incomingConnectionStateCalls:\n\(incomingConnectionsDebug)
+outgoingConnectionStateCalls:\n\(outgoingConnectionsDebug)
+"""
+        )
+
+        // var ret = "Logging Cell Logic Data Acquired:\n"
+        // ret += "outputStrengthComputations:  \(outputStrengthComputations)\n"
+
+    }
+
 }

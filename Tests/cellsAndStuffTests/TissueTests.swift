@@ -78,35 +78,40 @@ class TissueTests: XCTestCase {
 
         tissueManager.feedforwardStimulate(cellIndexes: targets, strengths: strengths)
 
+        loggingLogic.logConnectionCalls()
+
         XCTAssertFalse(loggingLogic.incomingConnectionStateCalls.isEmpty, "System callback integration expected")
         XCTAssertFalse(loggingLogic.outgoingConnectionStateCalls.isEmpty, "System callback integration expected")
 
         //  Validate connection logic
         XCTAssertEqual(loggingLogic.incomingConnectionStateCalls.count, 3)
-        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].index, 3)
-        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[1].index, 4)
-        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].index, 5)
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].index, 5)
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[1].index, 3)
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].index, 4)
 
-        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].incomingIndexes, [0])
-        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[1].incomingIndexes, [1])
-        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].incomingIndexes, [3, 4])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].incomingIndexes, [3, 4])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[1].incomingIndexes, [0])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].incomingIndexes, [1])
 
-        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].incomingStrengths, [0.5])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[0].incomingStrengths, [0.99, -0.98])
         XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[1].incomingStrengths, [0.5])
-        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].incomingStrengths, [0.99, -0.98])
+        XCTAssertEqual(loggingLogic.incomingConnectionStateCalls[2].incomingStrengths, [0.5])
 
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls.count, 3)
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].index, 0)
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].index, 1)
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].index, 3)
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls.count, 4)
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].index, 3)
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].index, 4)
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].index, 0)
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[3].index, 1)
 
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].outgoingStrengths, [0.5])
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].outgoingStrengths, [0.5])
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].outgoingStrengths, [0.99])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].outgoingStrengths, [0.99])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].outgoingStrengths, [-0.98])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].outgoingStrengths, [0.5])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[3].outgoingStrengths, [0.5])
 
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].outgoingIndexes, [3])
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].outgoingIndexes, [4])
-        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].outgoingIndexes, [5])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[0].outgoingIndexes, [5])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[1].outgoingIndexes, [5])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[2].outgoingIndexes, [3])
+        XCTAssertEqual(loggingLogic.outgoingConnectionStateCalls[3].outgoingIndexes, [4])
     }
 
     func testReceiveTissueStateAfterNetworkStimulation() {

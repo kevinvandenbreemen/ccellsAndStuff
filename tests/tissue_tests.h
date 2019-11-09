@@ -109,7 +109,7 @@ START_TEST(process_incoming_cell_connections_during_network_stim) {
     double strengths[] = {1.5, 1.5};
     cells_stimulate(targets, strengths, 2);
 
-    fail_unless(signalIncoming_size == 2, "System should have alerted cells to conduct operations");
+    fail_unless(signalIncoming_size == 2, "System should have alerted cells to conduct operations.  Expected 2 but got %d", signalIncoming_size);
     fail_unless(signalIncoming_cellIndex == 1, "System should have alerted cell at index 1 that it needs to update its logic");
     fail_unless(signalIncoming_incomingIndexes[0] == 0);
     fail_unless(signalIncoming_incomingIndexes[1] == 2, "Expected incoming index at 1 to be 2 but was %d\n", signalIncoming_incomingIndexes[1]);

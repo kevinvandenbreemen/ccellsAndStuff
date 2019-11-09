@@ -88,7 +88,7 @@ int cells_countConnectedFrom(int fromIndex) {
     int count = 0;
     int i;
     for(i = 0; i<NUM_CELLS; i++) {
-        if(rawConnections[fromIndex][i] > 0.0) {
+        if(fabs(rawConnections[fromIndex][i]) > 0.0) {
             count++;
         }
     }
