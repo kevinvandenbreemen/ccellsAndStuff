@@ -144,7 +144,7 @@ static void doMatrixFeedforwardStim(int * targets, double * strengths, int count
 
     _getState(1);
 
-    #ifdef DEBUG
+    #ifndef NDEBUG
     logTargetsAndStrengths(targets, strengths, count);
     #endif
 
