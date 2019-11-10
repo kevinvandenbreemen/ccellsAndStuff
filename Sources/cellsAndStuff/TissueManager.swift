@@ -84,6 +84,9 @@ public class TissueManager {
 
         let proposedType = type(of: proposedCellType)
         let incomingType = type(of: cellType)
+
+        //  For now need to use this method to compare since implementation of CellType could be either
+        //  a class or a value type (enums most often used at the moment)
         if String(describing: proposedType) != String(describing: incomingType) {
             throw TissueManagementError.unsupportedCellType(String(describing: type(of: self.cellTypes)), String(describing: type(of: cellType)))
         }
