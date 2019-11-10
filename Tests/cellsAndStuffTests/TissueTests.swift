@@ -10,9 +10,10 @@ class TissueTests: XCTestCase {
         ("Tissue State Callbacks", testReceiveTissueStateAfterNetworkStimulation),
         ("Get number of cells in the Tissue", testCountCellsInTissue),
         ("Set a cell's cell type", testSetCellTypeOfCell),
+        ("Prevent setting a cell type to something un-supported by the tissue manager", testPreventsSettingCellTypeToAnUnsupportedCellType),
     ]
 
-    func testSetCellTypeOfCell() {
+    func testSetCellTypeOfCell() throws {
         let tissueManager = TissueManager()
         TissueManager.resetTissue()
 
@@ -30,7 +31,7 @@ class TissueTests: XCTestCase {
         
         XCTAssertEqual(cell.type.id, DefaultCellTypes.basic.id, "Unexpected default cell type ID")
 
-        tissueManager.setType(ofCellAtIndex: index, to: DefaultCellTypes.inhibitory)
+        try tissueManager.setType(ofCellAtIndex: index, to: DefaultCellTypes.inhibitory)
 
         guard var updatedCell = tissueManager.cell(at: index) else {
             XCTFail("Could not get expected cell")
@@ -38,6 +39,26 @@ class TissueTests: XCTestCase {
         }
         XCTAssertEqual(updatedCell.type.id, DefaultCellTypes.inhibitory.id, "Cell's type was not updated")
         
+    }
+
+    func testPreventsSettingCellTypeToAnUnsupportedCellType() {
+        let tissueManager = TissueManager(cellTypes: UnitTestCellTypes())
+        TissueManager.resetTissue()
+
+        let index: Int32 = 4
+
+        //  Revert cell types to their previous
+        defer {
+            TissueManager.resetTissue()
+        }
+
+        XCTAssertThrowsError(try tissueManager.setType(ofCellAtIndex: index, to: DefaultCellTypes.inhibitory)) { error in 
+            print(error)
+        }
+
+        XCTAssertThrowsError(try tissueManager.setType(ofCellAtIndex: index, to: DefaultCellTypes.basic)) { error in 
+            print(error)
+        }
     }
 
     func testStimulateTheNetwork() {

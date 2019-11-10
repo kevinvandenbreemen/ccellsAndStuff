@@ -1,5 +1,17 @@
 import cCellsAndStuff
 
+public enum TissueManagementError: Error {
+
+    /// Indicates that caller tried to set cell type to something unsupported by tissue manager.
+    /// 
+    /// Includes associated values as follows:
+    ///
+    /// Supported CellTypes implementation
+    ///
+    /// Actual CellTypes implementation passed (see setType() method)
+    case unsupportedCellType(String, String)
+}
+
 public class TissueManager {
 
     public var numCells: Int32 {
@@ -65,7 +77,11 @@ public class TissueManager {
 
     }
 
-    public func setType(ofCellAtIndex cellIndex: Int32, to cellType: CellType) {
+    public func setType(ofCellAtIndex cellIndex: Int32, to cellType: CellType) throws {
+        guard let proposedCellType = cellTypes.cellType(byID: cellType.id) else {
+            throw TissueManagementError.unsupportedCellType(String(describing: type(of: self.cellTypes)), String(describing: type(of: cellType)))
+        }
+        
         cCellsAndStuff.swift_tissue_setCellType(cellIndex, cellType.id)
     }
 
