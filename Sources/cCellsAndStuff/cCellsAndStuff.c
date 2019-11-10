@@ -22,6 +22,7 @@ int swift_cells_connectDirected(int from, int to, double strength) {
 }
 
 //  Cell Types
+//  -----------------------------------------------
 int swift_tissue_getCellType(int index) {
     return tissue_getCellType(index);
 }
@@ -31,7 +32,12 @@ void swift_cellTypes_setBehaviourForCellType(int cellType, CellTypeBehaviour *be
     cellTypes_setCellLogicForOutgoingConnections(cellType, behaviour->processOutgoingConnections);
 }
 
+void swift_tissue_setCellType(int index, int cellType) {
+    tissue_setCellType(index, cellType);
+}
+
 //  Network stimulation
+//  -----------------------------------------------
 void swift_cells_stimulate(int * targets, double * strengths, int count) {
     cells_stimulate(targets, strengths, count);
 }

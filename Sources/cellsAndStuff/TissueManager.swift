@@ -65,6 +65,10 @@ public class TissueManager {
 
     }
 
+    public func setType(ofCellAtIndex cellIndex: Int32, to cellType: CellType) {
+        cCellsAndStuff.swift_tissue_setCellType(cellIndex, cellType.id)
+    }
+
     public func stimulate(cellIndexes indexes: UnsafeMutablePointer<Int32>, strengths: UnsafeMutablePointer<Double>, count: Int32) {
 
         cCellsAndStuff.swift_cells_stimulate(indexes, strengths, count)

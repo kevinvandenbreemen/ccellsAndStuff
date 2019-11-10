@@ -28,6 +28,7 @@ void swift_tissue_initializeDefaultTissue();
 int swift_cells_connectDirected(int from, int to, double strength);
 
 //  Cell Types
+//  -----------------------------------------------
 int swift_tissue_getCellType(int index);
 
 /**
@@ -35,7 +36,13 @@ int swift_tissue_getCellType(int index);
  */
 void swift_cellTypes_setBehaviourForCellType(int cellType, CellTypeBehaviour *behaviour);
 
+/**
+ * Set cell type of a tissue's cell
+ */
+void swift_tissue_setCellType(int index, int cellType);
+
 //  Network Stimulation
+//  -----------------------------------------------
 void swift_cells_stimulate(int * targets, double * strengths, int count);
 void swift_cells_matrix_feedfoward_stim(int * targets, double * strengths, int count);
 

@@ -9,7 +9,36 @@ class TissueTests: XCTestCase {
         ("Feedforward stimulation", testFeedforwardStimulatingTheNetwork),
         ("Tissue State Callbacks", testReceiveTissueStateAfterNetworkStimulation),
         ("Get number of cells in the Tissue", testCountCellsInTissue),
+        ("Set a cell's cell type", testSetCellTypeOfCell),
     ]
+
+    func testSetCellTypeOfCell() {
+        let tissueManager = TissueManager()
+        TissueManager.resetTissue()
+
+        let index: Int32 = 4
+
+        //  Revert cell types to their previous
+        defer {
+            TissueManager.resetTissue()
+        }
+
+        guard var cell = tissueManager.cell(at: index) else {
+            XCTFail("Could not get expected cell")
+            return
+        }
+        
+        XCTAssertEqual(cell.type.id, DefaultCellTypes.basic.id, "Unexpected default cell type ID")
+
+        tissueManager.setType(ofCellAtIndex: index, to: DefaultCellTypes.inhibitory)
+
+        guard var updatedCell = tissueManager.cell(at: index) else {
+            XCTFail("Could not get expected cell")
+            return
+        }
+        XCTAssertEqual(updatedCell.type.id, DefaultCellTypes.inhibitory.id, "Cell's type was not updated")
+        
+    }
 
     func testStimulateTheNetwork() {
         
