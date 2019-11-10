@@ -81,6 +81,12 @@ public class TissueManager {
         guard let proposedCellType = cellTypes.cellType(byID: cellType.id) else {
             throw TissueManagementError.unsupportedCellType(String(describing: type(of: self.cellTypes)), String(describing: type(of: cellType)))
         }
+
+        let proposedType = type(of: proposedCellType)
+        let incomingType = type(of: cellType)
+        if String(describing: proposedType) != String(describing: incomingType) {
+            throw TissueManagementError.unsupportedCellType(String(describing: type(of: self.cellTypes)), String(describing: type(of: cellType)))
+        }
         
         cCellsAndStuff.swift_tissue_setCellType(cellIndex, cellType.id)
     }
