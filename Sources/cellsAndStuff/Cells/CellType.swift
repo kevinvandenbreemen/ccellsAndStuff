@@ -90,6 +90,14 @@ extension CellType {
                 }
 
                 return logic.calculateActivation(weightedInputSum: weightedInputSum)
+            },
+
+            executeCellBehaviour: {(cellType, index) in
+                guard let logic = CellTypeLogicRegistry.getLogic(for: cellType) else {
+                    return
+                }
+
+                logic.executeCellLogic(cellIndex: index)
             }
         )
 

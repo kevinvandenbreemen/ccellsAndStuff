@@ -132,6 +132,22 @@ int tissue_getNumCells() {
     return NUM_CELLS;
 }
 
+/**
+ * Execute the cell behaviours for all cells in this tissue.  See also
+ * tissue_setBehaviourForCellType()
+ */
+void tissue_executeCellBehaviours();
+void tissue_executeCellBehaviours() {
+    int i;
+    int cellType;
+    for(i=0; i<NUM_CELLS; i++) {
+        cellType = tissue_getCellType(i);
+        if(cellTypes_existsBehaviourForCellType(cellType)) {
+            cellTypes_behaviourFor(cellType) -> executeCellBehaviour(cellType, i);
+        }
+    }
+}
+
 static int chkTissueCreated() {
     static int created = 0;
 

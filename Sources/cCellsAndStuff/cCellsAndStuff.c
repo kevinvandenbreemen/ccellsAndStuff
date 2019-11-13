@@ -30,6 +30,7 @@ void swift_cellTypes_setBehaviourForCellType(int cellType, CellTypeBehaviour *be
     cellTypes_setOutputStrengthCalc(cellType, behaviour->getOutputStrength);
     cellTypes_setCellLogicForIncomingConnections(cellType, behaviour->processIncomingConnections);
     cellTypes_setCellLogicForOutgoingConnections(cellType, behaviour->processOutgoingConnections);
+    cellTypes_setCellBehaviourLogic(cellType, behaviour->executeCellBehaviour);
 }
 
 void swift_tissue_setCellType(int index, int cellType) {
@@ -57,6 +58,10 @@ void swift_tissue_setOnStateUpdate(TissueStateCallback *callback) {
 
 int swift_tissue_getNumCells() {
     return tissue_getNumCells();
+}
+
+void swift_tissue_executeCellBehaviours() {
+    tissue_executeCellBehaviours();
 }
 
 //  Cell connections

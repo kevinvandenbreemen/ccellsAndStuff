@@ -96,6 +96,23 @@ static void test_signalOutgoingConnections(int cellType, int size, int cellIndex
     }
 }
 
+int expectedIndex;
+int cellTypeForBehaviourCell;
+int cellIndexForBehaviourCall;
+static void test_handleCellTypeBehaviour(int cellType, int cellIndex) {
+    if(cellIndex != expectedIndex){
+        return;
+    }
+
+    cellTypeForBehaviourCell = cellType;
+    cellIndexForBehaviourCall = cellIndex;
+}
+
+START_TEST(process_cell_behaviour_during_network_stim) {
+    
+} 
+END_TEST
+
 START_TEST(process_incoming_cell_connections_during_network_stim) {
     tissue_initializeDefaultTissue();
     cellTypes_InitializeDefaultCellTypeBehaviours();

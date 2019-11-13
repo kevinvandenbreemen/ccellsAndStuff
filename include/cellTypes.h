@@ -12,17 +12,20 @@ static BitArray *cellTypesWithProcessIncomingConnections;
 static BitArray *cellTypesWithProcessOutgoingConnections;
 static BitArray *cellTypesWithStrengthCalculation;
 static BitArray *cellTypesWithActivationFunctions;
+static BitArray *cellTypesWithBehaviourFunctions;
 
 static void reinitCellTypesProcessingMaps() {
     bitarray_destroy(cellTypesWithProcessIncomingConnections);
     bitarray_destroy(cellTypesWithProcessOutgoingConnections);
     bitarray_destroy(cellTypesWithStrengthCalculation);
     bitarray_destroy(cellTypesWithActivationFunctions);
+    bitarray_destroy(cellTypesWithBehaviourFunctions);
 
     cellTypesWithProcessIncomingConnections = bitarray_create(MAX_CELL_TYPES);
     cellTypesWithProcessOutgoingConnections = bitarray_create(MAX_CELL_TYPES);
     cellTypesWithStrengthCalculation = bitarray_create(MAX_CELL_TYPES);
     cellTypesWithActivationFunctions = bitarray_create(MAX_CELL_TYPES);
+    cellTypesWithBehaviourFunctions = bitarray_create(MAX_CELL_TYPES);
 }
 
 /**
@@ -52,6 +55,11 @@ typedef struct CellTypeBehaviour {
      */
     double (*calculateActivation)(int cellType, double weightedInputSum);
 
+    /**
+     * Execute any additional general logic for this cell.  Usually you should implement this function in most networks.
+     */
+    void (*executeCellBehaviour)(int cellType, int index);
+
 } CellTypeBehaviour;
 
 CellTypeBehaviour *cellTypeBehaviours;
@@ -78,6 +86,12 @@ void cellTypes_setActivationCalculation(int cellType, double (*activationFunctio
 void cellTypes_setActivationCalculation(int cellType, double (*activationFunction)(int cellType, double weightInputSum)) {
     (cellTypeBehaviours[cellType]).calculateActivation = activationFunction;
     bitarray_writeBit(cellTypesWithActivationFunctions, cellType, on);
+}
+
+void cellTypes_setCellBehaviourLogic(int cellType, void (*behaviourFunction)(int cellType, int cellIndex));
+void cellTypes_setCellBehaviourLogic(int cellType, void (*behaviourFunction)(int cellType, int cellIndex)) {
+    (cellTypeBehaviours[cellType]).executeCellBehaviour = behaviourFunction;
+    bitarray_writeBit(cellTypesWithBehaviourFunctions, cellType, on);
 }
 
 //  Configure default cell type behaviours
@@ -120,6 +134,14 @@ int cellTypes_existsLogicForStrengthDetermination(int cellType) {
 int cellTypes_existsActivationFunction(int cellType);
 int cellTypes_existsActivationFunction(int cellType) {
     if(bitarray_valueOf(cellTypesWithActivationFunctions, cellType) == on) {
+        return 1;
+    }
+    return 0;
+}
+
+int cellTypes_existsBehaviourForCellType(int cellType);
+int cellTypes_existsBehaviourForCellType(int cellType) {
+    if(bitarray_valueOf(cellTypesWithBehaviourFunctions, cellType) == on) {
         return 1;
     }
     return 0;

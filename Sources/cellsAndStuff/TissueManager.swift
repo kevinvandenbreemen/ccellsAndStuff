@@ -117,4 +117,9 @@ public class TissueManager {
         cCellsAndStuff.swift_tissue_setOnStateUpdate(&TissueManager.tissueStateCallbackFromC)
     }
 
+    public func executeCellBehaviours() {
+        cCellsAndStuff.swift_tissue_executeCellBehaviours()
+    }
+
+
 }

@@ -60,6 +60,7 @@ CellConnectionInfo * swift_cells_connectedTo(int cellIndex);
 //  -----------------------------------------------
 void swift_tissue_resetAll();
 int swift_tissue_getNumCells();
+void swift_tissue_executeCellBehaviours();
 
 //  Tissue States
 typedef struct TissueStateCallback {

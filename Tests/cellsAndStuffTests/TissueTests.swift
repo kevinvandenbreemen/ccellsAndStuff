@@ -11,7 +11,27 @@ class TissueTests: XCTestCase {
         ("Get number of cells in the Tissue", testCountCellsInTissue),
         ("Set a cell's cell type", testSetCellTypeOfCell),
         ("Prevent setting a cell type to something un-supported by the tissue manager", testPreventsSettingCellTypeToAnUnsupportedCellType),
+        ("Execute Cell Behaviours", testExecuteCellBehaviours),
     ]
+
+    func testExecuteCellBehaviours() {
+
+        let tissueManager = TissueManager()
+        TissueManager.resetTissue()
+
+        let cell = tissueManager.cell(at: 0)!
+
+        let loggingLogic = LoggingCellTypeLogic()
+
+        cell.type.setLogic(to: loggingLogic)
+
+        tissueManager.executeCellBehaviours()
+
+        XCTAssertEqual(loggingLogic.cellLogicCalls.count, 100)  //  Based on NUM_CELLS def in tissue.h
+        for i in 0..<100 {
+            XCTAssertEqual(loggingLogic.cellLogicCalls[i], Int32(i))
+        }
+    }
 
     func testSetCellTypeOfCell() throws {
         let tissueManager = TissueManager()

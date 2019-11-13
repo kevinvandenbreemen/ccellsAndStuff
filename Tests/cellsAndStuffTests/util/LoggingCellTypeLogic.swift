@@ -7,6 +7,7 @@ class LoggingCellTypeLogic: CellTypeLogic {
         [(index: Int32, incomingIndexes: [Int32], incomingStrengths: [Double])] = []
     private(set) var outgoingConnectionStateCalls: 
         [(index: Int32, outgoingIndexes: [Int32], outgoingStrengths: [Double])] = []
+    private(set) var cellLogicCalls: [Int32] = []
 
     func computeOutputStrength(givenInput input: Double, givenOutputSum output: Double) -> Double {
 
@@ -27,6 +28,10 @@ class LoggingCellTypeLogic: CellTypeLogic {
 
     func calculateActivation(weightedInputSum: Double) -> Double {
         return weightedInputSum
+    }
+
+    func executeCellLogic(cellIndex index: Int32) {
+        cellLogicCalls.append(index)
     }
 
     func logConnectionCalls() {
