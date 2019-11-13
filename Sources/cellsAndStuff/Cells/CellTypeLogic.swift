@@ -23,6 +23,9 @@ public protocol CellTypeLogic {
     func handleIncomingConnectionState(cellIndex index: Int32, incomingIndexes: [Int32], incomingStrengths: [Double])
     func handleOutgoingConnectionState(cellIndex index: Int32, outgoingIndexes: [Int32], outgoingStrengths: [Double])
     func calculateActivation(weightedInputSum: Double) -> Double
+
+    /// Logic for a cell.  Generally you should put most of your logic for cells in this method and then regularly call
+    /// TissueManager.executeCellBehaviours() to drive cell logic throughout your network!
     func executeCellLogic(cellIndex index: Int32)
 
 }

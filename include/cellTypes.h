@@ -88,6 +88,10 @@ void cellTypes_setActivationCalculation(int cellType, double (*activationFunctio
     bitarray_writeBit(cellTypesWithActivationFunctions, cellType, on);
 }
 
+/**
+ * Set logic for cells of the given type.  Generally you should put most of your cell logic in this function and 
+ * then use tissue_executeCellBehaviours() to drive most cell logic.
+ */
 void cellTypes_setCellBehaviourLogic(int cellType, void (*behaviourFunction)(int cellType, int cellIndex));
 void cellTypes_setCellBehaviourLogic(int cellType, void (*behaviourFunction)(int cellType, int cellIndex)) {
     (cellTypeBehaviours[cellType]).executeCellBehaviour = behaviourFunction;
