@@ -123,7 +123,8 @@ static void drawCells(SDL_Renderer *renderer) {
             if(bitarray_valueOf(activeCells, index) == on){
                 SDL_SetRenderDrawColor(renderer, 255, 233, 233, 100);
             } else {
-                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 100);
+                CellTypeColor color = cellTypes_getColor(tissue_getCellType(index));
+                SDL_SetRenderDrawColor(renderer, color.red, color.green, color.blue, color.alpha);
             }
 
             SDL_RenderFillRect(renderer, &rect);
