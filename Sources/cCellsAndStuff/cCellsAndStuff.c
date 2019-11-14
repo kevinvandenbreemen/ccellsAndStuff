@@ -104,3 +104,11 @@ CellConnectionInfo * swift_cells_connectedTo(int cellIndex) {
 void swift_tissue_display_tissue() {
     tissue_display_tissue();
 }
+
+void swift_cellTypes_setColor(int cellType, CellTypeColor color) {
+    cellTypes_setColor(cellType, color);
+}
+
+CellTypeColor swift_cellTypes_getColor(int cellType) {
+    return cellTypes_getColor(cellType);
+}

@@ -13,6 +13,7 @@ static BitArray *cellTypesWithProcessOutgoingConnections;
 static BitArray *cellTypesWithStrengthCalculation;
 static BitArray *cellTypesWithActivationFunctions;
 static BitArray *cellTypesWithBehaviourFunctions;
+static BitArray *cellTypesWithCellTypeColors;
 
 static void reinitCellTypesProcessingMaps() {
     bitarray_destroy(cellTypesWithProcessIncomingConnections);
@@ -27,6 +28,58 @@ static void reinitCellTypesProcessingMaps() {
     cellTypesWithActivationFunctions = bitarray_create(MAX_CELL_TYPES);
     cellTypesWithBehaviourFunctions = bitarray_create(MAX_CELL_TYPES);
 }
+
+//  Cell Type Colors
+//  ----------------------------------------------------------------------
+/**
+ * RGB color for drawing a cell of this type.  Also includes an integer alpha, which provides value from 
+ * 0 to 255
+ */
+typedef struct CellTypeColor {
+    int red;
+    int green;
+    int blue;
+    int alpha;
+} CellTypeColor;
+
+static CellTypeColor cellTypes_defaultCellTypeColor;
+static CellTypeColor *cellTypeColors;
+
+static void initializeCellTypeColors() {
+    cellTypes_defaultCellTypeColor.red = 255;
+    cellTypes_defaultCellTypeColor.green = 0;
+    cellTypes_defaultCellTypeColor.blue = 0;
+    cellTypes_defaultCellTypeColor.alpha = 100;
+
+    free(cellTypeColors);
+    cellTypeColors = malloc(sizeof(CellTypeColor) * MAX_CELL_TYPES);
+    
+    bitarray_destroy(cellTypesWithCellTypeColors);
+    cellTypesWithCellTypeColors = bitarray_create(MAX_CELL_TYPES);
+}
+
+void cellTypes_setColor(int cellType, CellTypeColor color);
+void cellTypes_setColor(int cellType, CellTypeColor color) {
+    *(cellTypeColors + cellType) = color;
+    bitarray_writeBit(cellTypesWithCellTypeColors, cellType, 1);
+}
+
+CellTypeColor cellTypes_getColor(int cellType);
+CellTypeColor cellTypes_getColor(int cellType) {
+    if(bitarray_valueOf(cellTypesWithCellTypeColors, cellType) == on) {
+        return *(cellTypeColors + cellType);
+    }
+
+    return cellTypes_defaultCellTypeColor;
+}
+
+void cellTypes_initializeCellTypeColors() {
+    initializeCellTypeColors();
+}
+
+//  End Cell Type Colors
+//  ----------------------------------------------------------------------
+
 
 /**
  * Behaviour of a given cell type

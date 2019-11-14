@@ -48,6 +48,7 @@ void tissue_state_reset() {
 void tissue_initializeDefaultTissue() {
     getTissue();
     cellTypes_InitializeDefaultCellTypeBehaviours();
+    cellTypes_initializeCellTypeColors();
 }
 
 TissueState * tissue_getState() {

@@ -56,6 +56,11 @@ typedef struct CellConnectionInfo {
 CellConnectionInfo * swift_cells_getConnectedFrom(int cellIndex);
 CellConnectionInfo * swift_cells_connectedTo(int cellIndex);
 
+//  Cell Type Colors
+//  -----------------------------------------------
+void swift_cellTypes_setColor(int cellType, CellTypeColor color);
+CellTypeColor swift_cellTypes_getColor(int cellType);
+
 //  Main Driver
 //  -----------------------------------------------
 void swift_tissue_resetAll();

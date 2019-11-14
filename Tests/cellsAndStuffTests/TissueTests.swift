@@ -12,7 +12,30 @@ class TissueTests: XCTestCase {
         ("Set a cell's cell type", testSetCellTypeOfCell),
         ("Prevent setting a cell type to something un-supported by the tissue manager", testPreventsSettingCellTypeToAnUnsupportedCellType),
         ("Execute Cell Behaviours", testExecuteCellBehaviours),
+        ("Set Cell Type Colors", testSetCellTypeColor),
     ]
+
+    func testSetCellTypeColor() {
+        let tissueManager = TissueManager()
+        TissueManager.resetTissue()
+
+        do { 
+            try tissueManager.setColor(forCellType: DefaultCellTypes.basic, to: (red: Int32(200), green: Int32(100), blue: Int32(50), alpha: Int32(244)))
+        } catch let error {
+            XCTFail("Could not set color of cell type:  \(error)")
+            return
+        }
+
+        guard let color = tissueManager.getColor(for: DefaultCellTypes.basic) else {
+            XCTFail("Could not get color for cell type after setting it")
+            return
+        }
+
+        XCTAssertEqual(color.red, Int32(200))
+        XCTAssertEqual(color.green, Int32(100))
+        XCTAssertEqual(color.blue, Int32(50))
+        XCTAssertEqual(color.alpha, Int32(244))
+    }
 
     func testExecuteCellBehaviours() {
 

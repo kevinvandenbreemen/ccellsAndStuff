@@ -121,5 +121,29 @@ public class TissueManager {
         cCellsAndStuff.swift_tissue_executeCellBehaviours()
     }
 
+    public func setColor(forCellType cellType: CellType, to color: (red: Int32, green: Int32, blue: Int32, alpha: Int32)) throws {
+        guard let proposedCellType = cellTypes.cellType(byID: cellType.id) else {
+            throw TissueManagementError.unsupportedCellType(String(describing: type(of: self.cellTypes)), String(describing: type(of: cellType)))
+        }
 
+        let proposedType = type(of: proposedCellType)
+        let incomingType = type(of: cellType)
+
+        if String(describing: proposedType) != String(describing: incomingType) {
+            throw TissueManagementError.unsupportedCellType(String(describing: type(of: self.cellTypes)), String(describing: type(of: cellType)))
+        }
+
+        let colorStruct = CellTypeColor(
+            red: color.red,
+            green: color.green,
+            blue: color.blue,
+            alpha: color.alpha
+        )
+
+        cCellsAndStuff.swift_cellTypes_setColor(cellType.id, colorStruct)
+    }
+
+    public func getColor(for cellType: CellType) -> CellTypeColor? {
+        return cCellsAndStuff.swift_cellTypes_getColor(cellType.id)
+    }
 }
