@@ -158,39 +158,6 @@ START_TEST(process_outgoing_cell_connections_during_network_stim) {
 }
 END_TEST
 
-START_TEST(process_incoming_cell_connections_during_feedforward) {
-
-    //  Arrange
-    expectedIndex = 3;
-    
-    tissue_initializeDefaultTissue();
-    cellTypes_InitializeDefaultCellTypeBehaviours();
-    cellTypes_setCellLogicForIncomingConnections(CELL_TYPE_BASIC, *test_signalIncomingConnections);
-
-    cells_connectDirected(0, 2, 1.0);
-    cells_connectDirected(0, 3, 1.5);
-    cells_connectDirected(1, 2, 1.0);
-    cells_connectDirected(1, 3, 0.3);
-    cells_connectDirected(1, 7, 0.5);
-
-    //  Act
-    int targets[] = {0, 1};
-    double strengths[] = {1.0, 1.0};
-    int count = 2;
-    cells_matrix_feedforward_stim(targets, strengths, count);
-
-    //  Assert
-    fail_unless(signalIncoming_size == 2, "System should have alerted cells to conduct operations - size=%d", signalIncoming_size);
-    fail_unless(signalIncoming_cellIndex == 3, "System should have alerted cell at index 3 that it needs to update its logic");
-    fail_unless(signalIncoming_incomingIndexes[0] == 0);
-    fail_unless(signalIncoming_incomingIndexes[1] == 1, "Expected incoming index at 1 to be 2 but was %d\n", signalIncoming_incomingIndexes[1]);
-    fail_unless(signalIncoming_incomingStrengths[0] == 1.5);
-    fail_unless(signalIncoming_incomingStrengths[1] == 0.3);
-    fail_if(callCount != 1, "System should only process incoming connections per cell once, but did so %d times", callCount);
-
-
-} END_TEST
-
 TissueState *capturedState;
 void captureTissueStateUpdate(TissueState * state) {
     capturedState = state;
@@ -217,22 +184,16 @@ START_TEST(send_state_to_listener_on_complete) {
     //  Assert
     TissueState * state = capturedState;
     fail_if(state == NULL, "System should have sent back state data");
-    fail_unless(state->outputCount == 3, "3 outputs expected");
+    fail_unless(state->outputCount == 2, "2 outputs expected");
 
     int * destIndexes = state->outputIndices;
     double * destStrengths = state->outputStrengths;
 
-    fail_unless(destIndexes[0] == 2);
-    fail_unless(destIndexes[1] == 3);
-    fail_unless(destIndexes[2] == 7);
-
-    int i;
-    for(int i=0; i<3; i++) {
-        printf("WTF strength of %d = %f\n", destIndexes[i], destStrengths[i]);
-    }
+    fail_unless(destIndexes[0] == 5);
+    fail_unless(destIndexes[1] == 6);
 
     fail_unless(destStrengths[0] == 1.0);
-    fail_unless(destStrengths[2] == 0.5);
+    fail_unless(destStrengths[1] == 1.5);
 
 }
 END_TEST
@@ -272,7 +233,6 @@ void tissue_tests_addToSuite(Suite *suite) {
     tcase_add_test(tissueTests, get_default_cell_type_behaviours);
     tcase_add_test(tissueTests, process_incoming_cell_connections_during_network_stim);
     tcase_add_test(tissueTests, process_outgoing_cell_connections_during_network_stim);
-    tcase_add_test(tissueTests, process_incoming_cell_connections_during_feedforward);
     tcase_add_test(tissueTests, tissue_reset);
     tcase_add_test(tissueTests, send_state_to_listener_on_complete);
     tcase_add_test(tissueTests, get_number_of_cells);

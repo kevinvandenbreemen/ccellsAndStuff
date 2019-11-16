@@ -251,8 +251,11 @@ static void doMatrixFeedforwardStim(int * targets, double * strengths, int count
 
     #endif
 
-    //  Step 6:  Continue to stimulate next layer
-    doMatrixFeedforwardStim(endpointIndexes, outputs, numEndpoints);
+    //  Step 6:  Update state
+    //doMatrixFeedforwardStim(endpointIndexes, outputs, numEndpoints);
+    for (outputCellIndex=0; outputCellIndex<numEndpoints; outputCellIndex++) {
+        tissue_state_updateOutputToCell(endpointIndexes[outputCellIndex], outputs[outputCellIndex]);
+    }
 
     //  Step 7:  Memory cleanup
     bitarray_destroy(presentConnections);
